@@ -1,0 +1,22 @@
+<style>
+
+#PAGE_POSTS_CONTAINER {
+    background-color: rgba(128, 128, 128, 0);
+    box-shadow: none;
+    min-height: 10px;
+    overflow: hidden;
+    max-width: 640px;
+    width: 100%;
+    float: left;
+}
+
+</style>
+
+<div id="PAGE_POSTS_CONTAINER" class="container-fluid">
+<div class="row">
+{% for app in page_posts %}
+        {% include 'appsworld/apps_feed.html' %}
+{% endfor %}
+</div>
+</div>
+

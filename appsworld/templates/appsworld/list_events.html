@@ -1,0 +1,75 @@
+<style>
+#EVENTS_CONTAINER {
+    width: 100%;
+}
+
+#EVENTS_CONTAINER .panel {
+    background-color: transparent;
+}
+
+#EVENTS_CONTAINER .panel .panel-heading {
+    padding: 4px;
+    padding-left: 8px;
+}
+
+#EVENTS_CONTAINER .panel .panel-body {
+    padding: 4px;
+}
+
+#EVENTS_CONTAINER .panel .panel-body .list-group .list-group-item{
+    overflow-x: hidden;
+    padding: 2px;
+    margin: 0px;
+    border-width: 0px;
+}
+
+#EVENTS_CONTAINER .panel .panel-body .list-group .list-group-item img {
+    width: 36px;
+    height: 36px;
+    padding: 0px;
+    margin: 0px;
+}
+
+#EVENTS_CONTAINER .panel .panel-body .list-group .list-group-item > a {
+    margin-left: 0px;
+    paddding-left: 4px;
+    overflow-x: hidden;
+    white-space: nowrap;
+}
+
+#EVENTS_CONTAINER table {
+    width: 100%;
+}
+
+#EVENTS_CONTAINER table td{
+    vertical-align: middle;
+}
+
+#EVENTS_CONTAINER .picture_icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 4px;
+}
+
+#EVENTS_CONTAINER .picture_thumbnail {
+    width: 120px;
+    height: 120px;
+    margin-right: 4px;
+}
+
+</style>
+
+<div id="EVENTS_CONTAINER">
+  <div class="panel">
+    <div class="panel-heading">{% if filtered_by_user == "yes" %}<img class="picture_thumbnail" src="{{events_owner.picture}}">{% endif %}<span>World History</span><a class="btn-xs btn-success pull-right" href="{% url 'file_a_leave' %}">World History</a><a class="btn-xs btn-success pull-right" href="{% url 'calendar_year' user year_today %}">Year Calendar</a></div>
+    <div class="panel-body">
+        <table class="table table-hover">
+            <tr>{% if filtered_by_user != "yes" %}<th>Name</th>{% endif %}<th>Event</th><th>Date Filed</th><th>Start Date</th><th>End Date</th><th>Details</th><th>Status</th></tr>
+            {% for event in events %}
+            <tr>{% if filtered_by_user != "yes" %}<td><img class="picture_icon" src="{{event.1.picture}}"><a href="{% url 'user_events' event.1.username %}">{{ event.1.first_name }} {{ event.1.last_name }}</a></td>{% endif %}<td><a href="{% url 'event_permalink' event.0.id %}">{{ event.0.event }}</a></td><td>{{ event.0.date_filed | date:"F j, Y" }}</td><td>{{ event.0.start_date }}</td><td>{{ event.0.end_date }}</td><td>{{ event.0.details }}</td><td>{{ event.0.status }}</td></tr>
+            {% endfor %}
+        </table>
+        </ul>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,435 @@
+<style type="text/css">
+
+	#accessories_container{
+		border: 0px solid transparent;
+		padding: 0px;
+		margin-bottom: 16px;
+	}
+
+	#accessories_container:hover {
+		border: 0px solid blue;
+		padding: 0px;
+		margin-bottom: 16px;
+	}
+
+	#accessories_container a {
+		text-decoration: none;
+	}
+
+	#accessories_container .panel {
+		border: 1px solid blue;
+		margin: 0px;
+		border-width: 0px;
+	}
+
+	#accessories_container div.tab {
+	    overflow: hidden;
+	    border: 1px solid #ccc;
+	    background-color: white;
+	    padding: 1px;
+	}
+
+	/* Style the buttons inside the tab */
+
+	#accessories_container div.tab .fa-upload {
+		color: blue;
+	}
+
+	#accessories_container div.tab .fa-file-o {
+		color: lightblue;
+	}
+
+	#accessories_container div.tab .fa-thumb-tack {
+		color: green;
+	}
+
+	/* Change background color of buttons on hover */
+	/* Create an active/current tablink class */
+	#accessories_container div.tab button.active {
+	    background-color: #ccc;
+	}
+
+	/* Style the tab content */
+	#accessories_container .tabcontent {
+	    display: none;
+	    padding: 0px;
+	    border: 1px solid #ccc;
+	    border-top: none;
+	}
+
+	#DIRECTORY_WINDOW {
+		height: 200px;
+		overflow: auto;
+	}
+
+	#DIRECTORY_WINDOW .panel-heading {
+		background-color: white;
+	}
+
+	#DIRECTORY_WINDOW .panel-collapse {
+		border-radius: 0px;
+	}
+
+	#DIRECTORY_WINDOW .img_icon {
+		width: 40px;
+		height: 40px;
+		float: left;
+	}
+
+	#DIRECTORY_WINDOW .list-group-item {
+		overflow: hidden;
+		min-height: 10px;
+		padding-left: 32px;
+		text-align: middle;
+	}
+
+	#FILE_UPLOAD_FOLDER {
+		float: left;
+		border-color: transparent;
+		border-width: 0px;
+		border-style: solid;
+		border-bottom-color: lightgray;
+		border-bottom-width: 1px;
+		border-radius: 0px;
+		background-color: transparent;
+		box-shadow: none;
+	}
+
+	#FILE_UPLOAD_FILE {
+		border-color: transparent;
+		border-width: 0px;
+		border-style: solid;
+		border-bottom-color: lightgray;
+		border-bottom-width: 1px;
+		border-radius: 0px;
+		background-color: transparent;
+		box-shadow: none;
+	}
+
+	#UPLOAD_FORM .glyphicon-folder-close {
+		color: rgb(173, 169, 110);
+	}
+
+	#UPLOAD_FORM .glyphicon-file {
+		color: rgb(200, 200, 200);
+	}
+	#UPLOAD_FORM {
+	    overflow: auto;
+	}
+
+</style>
+
+<style type="text/css">
+	#POST_FORM {
+		padding: 4px;
+	}
+
+	#POST_FORM img {
+		width: 40px;
+		height: 40px;
+		float: left;
+		border-radius: 50%;
+	}
+
+	#APP_APP_NAME {
+		margin-left: 8px;
+		margin-top: 8px;
+		width: calc(100% - 48px);
+		border-color: transparent;
+		border-bottom-color: lightgray;
+		border-width: 1px;
+		border-style: solid;
+		background-color: transparent;
+	}
+
+	#POST_FORM .panel {
+		border-color: lightgray;
+		border-width: 0px;
+		border-style: solid;
+	}
+
+	#POST_FORM .panel-heading {
+		padding: 4px;
+		min-height: 10px;
+		overflow-y: hidden;
+	}
+
+	#POST_FORM .panel-body {
+		width: 100%;
+		min-height: 100px;
+		padding: 4px;
+	}
+
+	#APP_DESCRIPTION {
+		width: 100%;
+		height: 100%;
+		border-color: lightgray;
+		border-color: transparent;
+	}
+
+	#POST_FORM .panel-footer {
+		background-color: transparent;
+		padding: 4px;
+	}
+
+	#POST_FORM .field {
+		padding-top: 8px;
+		padding-bottom: 8px;
+	}
+
+	#APP_VISIBILITY {
+		float: right;
+		display: block;
+	}
+
+	#POST_SUBMIT_BUTTON {
+		float: right;
+		margin-left: 16px;
+	}
+
+	#POST_FORM .glyphicon-tags {
+		width: 24px;
+		padding-top: 4px;
+		float: left;
+		color: gray;
+	}
+
+	#APP_KEYWORDS {
+		float: left;
+		width: calc(100% - 24px);
+		border-color: transparent;
+		border-bottom-color: lightgray;
+		border-width: 1px;
+		border-style: solid;
+	}
+
+	#POST_FORM .glyphicon-file {
+		width: 24px;
+		padding-top: 4px;
+		float: left;
+		color: gray;
+	}
+
+	#APP_HTML_FILE_ID {
+		float: left;
+		width: 80px;
+		border-color: transparent;
+		border-bottom-color: lightgray;
+		border-width: 1px;
+		border-style: solid;
+	}
+
+
+</style>
+
+<style type="text/css">
+	#BLOG {
+		padding: 4px;
+	}
+
+	#BLOG img {
+		width: 40px;
+		height: 40px;
+		float: left;
+		border-radius: 50%;
+	}
+
+	#BLOG .panel {
+		border-color: lightgray;
+		border-width: 0px;
+		border-style: solid;
+	}
+
+	#BLOG .panel-heading {
+		padding: 4px;
+		min-height: 10px;
+		overflow-y: hidden;
+	}
+
+	#BLOG .panel-body {
+		width: 100%;
+		height: 160px;
+		padding: 4px;
+	}
+
+
+	#BLOG_HTML_CODE {
+		width: 100%;
+		height: 100%;
+		border-color: lightgray;
+		border-color: transparent;
+	}
+
+
+	#BLOG .panel-footer {
+		background-color: transparent;
+		padding: 4px;
+	}
+
+	#BLOG .field {
+		padding-top: 8px;
+		padding-bottom: 8px;
+	}
+
+	#BLOG .glyphicon-tags {
+		width: 24px;
+		padding-top: 4px;
+		float: left;
+		color: gray;
+	}
+
+	#BLOG .glyphicon-file {
+		width: 24px;
+		padding-top: 4px;
+		float: left;
+		color: gray;
+	}
+
+	#BLOG img {
+		width: 40px;
+		height: 40px;
+		float: left;
+		border-radius: 50%;
+	}
+
+	#BLOG_NAME {
+		margin-left: 8px;
+		margin-top: 8px;
+		width: calc(100% - 48px);
+		border-color: transparent;
+		border-bottom-color: lightgray;
+		border-width: 1px;
+		border-style: solid;
+		background-color: transparent;
+	}
+
+	#BLOG .panel {
+		border-color: lightgray;
+		border-width: 0px;
+		border-style: solid;
+	}
+
+	#BLOG .panel-heading {
+		padding: 4px;
+		min-height: 10px;
+		overflow-y: hidden;
+	}
+
+	#BLOG .panel-body {
+		width: 100%;
+		height: 160px;
+		padding: 4px;
+	}
+
+	#BLOG .panel-footer {
+		background-color: transparent;
+		padding: 4px;
+	}
+
+	#BLOG .field {
+		padding-top: 8px;
+		padding-bottom: 8px;
+	}
+
+	#BLOG_VISIBILITY {
+		float: right;
+		display: block;
+	}
+
+	#BLOG_SUBMIT_BUTTON {
+		float: right;
+		margin-left: 16px;
+	}
+
+	#BLOG .glyphicon-tags {
+		width: 24px;
+		padding-top: 4px;
+		float: left;
+		color: gray;
+	}
+
+	#BLOG_KEYWORDS {
+		float: left;
+		width: calc(100% - 24px);
+		border-color: transparent;
+		border-bottom-color: lightgray;
+		border-width: 1px;
+		border-style: solid;
+	}
+
+	#BLOG .glyphicon-file {
+		width: 24px;
+		padding-top: 4px;
+		float: left;
+		color: gray;
+	}
+
+	#BLOG_HTML_FILE_ID {
+		float: left;
+		width: 80px;
+		border-color: transparent;
+		border-bottom-color: lightgray;
+		border-width: 1px;
+		border-style: solid;
+	}
+
+	.tablinks {
+	    background-color: inherit;
+	    float: left;
+	    border: none;
+	    outline: none;
+	    cursor: pointer;
+	    padding: 14px 16px;
+	    transition: 0.3s;
+	    height: 32px;
+	    padding: 8px;
+	}
+	.tablinks:hover {
+	    background-color: #ddd;
+	}
+</style>
+
+
+<div id="accessories_container">
+	<div class="tab">
+        <button class="tablinks" onclick="creatPost(event, 'accessories_menu')"><i class="fa fa-thumb-tack" aria-hidden="true">&nbsp</i>Accessories</button>
+        <button class="tablinks" onclick="creatPost(event, 'archives_menu')"><i class="fa fa-thumb-tack" aria-hidden="true">&nbsp</i>Archive</button>
+		<button id="accessories_exit" class="tablinks pull-right" onclick="creatPost(event, 'accessories_exit_tab_content')">X</button>
+	</div>
+
+	<div id="accessories_exit_tab_content" class="tabcontent">
+
+	</div>
+
+	<div id="accessories_menu" class="tabcontent">
+        {% include 'appsworld/section_apps.html' %}
+	</div>
+	<div id="archives_menu" class="tabcontent">
+        {% include 'appsworld/list_archive.html' %}
+	</div>
+
+</div>
+
+<script type="text/javascript">
+
+	function creatPost(evt, cityName) {
+    // Declare all variables
+    var i, tabcontent, tablinks;
+
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+
+    // Show the current tab, and add an "active" class to the button that opened the tab
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+</script>

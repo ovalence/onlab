@@ -1,0 +1,142 @@
+{% load staticfiles %}
+<script src="{% static 'appsworld/js/jquery-3.1.1.js' %}"></script>
+<link href="{% static 'appsworld/css/bootstrap.css' %}" rel="stylesheet" media="screen">
+<script src="{% static 'appsworld/js/bootstrap.js' %}"></script>
+<style type="text/css">
+    #input_array_container tr {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    #input_array_container th {
+        margin: 0px;
+        padding: 8px;
+        background-color: gray;
+        color: white;
+    }
+
+    #input_array_container .table-input {
+        border-color: transparent;
+        border-style: solid;
+        border-width: 1px;
+        background-color: transparent;
+        width: 100%;
+        height: 100%
+        margin: 0px;
+    }
+
+    #input_array_container .editable {
+        border-color: white;
+        border-style: solid;
+        border-width: 1px;
+        background-color: white;
+        width: 100%;
+        height: 100%
+        margin: 0px;
+        padding: 4px;
+    }
+    #input_array_container .table-cell {
+        margin: 0px;
+        padding: 2px;
+    }
+
+</style>
+<script src={% static 'appsworld/js/input_array_creator.js' %}></script>
+<button id="USER_LEAVES_SUBMIT_BUTTON" class='btn btn-xs btn-warning pull-right' onclick='sendAjax();'>Save</button>
+<div id="input_array_container"></div>
+<script>
+var submitButton = document.getElementById("USER_LEAVES_SUBMIT_BUTTON");
+var usersInfo = {{users_info_json | safe}};
+var rows = Object.keys(usersInfo).length;
+var cols = 9;
+var cellArrays = new inputArrays("input_array_container", rows, cols);
+cellArrays.tableElement.className += " table";
+cellArrays.setTableHeader(0, "Username");
+cellArrays.setTableHeader(1, "First Name");
+cellArrays.setTableHeader(2, "Last Name");
+cellArrays.setTableHeader(3, "Max SL");
+cellArrays.setTableHeader(4, "Max VL");
+cellArrays.setTableHeader(5, "Max EL");
+cellArrays.setTableHeader(6, "Used SL");
+cellArrays.setTableHeader(7, "Used VL");
+cellArrays.setTableHeader(8, "Used EL");
+for (var i = 0; i< rows; i++ ) {
+    for (var j = 0; j< cols; j++) {
+        cellArrays.setInputValue(i,0, usersInfo[i].fields.user_name);
+        cellArrays.setInputValue(i,1, usersInfo[i].fields.first_name);
+        cellArrays.setInputValue(i,2, usersInfo[i].fields.last_name);
+        cellArrays.setInputValue(i,3, usersInfo[i].fields.max_sl);
+        cellArrays.setInputValue(i,4, usersInfo[i].fields.max_vl);
+        cellArrays.setInputValue(i,5, usersInfo[i].fields.max_el);
+        cellArrays.setInputValue(i,6, usersInfo[i].fields.used_sl);
+        cellArrays.setInputValue(i,7, usersInfo[i].fields.used_sl);
+        cellArrays.setInputValue(i,8, usersInfo[i].fields.used_sl);
+        cellArrays.tableInputs[(i*cols)+3].className += " editable";
+        cellArrays.tableInputs[(i*cols)+4].className += " editable";
+        cellArrays.tableInputs[(i*cols)+5].className += " editable";
+        cellArrays.tableInputs[(i*cols)+j].addEventListener('keyup', validateEntry);
+    }
+}
+for (var i = 0; i< rows; i++ ) {
+    for (var j = 0; j< 3; j++) {
+        cellArrays.readOnly(i,j,true);
+    }
+}
+
+
+function validateEntry(){
+    var errorCount = 0;
+    for (var i = 0; i< rows; i++ ) {
+        for (var j = 3; j< 6; j++) {
+            var value = cellArrays.tableInputs[(i*cols)+j].value;
+            if (isNaN(value)) {
+                errorCount = errorCount + 1;
+            }
+        }
+    }
+    if (errorCount == 0) {
+        submitButton.disabled = false;
+        submitButton.innerHTML = "Save";
+    }
+    else {
+        submitButton.disabled = true;
+        submitButton.innerHTML = "Error";
+    }
+}
+
+var csrftoken = getCookie('csrftoken');
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+function sendAjax(){
+    $.ajax({
+        type: "POST",
+        url: "/ajax/update_users_info",
+        data: {
+            'data_from_client': cellArrays.getDataArray(),
+            'numberOfColumns' : cols,
+        },
+        dataType: 'json',
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader('X-CSRFToken', csrftoken)
+        },
+        success: function (data) {
+            submitButton.disabled = true;
+            submitButton.innerHTML = "Updated";
+        }
+    });
+}
+</script>

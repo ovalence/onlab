@@ -1,0 +1,790 @@
+<html>
+	<head>
+		<title>Kinematics</title>
+		<link rel="stylesheet" type="text/css" href="http://funcbook.pythonanywhere.com/media/first_user/Kinematics/kinematics.css">
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	</head>
+	<body>
+
+<div id="KINEMATICS_CONTAINER" class="container-fluid">
+	<h4>Kinematics Simulation</h4>
+	<div class="row">
+		<div id="LEFT_COLUMN" class="col-sm-12 col-md-6 col-lg-6">
+			<div class="row">
+				<div class="panel panel-primary">
+					<div id="CANVAS_CONTAINER" class="panel-body">
+						<canvas id="canvas1"></canvas>
+						<input type="text" id="toplimit" class="form-control" oninput= "oninput_text_camera_adjust(this);"/>
+						<input type="text" id = "bottomlimit" class="form-control" oninput= "oninput_text_camera_adjust(this);"/>
+						<input type="text" id = "leftlimit" class="form-control" oninput= "oninput_text_camera_adjust(this);"/>
+						<input type="text" id = "rightlimit" class="form-control" disabled/>
+					</div>
+					<div class="panel-footer">
+						<div class="container-fluid">
+							<div class="row">
+								<form class="form-inline">
+								  	<div class="form-group">
+										<input type = "button" id = "BUTTON_VIEW_ALL" class="btn btn-xs btn-primary" value = "View All" onclick = "onclick_button_view_all();" />
+										<select id ="DISPLAY_UNIT" class="form-control" disabled>
+											<option value="1">m</option>
+											<option value="2">km</option>
+											<option value="3">mi</option>
+											<option value="4">nmi</option>
+											<option value="5">cm</option>
+											<option value="6">in</option>
+											<option value="7">ft</option>
+											<option value="8">yd</option>
+										</select>
+										<div id="DEBUG_DISPLAY"></div>
+									</div>
+								    <input type="button" class = "btn btn-xs btn-success pull-right" id = "PLAYPAUSE" value="Play" onclick="playSimulation(this.value);" />
+								</form>
+							</div>
+							<hr>
+							<div class="row">
+								<input type="text" id = "timevalue" class="form-control pull-left" value = "0" oninput = "oninput_text_timevalue(this);"/>
+								<input type="text" id = "maxtime" class="form-control pull-right" value = "3" oninput= "setMaxTime();"/>
+								<input type="range" id= "TIMESEEKER" min = "0" max = "10" value = "0" step="0.01" oninput= "seekTime();" />
+								<input type="button" class = "PLAYERBUTTONS" value="Time Zero" onclick="resetSimulation();" />
+								<input type="button" class = "PLAYERBUTTONS" id = "PLAYPAUSE" value="Play" onclick="playSimulation(this.value);" />
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<form class="form-inline">
+				<div class="form-group">
+					<font class = "BODYTEXT">Radius Scales: </font><input id = "TEXT_RED_SCALE" class="form-control" type="text" value = "1" oninput= "resizeRedBall(this.value);" />
+					<input id = "TEXT_GREEN_SCALE" class="form-control" type="text" value = "1" oninput= "resizeGreenBall(this.value);" />
+					<input id = "TEXT_BLUE_SCALE" class="form-control" type="text" value = "1" oninput= "resizeBlueBall(this.value);" />
+				</div>
+			</form>
+			<br>
+		</div>
+		<div id="RIGHT_COLUMN" class="col-sm-12 col-md-6 col-lg-6">
+			<div class="row">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						Kinematics Equation
+					</div>
+					<div class="panel-body">
+						<table id = "EQUATIONS_RED" class="table table-bordered">
+							<tr><td><span class = "sf">s<sub>f</sub></span> - <span class = "si">s<sub>i</sub></span> = <span class = "vi">v<sub>i</sub> </span><span class = "tf">t<sub>f</sub></span> + &frac12<span class = "acc"> a </span><span class = "tf">t<sub>f</sub><sup>2</sup></span></td>
+							<td><span class = "vf">v<sub>f</sub></span> = <span class = "vi">v<sub>i</sub></span> + <span class = "acc">a</span> <span class = "tf">t<sub>f</sub></span></td>
+							<td><span class = "vf">v<sub>f</sub></span><sup>2</sup> = <span class = "vi">v<sub>i</sub></span><sup>2</sup> + 2 <span class = "acc">a</span> (<span class = "sf">s<sub>f</sub></span> - <span class = "si">s<sub>i</sub></span>)</td></tr>
+						</table>
+					</div>
+				</div>
+			</div>
+			<hr>
+			<div class="row">
+				<input type="button" class="btn btn-xs btn-default pull-right" value="Clear Values" onclick="clearInputValues();" />
+			</div>
+			<br>
+			<div class="row">
+				<div class="panel panel-danger">
+					<div class="panel-heading">
+					RED | Initial Values
+					</div>
+					<div class="panel-body">
+						<table class="table table-bordered">
+							<thead>
+								<tr>
+								<th></th>
+								<th>x-comp</th>
+								<th>y-comp</th>
+								</tr>
+							</thead>
+							<tr>
+							<th>s<sub>i</sub> (dis)</th>
+							<td>
+								<form class="form-inline">
+								  <div class="form-group">
+								    <input type="text" id="PX1" class="form-control" oninput ="oninput_text_init_values(this);">
+								  	<select id ="PXL_UNIT1" class="form-control" class="form-control" onchange="oninput_text_init_values(this);">
+									 <option value="1">m</option>
+									 <option value="2">km</option>
+									 <option value="3">mi</option>
+									 <option value="4">nmi</option>
+									 <option value="5">cm</option>
+									 <option value="6">in</option>
+									 <option value="7">ft</option>
+									 <option value="8">yd</option>
+									</select>
+								  </div>
+								</form>
+							</td>
+							<td>
+								<form class="form-inline">
+								  <div class="form-group">
+								    <input type="text" id="PY1" class="form-control" oninput = "oninput_text_init_values(this);">
+								  	<select id ="PYL_UNIT1" class="form-control" class="form-control" onchange="oninput_text_init_values(this);">
+									 <option value="1">m</option>
+									 <option value="2">km</option>
+									 <option value="3">mi</option>
+									 <option value="4">nmi</option>
+									 <option value="5">cm</option>
+									 <option value="6">in</option>
+									 <option value="7">ft</option>
+									 <option value="8">yd</option>
+									</select>
+								  </div>
+								</form>
+							</td>
+							<tr>
+							<th rowspan = "2">v<sub>i</sub> (vel)</th>
+							<td>
+								<form class="form-inline">
+								  <div class="form-group">
+									<input type="text" id="VX1" class="form-control" oninput = "oninput_text_init_values(this);"/>
+									<select id ="VXL_UNIT1" class="form-control" class="form-control" onchange="oninput_text_init_values(this);">
+									 <option value="1">m</option>
+									 <option value="2">km</option>
+									 <option value="3">mi</option>
+									 <option value="4">nmi</option>
+									 <option value="5">cm</option>
+									 <option value="6">in</option>
+									 <option value="7">ft</option>
+									 <option value="8">yd</option>
+									</select>/
+									<select id ="VXT_UNIT1" class="form-control" class="form-control" onchange="oninput_text_init_values(this);">
+									 <option value="1">s</option>
+									 <option value="2">min </option>
+									 <option value="3">h</option>
+									</select>
+								  </div>
+								</form>
+							</td>
+							<td>
+								<form class="form-inline">
+								  <div class="form-group">
+								  	<input type="text" id="VY1" class="form-control" oninput = "oninput_text_init_values(this);"/>
+									<select id ="VYL_UNIT1" class="form-control" class="form-control" onchange="oninput_text_init_values(this);">
+									 <option value="1">m</option>
+									 <option value="2">km</option>
+									 <option value="3">mi</option>
+									 <option value="4">nmi</option>
+									 <option value="6">in</option>
+									 <option value="7">ft</option>
+									 <option value="8">yd</option>
+									</select>/
+									<select id ="VYT_UNIT1" class="form-control" class="form-control" onchange="oninput_text_init_values(this);">
+									 <option value="1">s</option>
+									 <option value="2">min </option>
+									 <option value="3">h</option>
+									</select>
+								  </div>
+								</form>
+							</td>
+							</tr>
+							<tr>
+							<td colspan = "2">
+							<form class="form-inline">
+								  	<div class="form-group">
+								  		Polar:
+									  	<input type="text" class="form-control" id="VM1" oninput = "oninput_text_init_values(this);"/>
+										<select id ="VML_UNIT1" class="form-control" class="form-control" onchange="oninput_text_init_values(this);">
+										 <option value="1">m</option>
+										 <option value="2">km</option>
+										 <option value="3">mi</option>
+										 <option value="4">nmi</option>
+										 <option value="5">cm</option>
+										 <option value="6">in</option>
+										 <option value="7">ft</option>
+										 <option value="8">yd</option>
+										</select>/
+										<select id ="VMT_UNIT1" class="form-control" class="form-control" onchange="oninput_text_init_values(this);">
+										 <option value="1">s</option>
+										 <option value="2">min </option>
+										 <option value="3">h</option>
+										</select>
+										<input type="text" class="form-control" id="VA1" oninput = "oninput_text_init_values(this);"/>deg
+								  </div>
+								</form>
+							</td>
+							</tr>
+							<tr>
+							<th rowspan = "2">a (acc)</th>
+							<td>
+								<form class="form-inline">
+								  <div class="form-group">
+								  	<input type="text" id="AX1" class="form-control" oninput = "oninput_text_init_values(this);"/>
+									<select id ="AXL_UNIT1" class="form-control" class="form-control" onchange="oninput_text_init_values(this);">
+									 <option value="1">m</option>
+									 <option value="2">km</option>
+									 <option value="3">mi</option>
+									 <option value="4">nmi</option>
+									 <option value="5">cm</option>
+									 <option value="6">in</option>
+									 <option value="7">ft</option>
+									 <option value="8">yd</option>
+									</select>/
+									<select id ="AXT_UNIT1" class="form-control" class="form-control" onchange="oninput_text_init_values(this);">
+									 <option value="1">s^2</option>
+									 <option value="2">min^2</option>
+									 <option value="3">h^2</option>
+									</select>
+									</div>
+								</form>
+							</td>
+							<td><form class="form-inline">
+								  <div class="form-group"><input type="text" id="AY1" class="form-control" oninput = "oninput_text_init_values(this);"/>
+							<select id ="AYL_UNIT1" class="form-control" class="form-control" onchange="oninput_text_init_values(this);">
+							 <option value="1">m</option>
+							 <option value="2">km</option>
+							 <option value="3">mi</option>
+							 <option value="4">nmi</option>
+							 <option value="5">cm</option>
+							 <option value="6">in</option>
+							 <option value="7">ft</option>
+							 <option value="8">yd</option>
+							</select>/
+							<select id ="AYT_UNIT1" class="form-control" class="form-control" onchange="oninput_text_init_values(this);">
+							 <option value="1">s^2</option>
+							 <option value="2">min^2</option>
+							 <option value="3">h^2</option>
+							</select>
+									</div>
+								</form>
+							</td>
+							</tr>
+							</tr>
+						</table>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="row">
+				<div class="panel panel-danger">
+					<div class="panel-heading">
+						<form class="form-inline">
+							RED | Final Values
+							<div class="form-group">
+								t<sub>f</sub> = <input type="text" class="form-control" id="T1" value = "0" oninput = "oninput_text_init_values(this);"/>
+								<select id ="T1_UNIT" class="form-control" onchange="oninput_text_init_values(this);">
+									 <option value="1">s</option>
+									 <option value="2">min </option>
+									 <option value="3">h</option>
+								</select>
+							</div>
+						</form>
+					</div>
+					<div class="panel-body">
+						<table class = "table table-bordered">
+							<tr>
+								<th>
+								</th>
+								<th>x-comp</th>
+								<th>y-comp</th>
+							</tr>
+							<tr>
+								<th>s<sub>f</sub> (dis)</th>
+									<td><form class="form-inline">
+								  <div class="form-group">
+								  	<input type="text" class="form-control" id="PX1F" oninput = "oninput_text_init_values(this);"/>
+										<select id ="PXL_UNIT1F" class="form-control" onchange="oninput_text_init_values(this);">
+											 <option value="1">m</option>
+											 <option value="2">km</option>
+											 <option value="3">mi</option>
+											 <option value="4">nmi</option>
+											 <option value="5">cm</option>
+											 <option value="6">in</option>
+											 <option value="7">ft</option>
+											 <option value="8">yd</option>
+										</select>
+							</div>
+						</form>
+									</td>
+								<td><form class="form-inline">
+								  <div class="form-group"><input type="text" class="form-control" id="PY1F" oninput = "oninput_text_init_values(this);"/>
+									<select id ="PYL_UNIT1F" class="form-control" onchange="oninput_text_init_values(this);">
+										<option value="1">m</option>
+										<option value="2">km</option>
+										<option value="3">mi</option>
+										<option value="4">nmi</option>
+										<option value="5">cm</option>
+										<option value="6">in</option>
+										<option value="7">ft</option>
+										<option value="8">yd</option>
+									</select>
+																</div>
+						</form>
+								</td>
+							</tr>
+							<tr>
+								<th rowspan = "2">v<sub>f</sub> (vel)</th>
+								<td><form class="form-inline">
+								  <div class="form-group"><input type="text" id="VX1F" class="form-control" oninput = "oninput_text_init_values(this);"/>
+									<select id ="VXL_UNIT1F" class="form-control" onchange="oninput_text_init_values(this);">
+										<option value="1">m</option>
+										<option value="2">km</option>
+										<option value="3">mi</option>
+										<option value="4">nmi</option>
+										<option value="5">cm</option>
+										<option value="6">in</option>
+										<option value="7">ft</option>
+										<option value="8">yd</option>
+									</select>/
+									<select id ="VXT_UNIT1F" class="form-control" onchange="oninput_text_init_values(this);">
+									 <option value="1">s</option>
+									 <option value="2">min </option>
+									 <option value="3">h</option>
+									</select>
+																</div>
+						</form>
+								</td>
+								<td><form class="form-inline">
+								  <div class="form-group"><input type="text" id="VY1F" class="form-control" oninput = "oninput_text_init_values(this);"/>
+									<select id ="VYL_UNIT1F" class="form-control" onchange="oninput_text_init_values(this);">
+										<option value="1">m</option>
+										<option value="2">km</option>
+										<option value="3">mi</option>
+										<option value="4">nmi</option>
+										<option value="6">in</option>
+										<option value="7">ft</option>
+										<option value="8">yd</option>
+									</select>/
+									<select id ="VYT_UNIT1F" class="form-control" onchange="oninput_text_init_values(this);">
+										<option value="1">s</option>
+										<option value="2">min </option>
+										<option value="3">h</option>
+									</select>
+																</div>
+						</form>
+								</td>
+							</tr>
+							<tr>
+								<td colspan = "2">
+								<form class="form-inline">
+								  <div class="form-group">
+								  Polar:
+								  <input type="text" class="form-control" id="VM1F" oninput = "oninput_text_init_values(this);"/>
+									<select id ="VML_UNIT1F" class="form-control" onchange="oninput_text_init_values(this);">
+										<option value="1">m</option>
+										<option value="2">km</option>
+										<option value="3">mi</option>
+										<option value="4">nmi</option>
+										<option value="5">cm</option>
+										<option value="6">in</option>
+										<option value="7">ft</option>
+										<option value="8">yd</option>
+									</select>/
+									<select id ="VMT_UNIT1F" class="form-control" onchange="oninput_text_init_values(this);">
+										<option value="1">s</option>
+										<option value="2">min </option>
+										<option value="3">h</option>
+									</select>
+									<input type="text" class="form-control" id="VA1F" oninput = "oninput_text_init_values(this);"/>deg
+								</div>
+						</form>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+		</div>
+	</div>
+	<hr>
+	<div class="row">
+		<div class="col-sm-12 col-md-6">
+			<div class="row">
+				<div class="panel panel-success">
+					<div class="panel-heading">
+					GREEN | Initial Values
+					</div>
+					<div class="panel-body">
+						<table id = "GreenTable" class="table table-bordered">
+							<tr>
+							<th></th>
+							<th>x-comp</th>
+							<th>y-comp</th>
+							</tr>
+							<tr>
+							<th>s<sub>i</sub> (dis)</th>
+							<td><form class="form-inline">
+								  <div class="form-group"><input type="text" class="form-control" id="PX2" oninput = "oninput_text_init_values(this);"/>
+							<select id ="PXL_UNIT2" class="form-control" onchange="oninput_text_init_values(this);">
+							 <option value="1">m</option>
+							 <option value="2">km</option>
+							 <option value="3">mi</option>
+							 <option value="4">nmi</option>
+							 <option value="5">cm</option>
+							 <option value="6">in</option>
+							 <option value="7">ft</option>
+							 <option value="8">yd</option>
+							</select>
+															</div>
+						</form>
+							</td>
+							<td><form class="form-inline">
+								  <div class="form-group">
+								  <input type="text" class="form-control" id="PY2" oninput = "oninput_text_init_values(this);"/>
+							<select id ="PYL_UNIT2" class="form-control" onchange="oninput_text_init_values(this);">
+							 <option value="1">m</option>
+							 <option value="2">km</option>
+							 <option value="3">mi</option>
+							 <option value="4">nmi</option>
+							 <option value="5">cm</option>
+							 <option value="6">in</option>
+							 <option value="7">ft</option>
+							 <option value="8">yd</option>
+							</select>
+															</div>
+						</form>
+							</td>
+							<tr>
+							<th rowspan = "2">v<sub>i</sub> (vel)</th>
+							<td><form class="form-inline">
+								  <div class="form-group">
+								  <input type="text" id="VX2" class="form-control" oninput = "oninput_text_init_values(this);"/>
+							<select id ="VXL_UNIT2" class="form-control" onchange="oninput_text_init_values(this);">
+							 <option value="1">m</option>
+							 <option value="2">km</option>
+							 <option value="3">mi</option>
+							 <option value="4">nmi</option>
+							 <option value="5">cm</option>
+							 <option value="6">in</option>
+							 <option value="7">ft</option>
+							 <option value="8">yd</option>
+							</select>/
+							<select id ="VXT_UNIT2" class="form-control" onchange="oninput_text_init_values(this);">
+							 <option value="1">s</option>
+							 <option value="2">min </option>
+							 <option value="3">h</option>
+							</select>
+															</div>
+						</form>
+							</td>
+							<td><form class="form-inline">
+								  <div class="form-group"><input type="text" id="VY2" class="form-control" oninput = "oninput_text_init_values(this);"/>
+							<select id ="VYL_UNIT2" class="form-control" onchange="oninput_text_init_values(this);">
+							 <option value="1">m</option>
+							 <option value="2">km</option>
+							 <option value="3">mi</option>
+							 <option value="4">nmi</option>
+							 <option value="6">in</option>
+							 <option value="7">ft</option>
+							 <option value="8">yd</option>
+							</select>/
+							<select id ="VYT_UNIT2" class="form-control" onchange="oninput_text_init_values(this);">
+							 <option value="1">s</option>
+							 <option value="2">min </option>
+							 <option value="3">h</option>
+							</select>
+										</div>
+						</form>
+							</td>
+							</tr>
+							<tr>
+							<td colspan = "2">
+							<form class="form-inline">
+								  <div class="form-group">
+								  Polar:
+								  <input type="text" class="form-control" id="VM2" oninput = "oninput_text_init_values(this);"/>
+							<select id ="VML_UNIT2" class="form-control" onchange="oninput_text_init_values(this);">
+							 <option value="1">m</option>
+							 <option value="2">km</option>
+							 <option value="3">mi</option>
+							 <option value="4">nmi</option>
+							 <option value="5">cm</option>
+							 <option value="6">in</option>
+							 <option value="7">ft</option>
+							 <option value="8">yd</option>
+							</select>/
+							<select id ="VMT_UNIT2" class="form-control" onchange="oninput_text_init_values(this);">
+							 <option value="1">s</option>
+							 <option value="2">min </option>
+							 <option value="3">h</option>
+							</select>
+							<input type="text" class="form-control" id="VA2" oninput = "oninput_text_init_values(this);"/>deg
+										</div>
+						</form>
+							</td>
+							</tr>
+							<tr>
+							<th rowspan = "2">a (acc)</th>
+							<td><form class="form-inline">
+								  <div class="form-group">
+								  <input type="text" id="AX2" class="form-control" oninput = "oninput_text_init_values(this);"/>
+							<select id ="AXL_UNIT2" class="form-control" onchange="oninput_text_init_values(this);">
+							 <option value="1">m</option>
+							 <option value="2">km</option>
+							 <option value="3">mi</option>
+							 <option value="4">nmi</option>
+							 <option value="5">cm</option>
+							 <option value="6">in</option>
+							 <option value="7">ft</option>
+							 <option value="8">yd</option>
+							</select>/
+							<select id ="AXT_UNIT2" class="form-control" onchange="oninput_text_init_values(this);">
+							 <option value="1">s^2</option>
+							 <option value="2">min^2</option>
+							 <option value="3">h^2</option>
+							</select>
+										</div>
+						</form>
+							</td>
+							<td>
+								<form class="form-inline">
+								  <div class="form-group">
+								  	<input type="text" id="AY2" class="form-control" oninput = "oninput_text_init_values(this);"/>
+							<select id ="AYL_UNIT2" class="form-control" onchange="oninput_text_init_values(this);">
+							 <option value="1">m</option>
+							 <option value="2">km</option>
+							 <option value="3">mi</option>
+							 <option value="4">nmi</option>
+							 <option value="5">cm</option>
+							 <option value="6">in</option>
+							 <option value="7">ft</option>
+							 <option value="8">yd</option>
+							</select>/
+							<select id ="AYT_UNIT2" class="form-control" onchange="oninput_text_init_values(this);">
+							 <option value="1">s^2</option>
+							 <option value="2">min^2</option>
+							 <option value="3">h^2</option>
+							</select>
+							</div>
+						</form>
+							</td>
+							</tr>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+					BLUE | Initial Values
+					</div>
+					<div class="panel-body">
+						<table id = "BlueTable" class="table table-bordered">
+							<tr>
+							<th></th>
+							<th>x-comp</th>
+							<th>y-comp</th>
+							</tr>
+							<tr>
+							<th>s<sub>i</sub> (dis)</th>
+							<td><form class="form-inline">
+								  <div class="form-group">
+								  <input type="text" class="form-control" id="PX3" oninput = "oninput_text_init_values(this);"/>
+							<select id ="PXL_UNIT3" class="form-control" onchange="oninput_text_init_values(this);">
+							 <option value="1">m</option>
+							 <option value="2">km</option>
+							 <option value="3">mi</option>
+							 <option value="4">nmi</option>
+							 <option value="5">cm</option>
+							 <option value="6">in</option>
+							 <option value="7">ft</option>
+							 <option value="8">yd</option>
+							</select>
+														</div>
+						</form>
+							</td>
+							<td><form class="form-inline">
+								  <div class="form-group"><input type="text" class="form-control" id="PY3" oninput = "oninput_text_init_values(this);"/>
+							<select id ="PYL_UNIT3" class="form-control" onchange="oninput_text_init_values(this);">
+							 <option value="1">m</option>
+							 <option value="2">km</option>
+							 <option value="3">mi</option>
+							 <option value="4">nmi</option>
+							 <option value="5">cm</option>
+							 <option value="6">in</option>
+							 <option value="7">ft</option>
+							 <option value="8">yd</option>
+							</select>
+									</div>
+						</form>
+							</td>
+							<tr>
+							<th rowspan = "2">v<sub>i</sub> (vel)</th>
+							<td><form class="form-inline">
+								  <div class="form-group"><input type="text" id="VX3" class="form-control" oninput = "oninput_text_init_values(this);"/>
+							<select id ="VXL_UNIT3" class="form-control" onchange="oninput_text_init_values(this);">
+							 <option value="1">m</option>
+							 <option value="2">km</option>
+							 <option value="3">mi</option>
+							 <option value="4">nmi</option>
+							 <option value="5">cm</option>
+							 <option value="6">in</option>
+							 <option value="7">ft</option>
+							 <option value="8">yd</option>
+							</select>/
+							<select id ="VXT_UNIT3" class="form-control" onchange="oninput_text_init_values(this);">
+							 <option value="1">s</option>
+							 <option value="2">min </option>
+							 <option value="3">h</option>
+							</select>
+							</div>
+						</form>
+							</td>
+							<td><form class="form-inline">
+								  <div class="form-group"><input type="text" id="VY3" class="form-control" oninput = "oninput_text_init_values(this);"/>
+							<select id ="VYL_UNIT3" class="form-control" onchange="oninput_text_init_values(this);">
+							 <option value="1">m</option>
+							 <option value="2">km</option>
+							 <option value="3">mi</option>
+							 <option value="4">nmi</option>
+							 <option value="6">in</option>
+							 <option value="7">ft</option>
+							 <option value="8">yd</option>
+							</select>/
+							<select id ="VYT_UNIT3" class="form-control" onchange="oninput_text_init_values(this);">
+							 <option value="1">s</option>
+							 <option value="2">min </option>
+							 <option value="3">h</option>
+							</select>
+								</div>
+						</form>
+							</td>
+							</tr>
+							<tr>
+							<td colspan = "2">
+							<form class="form-inline">
+								  <div class="form-group">
+								  Polar:
+							<input type="text" class="form-control" id="VM3" oninput = "oninput_text_init_values(this);"/>
+							<select id ="VML_UNIT3" class="form-control" onchange="oninput_text_init_values(this);">
+							 <option value="1">m</option>
+							 <option value="2">km</option>
+							 <option value="3">mi</option>
+							 <option value="4">nmi</option>
+							 <option value="5">cm</option>
+							 <option value="6">in</option>
+							 <option value="7">ft</option>
+							 <option value="8">yd</option>
+							</select>/
+							<select id ="VMT_UNIT3" class="form-control" onchange="oninput_text_init_values(this);">
+							 <option value="1">s</option>
+							 <option value="2">min </option>
+							 <option value="3">h</option>
+							</select>
+							<input type="text" class="form-control" id="VA3" oninput = "oninput_text_init_values(this);"/>deg
+							</div>
+						</form>
+							</td>
+							</tr>
+							<tr>
+							<th rowspan = "2">a (acc)</th>
+							<td><form class="form-inline">
+								  <div class="form-group">
+								  <input type="text" id="AX3" class="form-control" oninput = "oninput_text_init_values(this);"/>
+							<select id ="AXL_UNIT3" class="form-control" onchange="oninput_text_init_values(this);">
+							 <option value="1">m</option>
+							 <option value="2">km</option>
+							 <option value="3">mi</option>
+							 <option value="4">nmi</option>
+							 <option value="5">cm</option>
+							 <option value="6">in</option>
+							 <option value="7">ft</option>
+							 <option value="8">yd</option>
+							</select>/
+							<select id ="AXT_UNIT3" class="form-control" onchange="oninput_text_init_values(this);">
+							 <option value="1">s^2</option>
+							 <option value="2">min^2</option>
+							 <option value="3">h^2</option>
+							</select>
+							</div>
+						</form>
+							</td>
+							<td><form class="form-inline">
+								  <div class="form-group"><input type="text" id="AY3" class="form-control" oninput = "oninput_text_init_values(this);"/>
+							<select id ="AYL_UNIT3" class="form-control" onchange="oninput_text_init_values(this);">
+							 <option value="1">m</option>
+							 <option value="2">km</option>
+							 <option value="3">mi</option>
+							 <option value="4">nmi</option>
+							 <option value="5">cm</option>
+							 <option value="6">in</option>
+							 <option value="7">ft</option>
+							 <option value="8">yd</option>
+							</select>/
+							<select id ="AYT_UNIT3" class="form-control" onchange="oninput_text_init_values(this);">
+							 <option value="1">s^2</option>
+							 <option value="2">min^2</option>
+							 <option value="3">h^2</option>
+							</select>
+							</div>
+						</form>
+							</td>
+							</tr>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+			</div>
+		</div>
+		<div class="col-sm-12 col-md-6">
+			<div class="row">
+				<div class="panel panel-warning">
+					<div class="panel-heading">
+					BLUE and GREEN | Final Instantaneous Values
+					</div>
+					<div class="panel-body">
+						<table class = "table table-bordered">
+							<tr>
+							<th>t<sub>f</sub> = <input type="text" class="form-control" id="T2" value = "0" oninput = "oninput_text_init_values(this);" disabled/></th>
+							<th>dis_x</th>
+							<th>dis_y</th>
+							<th>vel_x</th>
+							<th>vel_y</th>
+							<th>v<sub>f</sub> mag</th>
+							<th>v<sub>f</sub> ang</th>
+							</tr>
+							<tr>
+							<td align="right">GREEN</td>
+							<td><input type="text" id="PX2F" class = "form-control" value = "0" disabled/></td>
+							<td><input type="text" id="PY2F" class = "form-control" value = "0" disabled/></td>
+							<td><input type="text" id="VX2F" class = "form-control" value = "0" disabled/></td>
+							<td><input type="text" id="VY2F" class = "form-control" value = "0"/></td>
+							<td><input type="text" id="VM2F" class = "form-control" value = "0" disabled/></td>
+							<td><input type="text" id="VA2F" class = "form-control" value = "0" disabled/></td>
+							</tr>
+							<tr>
+							<td align="right">BLUE</td>
+							<td><input type="text" id="PX3F" class = "form-control" value = "0" disabled/></td>
+							<td><input type="text" id="PY3F" class = "form-control" value = "0" disabled/></td>
+							<td><input type="text" id="VX3F" class = "form-control" value = "0" disabled/></td>
+							<td><input type="text" id="VY3F" class = "form-control" value = "0"/></td>
+							<td><input type="text" id="VM3F" class = "form-control" value = "0" disabled/></td>
+							<td><input type="text" id="VA3F" class = "form-control" value = "0" disabled/></td>
+							</tr>
+						</table>
+					</div>
+					<div class="panel-footer">
+						<font class = "BODYTEXT">All units for instantaneous values for Blue and Green are in meters and seconds.</font>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+<div class="container-fluid">
+
+</div>
+<script src="http://funcbook.pythonanywhere.com/media/first_user/Kinematics/jquery-3.1.1.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="http://funcbook.pythonanywhere.com/media/first_user/Newtonian_Gravitation/three.min.js"></script>
+<script src="http://funcbook.pythonanywhere.com/media/first_user/Kinematics/kinematics.js"></script>
+	</body>
+</html>

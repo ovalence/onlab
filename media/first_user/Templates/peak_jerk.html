@@ -1,0 +1,27 @@
+<script type="text/javascript">
+function peakJerk(array){
+	var array_accelerations = [];
+	var array_jerks = [];
+	for (var i = 1; i< array.length; i++){
+		array_accelerations[i-1] = array[i] - array[i-1];
+	}
+	for (var i = 1; i< array_accelerations.length; i++){
+		array_jerks[i-1] = array_accelerations[i] - array_accelerations[i-1];
+	}
+	var max = 0;
+	for (var i = 0; i< array_jerks.length; i++){
+		if(Math.abs(array_jerks[i]) > max){
+			max = array_jerks[i];
+		}
+	}
+	return max;
+}
+
+//window.onload = decimalToAlphanumeric('578260250759');
+//window.onload = alphaNumericTodecimal('abcd543');
+window.onload = function(){
+	//alert(tagalogMorph('anim'));
+	//alert(tagalogMorphTens('dalawa', 1));
+	alert(peakJerk([3,5,7,15,5]));
+}	
+</script>

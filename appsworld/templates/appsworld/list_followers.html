@@ -1,0 +1,52 @@
+<style>
+#APPSWORLD-FOLLOWERS-CONTAINER {
+    width: 260px;
+}
+
+#APPSWORLD-FOLLOWERS-CONTAINER .panel .panel-heading {
+    padding: 4px;
+    padding-left: 8px;
+}
+
+#APPSWORLD-FOLLOWERS-CONTAINER .panel .panel-body {
+    padding: 4px;
+}
+
+#APPSWORLD-FOLLOWERS-CONTAINER .panel .panel-body .list-group .list-group-item{
+    overflow-x: hidden;
+    padding: 2px;
+    margin: 0px;
+    border-width: 0px;
+}
+
+#APPSWORLD-FOLLOWERS-CONTAINER .panel .panel-body .list-group .list-group-item img {
+    width: 36px;
+    height: 36px;
+    padding: 0px;
+    margin: 0px;
+}
+
+#APPSWORLD-FOLLOWERS-CONTAINER .panel .panel-body .list-group .list-group-item > a {
+    margin-left: 0px;
+    paddding-left: 4px;
+    overflow-x: hidden;
+    white-space: nowrap;
+}
+
+</style>
+
+<div id="APPSWORLD-FOLLOWERS-CONTAINER" class="pull-right">
+  <div class="panel panel-default">
+    <div class="panel-heading">Followers</div>
+    <div class="panel-body">
+        <ul class="list-group">
+            {% for follower in followers_list %}
+            <li class="list-group-item">
+                <img class="img-responsive img-thumbnail" src="{{ follower.picture }}">
+                <a href="{% url 'user_profile'  follower.username %}">{{ follower.first_name }} {{ follower.last_name }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+  </div>
+</div>

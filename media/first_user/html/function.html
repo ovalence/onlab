@@ -1,0 +1,19 @@
+<div id="space">
+</div>
+<script type="text/javascript" src="../functions/RouletteWheel.js"></script>
+
+<script type="text/javascript">
+	var rw = new RouletteWheel();
+	var str = "";
+	var least = 1;
+	for(var i=0; i<1000; i++){
+		var rand1 = rw.roll()[0];
+		var rand2 = rw.roll()[1];
+		if(rand1 < least){
+			least = rand1;
+			
+		}
+		str += "<tr><td>" + rand1 + "</td><td>" + rand2 + "</td><td>" + least + "</td></tr>";
+	}
+	document.getElementById("space").innerHTML = "<table>" + str + "</table>";
+</script>

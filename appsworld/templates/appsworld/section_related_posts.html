@@ -1,0 +1,261 @@
+{% load staticfiles %}
+<style>
+    #POSTS_CONTAINER {
+        width: 100%;
+    }
+
+    #POSTS_CONTAINER .post_container {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 16px;
+        border-top-width: 1px;
+        border-top-style: solid;
+        border-top-color: lightgray;
+        background-color: white;
+    }
+
+    #POSTS_CONTAINER a {
+        text-decoration: none;
+    }
+
+    #POSTS_CONTAINER ul {
+        margin: 0px;
+        padding: 0px;
+        list-style-type: none;
+    }
+
+    #POSTS_CONTAINER ul li{
+        margin: 0px;
+        padding: 0px;
+    }
+
+    #POSTS_CONTAINER .aw-keywords li {
+        float: left;
+        padding-right: 8px;
+    }
+
+    #POSTS_CONTAINER .aw-keywords li a {
+        font-size: 12px;
+    }
+
+    #POSTS_CONTAINER .td_visibility{
+        font-size: 12px;
+        text-align: right;
+    }
+
+    #POSTS_CONTAINER .td_profile_icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    #POSTS_CONTAINER .picture_icon  {
+        width: 100%;
+        height: auto;
+    }
+
+    #POSTS_CONTAINER table {
+        width: 100%;
+        margin-top: 8px;
+        margin-bottom: 8px;
+        background-color: white;
+    }
+
+    #POSTS_CONTAINER .tr_first_row {
+
+    }
+
+    #POSTS_CONTAINER .td_user_name {
+        width: 65%;
+        font-size: 12px;
+        padding-left: 8px;
+    }
+
+    #POSTS_CONTAINER .td_post_title {
+        padding-left: 8px;
+        color: teal;
+    }
+
+    #POSTS_CONTAINER .td_post_title a {
+        color: teal;
+    }
+
+    #POSTS_CONTAINER td {
+        padding: 0px;
+        vertical-align: top;
+    }
+
+    #POSTS_CONTAINER .description_td {
+        height: 100px;
+        overflow-y: hidden;
+        padding-top: 18px;
+        padding-bottom: 18px;
+
+    }
+
+    #POSTS_CONTAINER .description_td .thumbnail_container {
+        padding-bottom: 18px;
+    }
+
+    #POSTS_CONTAINER tr {
+        padding: 0px;
+    }
+
+.thumbnail_container {
+    max-height: 80px;
+    overflow: hidden;
+}
+
+.post_title {
+    font-size: 20px;
+    font-style: bold;
+    color: teal;
+}
+
+.post_date {
+    font-size:10px;
+    color: teal;
+}
+
+.icon_container {
+    width: 40px;
+    height: 40px;
+    border-color: lightblue;
+    border-style: solid;
+    border-width: 1px;
+    margin: 0px;
+    margin-right: 8px;
+}
+
+.glyphicon-tags {
+    font-size: 8px;
+    color: teal;
+}
+
+
+</style>
+
+<div id="POSTS_CONTAINER">
+{% for app in page_posts %}
+<div class='container-fluid post_container'>
+<table>
+<tr class="tr_first_row">
+    <td rowspan="3" class='td_profile_icon'>
+        <div class="icon_container">
+            <a href="{% url 'user_profile' app.username %}"><img class="img-responsive" src="{{app.picture}}"></a>
+        </div>
+    </td>
+    <td colspan="3"><a class="post_user" href="{% url 'user_profile' app.username %}">{{app.username.first_name}} {{app.html_file_id.direction}}</a></td>
+    <td class='td_visibility'>
+        <ul class="aw-visibility">
+            <li class="dropdown">
+                <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+                    {% if app.0.visibility == "PU" %}
+                    <span class="glyphicon glyphicon-globe"></span>
+                    {% endif %}
+                    {% if app.0.visibility == "PR" %}
+                    <span class="glyphicon glyphicon-eye-close"></span>
+                    {% endif %}
+                    {% if app.0.visibility == "FR" %}
+                    <span class="glyphicon glyphicon-user"></span>
+                    {% endif %}
+                </a>
+                <ul class="aw-visibility-dropdown-menu dropdown-menu dropdown-menu-right">
+                    {% if user == app.username %}
+                    <li><a href="{% url 'delete_app' app.id %}">Delete</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'view_edit_blog_entry' app.id %}">Edit</a></li>
+                    {% if app.html_file_id > 0 %}
+                    <li><a href="{% url 'edit_file' app.html_file_id %}">Edit HTML File</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'view_app' app.id %}">Permalink (JS Enabled)</a></li>
+                    <li><a href="{% url 'view_app_full' app.id %}">Full View (Full JS Functionality)</a></li>
+                    <li><a href="#"><span class="aw-glyphicon glyphicon glyphicon-duplicate"></span> Source</a></li>
+                    <li>
+                    <div class="fb-share-button" data-href="{% url 'view_app' app.id %}" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2onald.pythonanywhere.com%2F&amp;src=sdkpreparse">Share</a>
+                    </div>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </td>
+</tr>
+<tr>
+    <td colspan="3" rowspan="2"><span class="post_date">{{app.date_uploaded|date:"M d"}}</span></td>
+    <td></td>
+</tr>
+<tr><td></td>
+</tr>
+<tr><td colspan="5" class="description_td">
+    <div class="container-fluid">
+    {% if app.post_type == "text" %}
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="row">
+                {{ app.description }}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% if app.post_type == "template" %}
+    <div class="row">
+        <div class="col-xs-4 col-sm-4 col-md-4">
+            <div class="thumbnail_container">
+                <a href="{% url 'view_app' app.file.id %}">
+                <img class="img-responsive post_thumbnail" src="{{app.thumbnail}}">
+                </a>
+            </div>
+        </div>
+        <div class="col-xs-8 col-sm-8 col-md-8">
+            <div class="row post_title post_name">
+                <a href="{% url 'view_app' app.file.id %}" id="{{app.3}}" class="post_name">
+                    {{app.app_name}}
+                </a>
+            </div>
+            <div class="row">
+                {{ app.description }}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% if app.post_type == "function" %}
+    <div class="row">
+        <div class="col-xs-4 col-sm-4 col-md-4">
+            <div class="thumbnail_container">
+                <a href="{% url 'view_app' app.id %}">
+                <img class="img-responsive post_thumbnail" src="{% static 'appsworld/images/F_of_x.svg' %}">
+                </a>
+            </div>
+        </div>
+        <div class="col-xs-8 col-sm-8 col-md-8">
+            <div class="row post_title post_name">
+                <a href="{% url 'view_app' app.id %}" id="{{app.3}}" class="post_name">
+                    {{app.html_file_id.name}}
+                </a>
+            </div>
+            <div class="row">
+                {{ app.html_file_id.code }}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    </div>
+</td>
+</tr>
+<tr>
+    <td colspan="5">
+        <ul class="aw-keywords">
+            <li><span class="glyphicon glyphicon-tags"></span></li>
+            {% for keyword in app.2 %}
+            {% if keyword.0 == "" %}
+            {% else %}
+            <li><a href="{% url 'tag_result' keyword.1 %}">{{ keyword.0 }}&nbsp</a></li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+    </td>
+</tr>
+</table>
+</div>
+{% endfor %}
+</div>
+

@@ -1,0 +1,163 @@
+{% extends 'appsworld/base.html' %}
+{% load staticfiles %}
+
+    {% block title %}onjs{% endblock title %}
+    {% block head_favicon %}
+        <link rel="icon" type="image/png"
+              href="{% static 'appsworld/images/onjs.png' %}">
+    {% endblock head_favicon %}
+    {% block head_meta %}
+        {% block head_meta_charset %}
+            <meta http-equiv="Content-Type"
+                  content="text/html; charset=utf-8" />
+        {% endblock head_meta_charset %}
+        {% block head_meta_contentlanguage %}
+            <meta http-equiv="Content-Language" value="en-US" />
+        {% endblock head_meta_contentlanguage %}
+        {% block head_meta_viewport %}
+            <meta name="viewport"
+                  content="width=device-width, initial-scale=1.0">
+        {% endblock head_meta_viewport %}
+    {% endblock head_meta %}
+    {% block head_css %}
+        <link href="{% static 'appsworld/css/bootstrap.css' %}" rel="stylesheet" media="screen">
+        <style type="text/css">
+        @font-face {
+            font-family: myFirstFont;
+            src: url({% static 'appsworld/fonts/FRABK.ttf' %});
+        }
+
+            #CONTENT_WRAPPER {
+                margin-top: 64px;
+                padding-top: 8px;
+                background-color: whitesmoke;
+            }
+
+            #COL1 {
+                min-height: 95vh;
+                overflow-x: auto;
+                overflow-y: hidden;
+                background-color: turquoise;
+            }
+
+            #COL2 {
+                min-height: calc(100vh - 50px);
+                overflow-x: auto;
+                overflow-y: hidden;
+            }
+
+            @media (min-width: 0px) and (max-width: 767px) {
+                #COL1 {
+                    width: 100vw;
+                    float: left;
+                    padding: 4px;
+                    background-color: darkgray;
+                }
+                #COL2 {
+                    width: 0vw;
+                    float: left;
+                    margin: 4px !important;
+                }
+            }
+
+            @media (min-width: 768px) and (max-width: 991px) {
+                #COL1 {
+                    width: calc(28vw + 44vw);
+                    float: left;
+                    padding: 16px;
+                    background-color: darkgray;
+                }
+                #COL2 {
+                    width: 0vw;
+                    float: left;
+                    margin-left: 8px !important;
+                }
+            }
+
+            @media (min-width: 992px) and (max-width: 1199px) {
+                #COL1 {
+                    width: calc(28vw + 44vw);
+                    float: left;
+                    padding: 16px;
+                    background-color: darkgray;
+                }
+                #COL2 {
+                    width: 0vw;
+                    float: left;
+                    margin-left: 8px !important;
+                }
+            }
+
+            @media (min-width: 1200px){
+                #COL1 {
+                    width: 66%;
+                    float: left;
+                    padding: 0px;
+                    padding-top: 16px;
+                    background-color: whitesmoke;
+                }
+                #COL2 {
+                    padding-top: 16px;
+                    width: 33%;
+                    float: left;
+                    margin-left: 8px !important;
+                }
+            }
+        </style>
+
+    {% endblock head_css %}
+
+{% block content %}
+    <header>
+        {% include 'appsworld/navigation_bar_top.html' %}
+    </header>
+    <div id="CONTENT_WRAPPER" class="container-fluid" ng-app="mediaApp" ng-controller="mediaController">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-8">
+                <main role='main'>
+                {% include 'appsworld/section_app.html' %}
+                </main>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-4">
+
+                {% include 'appsworld/section_comments_related.html' %}
+                <div id="disqus_thread"></div>
+                <script>
+
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://funcbook-pythonanywhere-com.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+                </script>
+                <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+    {# Set of blocks that can be used to display JavaScript files #}
+    {% block footer_javascript %}
+        {% block footer_javascript_site %}
+            <script src="{% static 'appsworld/js/jquery-3.1.1.js' %}"></script>
+            <script src="{% static 'appsworld/js/bootstrap.js' %}"></script>
+        {% endblock footer_javascript_site %}
+        {% block footer_javascript_page %}
+            <script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"</script>
+        {% endblock footer_javascript_page %}
+        {% block footer_javascript_section %}
+        {% endblock footer_javascript_section %}
+
+    {% endblock footer_javascript %}
+

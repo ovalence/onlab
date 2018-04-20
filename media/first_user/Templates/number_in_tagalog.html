@@ -1,0 +1,86 @@
+<script type="text/javascript">
+function tagalogMorph(word){
+	var lastChar = word[word.length-1];
+	switch (lastChar){
+		case 'a': return word + 'ng';
+		case 'o': return word + 'ng';
+		case 'm': return word + ' na';
+	}
+}
+
+function tagalogMorphTens(word, ones){
+	var lastChar = word[word.length-1];
+	//string.substr(start[, length]);
+	var firstChars = word.substr(0, word.length-1);
+	if(ones != 0){
+		switch (lastChar){
+			case 'a': return firstChars + "ampu't ";
+			case 'o': return firstChars + "umpu't ";
+			case 'm': return word + " napu't ";
+			case 't': return word + " napu't ";
+		}
+	}
+}
+
+function tagalogPlaceValue(character, place, lower){
+	switch (place){
+		case 0: return '';
+		case 1: return tagalogMorphTens(character, lower);
+		case 2: return 'daan';
+		default: return ' ';
+	}
+}
+
+function tagalogPlaceValue3(character, place, lower){
+	switch (place){
+		case 3: return 'libo';
+		case 6: return 'milyon';
+		default: return ' ';
+	}
+}
+
+function charToTagalog(character){
+	switch (character){
+		case '0': return '';
+		case '1': return 'isa';
+		case '2': return 'dalawa';
+		case '3': return 'tatlo';
+		case '4': return 'apat';
+		case '5': return 'lima';
+		case '6': return 'anim';
+		case '7': return 'pito';
+		case '8': return 'walo';
+		case '9': return 'siyam';
+	}	
+}
+
+function numberToTagalog(number){
+	var result = ""
+	var digit;
+	var numberString = number.toString();
+	for (var i= 0; i<numberString.length; i++){
+		place = (numberString.length - 1)- i;
+		if (place%3 == 2){
+			digitTagalog = charToTagalog(numberString[i]);
+			digitTagalogMorph = tagalogMorph(digitTagalog);
+			digitPlace = tagalogPlaceValue(numberString[i], place, numberString[i+1]);
+			result += digitTagalogMorph  + " " + digitPlace + " ";		
+		}
+		else if (place%3 == 1) {
+			digitTagalog = charToTagalog(numberString[i]);
+			digitTagalogMorph = tagalogMorphTens(digitTagalog);
+			digitPlace = tagalogPlaceValue(numberString[i], place, numberString[i+1]);	
+			result += digitTagalogMorph + " ";
+		}
+		else if (place%3 == 0){
+			digitTagalog = charToTagalog(numberString[i]);
+			result += digitTagalog;
+		}
+	}
+	return result;
+}
+
+window.onload = function(){
+	alert(numberToTagalog(456));
+}	
+</script>

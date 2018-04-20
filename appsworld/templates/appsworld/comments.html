@@ -1,0 +1,214 @@
+{% load staticfiles %}
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<script src="{% static 'appsworld/js/angular.min.js' %}"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<div id="CONTENT_WRAPPER" class="container-fluid" ng-app="mediaApp" ng-controller="mediaController">
+	<div id="COMMENTS_CONTAINER">
+		<table id="COMMENTS_TABLE">
+			<tbody ng-repeat="c in comments">
+				<tr>
+					<td rowspan="2" class='column1' >{% verbatim %}
+						<div class='icon_container'>
+						<img class="img-responsive picture_icon_sm" ng-src="{{c.user_info.picture}}" />
+						</div>{% endverbatim %}
+					</td>
+					<td class='column2'>{% verbatim %}
+						<a ng-href='/{{c.user_info.user_name}}' ng-bind="c.user_info.first_name + ' ' + c.user_info.last_name"></a>{% endverbatim %}
+					</td>
+					<td class='column3'></td>
+				</tr>
+				<tr><td id="comment_container" colspan='2' ng-bind="c.comment"></td></tr>
+			</tbody>
+
+		</table>
+	</div>
+	<div id="COMMENT_FORM">
+		<form method="post" enctype="multipart/form-data">
+		{% csrf_token %}
+			<table>
+				<input type="hidden" id="username" value="{{user}}" />
+				<input type="hidden" id="post_object_id" value="{{apps.0.0.id}}" />
+				<input type="hidden" id="number_of_comments" value="{{comments_count}}" />
+				<tr><td id="PICTURE_ICON_CONTAINER" class='column1' rowspan="2"><div class='icon_container'><img class="img-responsive picture_icon_sm" src="{{ logged_user_info.picture }}"></div></td><td class='column2'><textarea  id="message"></textarea></td></tr>
+				<tr><td><button type="submit" id="COMMENT_SUBMIT_BUTTON" class="pull-right btn btn-xs btn-success submit_button"  ng-click="submitForm();"><i class="fa fa-paper-plane-o" aria-hidden="true"></i> Post</button></td></tr>
+			</table>
+		</form>
+	</div>
+</div>
+
+<style type="text/css">
+	#COMMENTS_CONTAINER {
+		width: 100%;
+		padding: 4px;
+	}
+	#COMMENTS_CONTAINER i {
+		padding-right: 8px;
+		padding-top: 2px;
+	}
+	#COMMENTS_CONTAINER table {
+		width: 100%;
+	}
+
+	#COMMENTS_CONTAINER tbody {
+		padding-bottom: 12px;
+	}
+	#COMMENTS_CONTAINER td {
+		padding: 0px;
+		vertical-align: top;
+	}
+	#COMMENTS_CONTAINER .column1 {
+		width: 50px;
+	}
+
+	#COMMENTS_CONTAINER .column2 {
+		padding-left: 8px;
+	}
+
+	#COMMENTS_CONTAINER .column3 {
+		width: 60px;
+	}
+
+	#COMMENTS_CONTAINER .icon_container {
+		width: 100%;
+		position: relative;
+	}
+	#COMMENTS_CONTAINER .picture_icon_sm {
+		width: 50px;
+		height: 50px
+	}
+	#COMMENTS_CONTAINER .comment_message{
+		width: 100%;
+		min-height: 64px;
+		border-color: transparent;
+		border-width: 0px;
+		border-style: solid;
+		padding-left: 8px;
+		resize: none;
+	}
+
+	#COMMENTS_CONTAINER #comment_container{
+		padding-left: 8px;
+		resize: none;
+	}
+	#COMMENTS_CONTAINER .commenter_name{
+		padding-left: 8px;
+	}
+
+	#COMMENT_FORM {
+		width: 100%;
+		padding: 4px;
+	}
+
+	#COMMENT_FORM table {
+		width: 100%;
+	}
+
+	#COMMENT_FORM td {
+		padding: 0px;
+		vertical-align: top;
+	}
+
+	#COMMENT_FORM .column1 {
+		width: 50px;
+	}
+
+	#COMMENT_FORM .column2 {
+		padding-left: 8px;
+	}
+
+
+	#PICTURE_ICON_CONTAINER {
+		width: 100%;
+		position: relative;
+	}
+
+	#PICTURE_ICON_CONTAINER img {
+		width: 50px;
+		height: 50px
+	}
+
+	#COMMENT_MESSAGE {
+	    margin:0px;
+	    max-width: 480px;
+	    width: 100%;
+	    height: 100px;
+	    background-color: transparent;
+	    border-color: lightgray;
+	    -moz-tab-size: 4; /* Code for Firefox */
+	    -o-tab-size: 4; /* Code for Opera 10.6-12.1 */
+	    tab-size: 4;
+	    padding-left: 8px;
+	}
+
+	#COMMENT_FORM .submit_button {
+
+	}
+	#message {
+		width: 100%;
+	}
+</style>
+    <script type="text/javascript">
+	    var mediaId = {{media_id}};
+        var commentsJson = {{comments_json | safe}};
+        var mediaApp = angular.module('mediaApp', []);
+        mediaApp.controller('mediaController', function($scope) {
+            $scope.comments = commentsJson;
+            $scope.range = function(min, max, step){
+                step = step || 1;
+                var input = [];
+                for (var i = min; i <= max; i += step) input.push(i);
+                return input;
+            };
+            $scope.getComments = function(){
+                $.ajax({
+                    type: "GET",
+                    url: "/api/media_comments/" + mediaId + "/",
+                    dataType: 'json',
+                    success: function (data) {
+                        $scope.comments = data;
+                        $scope.$apply($scope.comments);
+                        //alert($scope.comments[0].comment);
+                    }
+                });
+            }
+
+            $scope.submitForm = function(){
+                $.ajax({
+                    type: "POST",
+                    url: "/api/media_comments/post_comment",
+                    data: {
+                        'comment' : $("#message").val(),
+                        'media' :  {{media_id}},
+                    },
+                    dataType: 'json',
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader('X-CSRFToken', $scope.getCookie('csrftoken'));
+                    },
+                    success: function (data) {
+                        $scope.$apply(function(){
+                            //$scope.comments = data;
+                        });
+                    }
+                });
+            };
+            $scope.getCookie = function(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = jQuery.trim(cookies[i]);
+                        // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            };
+            setInterval($scope.getComments, 3000);
+        });
+    </script>
+
+
+</script>

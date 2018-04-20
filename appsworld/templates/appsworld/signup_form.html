@@ -1,0 +1,106 @@
+{% load staticfiles %}
+<style>
+
+#APPSWORLD_MAIN_CONTAINER {
+
+}
+
+#APPSWORLD_SIGN_UP_FORM_CONTAINER {
+    max-width: 500px;
+    background-color: rgba(50, 118, 177, 0);
+}
+
+#APPSWORLD_SIGN_UP_FORM_CONTAINER hr {
+    height:0;
+    border:0;
+    border-top-color: rgba(255, 255, 255, 0.5);
+    border-top-width: 1px;
+    border-style: solid;
+}
+
+#APPSWORLD_SIGN_UP_PANEL {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.panel-default {
+    opacity: 0.9;
+/*margin-top:30px;*/
+}
+
+.input-group-addon{
+    background-color: rgb(50, 118, 177);
+    border-color: rgb(40, 94, 142);
+    color: rgb(255, 255, 255);
+}
+
+
+.form-group {
+    width: 100%;
+    max-width: 320px;
+    display: table;
+    margin: 0 auto;
+    margin-bottom: 16px;
+}
+
+
+
+
+</style>
+
+<div id="APPSWORLD_SIGN_UP_FORM_CONTAINER" class="container-fluid">
+    <hr>
+    <form method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div id="APPSWORLD_SIGN_UP_PANEL" class="panel panel-default">
+                <div class="panel-body">
+                    <h3 class="text-center">Sign Up<br/><br/></h3>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-user"></span>
+                            </span>
+                            {{form.username}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-envelope"></span>
+                            </span>
+                            {{form.email}}
+                        </div>
+                    </div>
+                    <form class="form-inline">
+                        <div class="form-group">
+                            {{form.first_name}}
+                        </div>
+                        <div class="form-group">
+                            {{form.last_name}}
+                        </div>
+                    </form>
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                            {{form.password}}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-lock"></span>
+                            </span>
+                            {{form.repeat_password}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button id="SIGNUP_BUTTON" class="btn btn-primary form-control" type="submit">Sign Up</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <hr>
+</div>

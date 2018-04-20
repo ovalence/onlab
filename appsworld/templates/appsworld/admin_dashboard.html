@@ -1,0 +1,129 @@
+{% extends 'appsworld/base.html' %}
+{% load staticfiles %}
+
+    {% block title %}onjs{% endblock title %}
+    {% block head_favicon %}
+        <link rel="icon" type="image/png"
+              href="{% static 'appsworld/images/onjs.png' %}">
+    {% endblock head_favicon %}
+    {% block head_meta %}
+        {% block head_meta_charset %}
+            <meta http-equiv="Content-Type"
+                  content="text/html; charset=utf-8" />
+        {% endblock head_meta_charset %}
+        {% block head_meta_contentlanguage %}
+            <meta http-equiv="Content-Language" value="en-US" />
+        {% endblock head_meta_contentlanguage %}
+        {% block head_meta_viewport %}
+            <meta name="viewport"
+                  content="width=device-width, initial-scale=1.0">
+        {% endblock head_meta_viewport %}
+    {% endblock head_meta %}
+    {% block head_css %}
+        {% block head_css_site %}
+            <link href="{% static 'appsworld/css/bootstrap.css' %}" rel="stylesheet" media="screen">
+        {% endblock head_css_site %}
+        {% block head_css_page %}
+        <style type="text/css">
+            @font-face {
+                font-family: myFirstFont;
+                src: url({% static 'appsworld/fonts/FRABK.ttf' %});
+            }
+
+            main#CONTENT_WRAPPER {
+                margin-top:0px;
+                padding-top: 0px;
+                background-color: whitesmoke;
+            }
+
+            #MAIN_RIGHT_SECTION {
+                margin: 0px;
+                padding: 0px;
+            }
+
+
+            #MAIN_MIDDLE_SECTION {
+                    margin: 0px;
+                    padding: 0px;
+                }
+
+            .side-section {
+                float: right;
+            }
+
+            @media (min-width: 992px) {
+                #MAIN_RIGH_SECTION {
+                    padding-left: 16px;
+                }
+            }
+
+        </style>
+
+        {% endblock head_css_page %}
+
+        {% block head_css_section %}
+        {% endblock head_css_section %}
+
+    {% endblock head_css %}
+
+{% block content %}
+    <header>
+    {% block header %}
+        {% include 'appsworld/navigation_bar_top.html' %}
+    {% endblock header %}
+    </header>
+        <main id="CONTENT_WRAPPER" role="main">
+            <div class="container-fluid">
+            <div id="row2_container" class="row">
+                {% include 'appsworld/row2_menu.html' %}
+            </div>
+                <div class="row">
+                    <div id="MAIN_LEFTLEFTMOST_SECTION" class="col-xs-12 col-sm-12 col-md-1 col-lg-3">
+                        <div class="container-fluid">
+                            <div class="row">
+                            <h1>User Records</h1>
+                            <ul>
+                                <li><a href="{% url 'users_info' %}">Users Information</a></li>
+                                <li><a href="{% url 'holidays' %}">Holidays</a></li>
+                            </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="MAIN_CONTENT_SECTION" class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+                        <div class="row">
+                        </div>
+                        <div class="row">
+
+                        </div>
+                        <div class="row">
+
+                        </div>
+                    </div>
+                    <div id="MAIN_RIGHT_SECTION" class="col-xs-12 col-sm-12 col-md-4 col-lg-2">
+                        <div class="row">
+
+                        </div>
+                    </div>
+                    <div id="MAIN_RIGHTMOST_SECTION" class="col-xs-12 col-sm-12 col-md-1 col-lg-3">
+                        <div class="container-fluid">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+{% endblock %}
+
+    {# Set of blocks that can be used to display JavaScript files #}
+    {% block footer_javascript %}
+        {% block footer_javascript_site %}
+            <script src="{% static 'appsworld/js/jquery-3.1.1.js' %}"></script>
+            <script src="{% static 'appsworld/js/bootstrap.js' %}"></script>
+        {% endblock footer_javascript_site %}
+        {% block footer_javascript_page %}
+            <script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"</script>
+        {% endblock footer_javascript_page %}
+        {% block footer_javascript_section %}
+        {% endblock footer_javascript_section %}
+
+    {% endblock footer_javascript %}

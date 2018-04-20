@@ -1,0 +1,469 @@
+<style>
+	#CROSSWORD_CONTAINER {
+		border-color: red;
+		border-style: solid;
+		border-width: 2px;
+	}
+	#CROSSWORD_CONTAINER .cell{
+		border-color: blue;
+		border-style: solid;
+		border-width: 1px;
+		width: 40px;
+		height: 40px;
+	}
+
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<script src="/static/appsworld/js/angular.min.js"></script>
+<div ng-app="myApp" ng-controller="myCtrl">
+	<div class='panel panel-primary'>
+		<div class="panel-heading">
+			Crossword Settings
+		</div>
+		<div class="panel-body">
+			<table id="CROSSWORD_TABLE">
+				<tr><td>Chromosome:</td><td><input id="INPUT_CHROM_NUM" ng-model="modelObject.chromosomes"></td></tr>
+				<tr><td>Rows:</td><td><input id="INPUT_ROWS" ng-model="modelObject.rows" ng-click="adjustDim();"></td></tr>
+				<tr><td>Columns:</td><td><input id="INPUT_COLS" ng-model="modelObject.cols" ng-click="adjustDim();"></td></tr>
+			</table>
+		</div>
+	</div>
+	<table id="CROSSWORD_CONTAINER">
+		<tr ng-repeat="r in range(0, modelObject.rows-1)"><td ng-repeat="c in range(0, modelObject.cols-1)" ng-attr-id="r*modelObject.cols + c" class='cell' ng-click="cellClicked(r*modelObject.cols + c);"><div class='cell_number'>1</div>A</td></tr>
+	</table>
+<h6 ng-repeat="p in range(0, modelObject.me-1)">Hello<b>World</b></h6>
+</div>
+<script>
+var crossword = {
+	rows : 2,
+	cols : 3,
+	container_element : "",
+	cellClassName : "cell",
+	cellDisplayElements : "",
+	cellNumberClassName : "cell_number",
+	cellNumber : "",
+	cellTextClassName : "cell_text",
+	cellInput : "",
+	cellArray : [],
+	wordItem : [],
+	letters : "",
+	words : [],
+	totalWords : 0,
+	totalFitness : 0,
+	string : "",
+	wordLengths : [],
+	mapper : [],
+
+	setRowsCols : function(rows, cols) {
+		crossword.rows = parseInt(rows);
+		crossword.cols = parseInt(cols);
+		crossword.clearBlocks();
+	},
+
+	clearBlocks : function() {
+		for (var i=0; i< crossword.rows; i++) {
+			crossword.cellArray[i] = [];
+			for (var j=0; j< crossword.cols; j++) {
+				crossword.cellArray[i][j] = [i*crossword.cols + j+1, crossword.letters.charAt(i*crossword.cols + j) ,1,1,0,0];
+			}
+		}
+	},
+
+	putLetters : function(letters) {
+		crossword.letters = letters;
+		for (var i=0; i< crossword.rows; i++) {
+			for (var j=0; j< crossword.cols; j++) {
+				crossword.cellArray[i][j][1] = crossword.letters.charAt(i*crossword.cols + j);
+			}
+		}
+		crossword.getWords();
+	},
+
+	toggleOccupy : function(e) {
+		var id = parseInt(e.target.id);
+		var numberOfLettersH = crossword.cellArray[Math.floor(id/crossword.cols)][id%crossword.cols][2];
+		var numberOfLettersV = crossword.cellArray[Math.floor(id/crossword.cols)][id%crossword.cols][3];
+		if (numberOfLettersH > 0) {
+			crossword.cellArray[Math.floor(id/crossword.cols)][id%crossword.cols][2] = 0;
+			crossword.cellArray[Math.floor(id/crossword.cols)][id%crossword.cols][3] = 0;
+		}
+		else {
+			crossword.cellArray[Math.floor(id/crossword.cols)][id%crossword.cols][2] = 1;
+			crossword.cellArray[Math.floor(id/crossword.cols)][id%crossword.cols][3] = 1;
+		}
+		crossword.cellArray[Math.floor(id/crossword.cols)][id%crossword.cols][4] = 0;
+		crossword.cellArray[Math.floor(id/crossword.cols)][id%crossword.cols][5] = 0;
+		crossword.getWordLengthH();
+		crossword.getWordLengthV();
+		crossword.getWords();
+		crossword.putCellArrayNumbers();
+	},
+
+	getWordLengthH : function() {
+		var currentBlock;
+		var nextBlock;
+		var previousBlock;
+		for (var i=0; i<crossword.rows; i++) {
+			for (var j=0; j<crossword.cols; j++) {
+				currentBlock = crossword.cellArray[i][j][2];
+				if (j<1) {
+					previousBlock = 0;
+				}
+				else {
+					previousBlock = crossword.cellArray[i][j-1][2];
+				}
+				if (j>=crossword.cols-1) {
+					nextBlock = 0;
+				}
+				else {
+					nextBlock = crossword.cellArray[i][j+1][2];
+				}
+				var wordLength = 1;
+				if (previousBlock >= 0 && currentBlock > 0 && nextBlock ==0) {
+					crossword.cellArray[i][j][2] = 1;
+				}
+				if (previousBlock == 0 && currentBlock > 0 && nextBlock ==0) {
+					crossword.cellArray[i][j][2] = 1;
+				}
+				if (previousBlock >= 0 && currentBlock > 0 && nextBlock >=0) {
+					crossword.cellArray[i][j][2] = 1;
+				}
+				if (previousBlock == 0 && currentBlock > 0 && nextBlock !=0) {
+					while (nextBlock != 0) {
+					    if (j+wordLength > crossword.cols -1) {
+					    	nextBlock = 0;
+					    }
+					    else {
+					    	nextBlock = crossword.cellArray[i][j+wordLength][2];
+					    }
+						crossword.cellArray[i][j][2] = wordLength;
+						wordLength = wordLength + 1;
+					}
+				}
+			}
+		}
+	},
+
+
+	getWordLengthV : function() {
+		var currentBlock;
+		var nextBlock;
+		var previousBlock;
+		for (var i=0; i<crossword.rows; i++) {
+			for (var j=0; j<crossword.cols; j++) {
+				currentBlock = crossword.cellArray[i][j][3];
+				if (i<1) {
+					previousBlock = 0;
+				}
+				else {
+					previousBlock = crossword.cellArray[i-1][j][3];
+				}
+				if (i>=crossword.rows-1) {
+					nextBlock = 0;
+				}
+				else {
+					nextBlock = crossword.cellArray[i+1][j][3];
+				}
+				var wordLength = 1;
+				if (previousBlock >= 0 && currentBlock > 0 && nextBlock ==0) {
+					crossword.cellArray[i][j][3] = 1;
+				}
+				if (previousBlock == 0 && currentBlock > 0 && nextBlock ==0) {
+					crossword.cellArray[i][j][3] = 1;
+				}
+				if (previousBlock >= 0 && currentBlock > 0 && nextBlock >=0) {
+					crossword.cellArray[i][j][3] = 1;
+				}
+				if (previousBlock == 0 && currentBlock > 0 && nextBlock !=0) {
+					while (nextBlock != 0) {
+					    if (i+wordLength > crossword.rows -1) {
+					    	nextBlock = 0;
+					    }
+					    else {
+					    	nextBlock = crossword.cellArray[i+wordLength][j][3];
+					    }
+						crossword.cellArray[i][j][3] = wordLength;
+						wordLength = wordLength + 1;
+					}
+				}
+			}
+		}
+	},
+
+	showCrosswordHTML : function() {
+		if (crossword.rows < 21 && crossword.cols < 21){
+			var inner_html;
+			inner_html = "<table>";
+			for (var i=0; i< crossword.rows; ++i) {
+				inner_html += "<tr>";
+				for (var j=0; j<crossword.cols; ++j) {
+					inner_html += "<td class='" + crossword.cellClassName + "'></td>";
+				}
+				inner_html += "</tr>";
+			}
+			inner_html += "</table>";
+			crossword.container_element.innerHTML = inner_html;
+			crossword.cellDisplayElements = document.getElementsByClassName(crossword.cellClassName);
+			for (var i = 0; i < crossword.rows*crossword.cols ; i++) {
+				crossword.cellDisplayElements[i].innerHTML = crossword.cellInnerHTML(i+1);
+				crossword.cellDisplayElements[i].addEventListener('click', cellClicked);
+			}
+			crossword.cellInput = document.getElementsByClassName(crossword.cellTextClassName);
+			crossword.cellNumber = document.getElementsByClassName(crossword.cellNumberClassName);
+		}
+	},
+
+	cellInnerHTML : function(number){
+		var innerHTML;
+		innerHTML = "<input id='" + (number-1) + "' class='cell_text' type='text'>" + "<div class='cell_number'></div>";
+		return innerHTML;
+	},
+
+	updateTable : function(){
+		var	number;
+		var letter;
+		var hlength;
+		var vlength;
+		var variable3;
+		var hitH;
+		var hitV;
+		for (var i=0; i<crossword.rows*crossword.cols; i++) {
+			number = crossword.cellArray[Math.floor(i/crossword.cols)][(i%crossword.cols)][0];
+			letter = crossword.cellArray[Math.floor(i/crossword.cols)][(i%crossword.cols)][1];
+			hlength = crossword.cellArray[Math.floor(i/crossword.cols)][(i%crossword.cols)][2];
+			vlength = crossword.cellArray[Math.floor(i/crossword.cols)][(i%crossword.cols)][3];
+			hitH = crossword.cellArray[Math.floor(i/crossword.cols)][(i%crossword.cols)][4];
+			hitV = crossword.cellArray[Math.floor(i/crossword.cols)][(i%crossword.cols)][5];
+			variable3 = crossword.words[i];
+			crossword.cellNumber[i].innerHTML = number + "," + hitH + "," + hitV;
+			if (hlength > 0 || vlength > 0) {
+				crossword.cellInput[i].style.backgroundColor = 'white';
+				crossword.cellInput[i].value = letter;
+			}
+			else {
+				crossword.cellInput[i].style.backgroundColor = 'brown';
+				crossword.cellInput[i].value = letter;
+			}
+			if (hlength == 1 && vlength == 1) {
+				crossword.cellInput[i].style.backgroundColor = 'white';
+				crossword.cellInput[i].value = letter;
+			}
+			if (hitH == 1) {
+				crossword.cellInput[i].style.backgroundColor = 'lightgreen';
+			}
+			if (hitV == 1) {
+				crossword.cellInput[i].style.backgroundColor = 'lightgreen';
+			}
+			if (hitH == 1 && hitV == 1) {
+				crossword.cellInput[i].style.backgroundColor = 'yellow';
+			}
+		}
+		var innerHTML = "<table class='table'>";
+		innerHTML += "<tr><td></td><td>Word</td><td>Spelling</td><td>" + "digraph" + "</td><td>" + "trigraph" + "</td><td>" + crossword.totalFitness + "</td></tr>";
+		for (var i=0; i< crossword.totalWords; i++) {
+			innerHTML += "<tr><td>" + crossword.words[i][0] + "</td><td>" + crossword.words[i][1] + "</td><td>"  + crossword.words[i][2] + "</td><td>" + crossword.words[i][3] +  "</td><td>" + crossword.words[i][4] +  "</td><td>" + crossword.words[i][5] + "</td></tr>";
+		}
+		innerHTML += "</table>";
+		internal_variable_display.innerHTML = innerHTML;
+	},
+
+	getWords : function() {
+		var hwordCount = 0;
+		var wwordCount = 0;
+		for (var i=0; i< crossword.rows; i++) {
+			for (var j=0; j<crossword.cols; j++) {
+				if (crossword.cellArray[i][j][2] > 1) {
+					for (var k=0; k< crossword.cellArray[i][j][2]; k++) {
+						crossword.mapper[hwordCount] = [];
+					}
+					for (var k=0; k< crossword.cellArray[i][j][2]; k++) {
+						crossword.mapper[hwordCount][k] = i*crossword.cols + j + k;
+					}
+					hwordCount = hwordCount + 1;
+					crossword.wordLengths[hwordCount-1] = crossword.cellArray[i][j][2];
+					crossword.cellArray[i][j][0] = hwordCount;
+					crossword.wordItem[hwordCount-1] = hwordCount;
+				}
+			}
+		}
+		for (var i=0; i< crossword.rows; i++) {
+			for (var j=0; j<crossword.cols; j++) {
+				if (crossword.cellArray[i][j][3] > 1) {
+					for (var k=0; k< crossword.cellArray[i][j][3]; k++) {
+						crossword.mapper[wwordCount + hwordCount] = [];
+					}
+					for (var k=0; k< crossword.cellArray[i][j][3]; k++) {
+						crossword.mapper[wwordCount + hwordCount][k] = i*crossword.cols + j + (k*crossword.cols);
+					}
+					wwordCount = wwordCount + 1;
+					crossword.wordLengths[wwordCount + hwordCount -1] = crossword.cellArray[i][j][3];
+					crossword.cellArray[i][j][0] = wwordCount + hwordCount;
+					crossword.wordItem[wwordCount + hwordCount-1] = wwordCount + hwordCount;
+				}
+			}
+		}
+		crossword.totalWords = hwordCount + wwordCount;
+		for (var i = 0 ; i< crossword.totalWords; i++) {
+			crossword.words[i] = [];
+		}
+		crossword.formWords();
+	},
+
+	formWords : function(){
+		crossword.totalFitness = 0;
+		for (var i = 0; i<crossword.totalWords;  i++) {
+			var spellingFitness;
+			var digraphFitness;
+			var trigraphFitness;
+			var total;
+
+			var word = "";
+			for (var j = 0; j<crossword.wordLengths[i]; j++) {
+				word += crossword.letters.charAt(crossword.mapper[i][j]);
+			}
+			spellingFitness = crossword.fitnessSpelling(word);
+			digraphFitness = crossword.fitnessDigraph(word);
+			trigraphFitness = crossword.fitnessTrigraph(word);
+			total = spellingFitness + digraphFitness + trigraphFitness;
+			crossword.words[i] = [crossword.wordItem[i], word, spellingFitness, digraphFitness, trigraphFitness, total];
+			crossword.totalFitness += crossword.words[i][5];
+		}
+	},
+
+	putCellArrayNumbers : function(){
+		var numberOfLettersH;
+		var numberOfLettersV;
+		var num = 1;
+		for (var i=0; i< crossword.rows ; i++) {
+			for (var j=0; j<crossword.cols; j++) {
+				numberOfLettersH = crossword.cellArray[i][j][2];
+				numberOfLettersV = crossword.cellArray[i][j][3];
+				if (numberOfLettersH > 1 || numberOfLettersV > 1) {
+					crossword.cellArray[i][j][0] = num;
+					num = num + 1;
+				}
+				else {
+					crossword.cellArray[i][j][0] = "";
+				}
+			}
+		}
+	},
+
+	fitnessDigraph : function(word){
+		var fitness = 0;
+		var hit = 0;
+		for (var i=0; i<digraph.length; i++){
+			if (word.search(digraph[i].toUpperCase()) < 0) {
+				hit = 0;
+			}
+			else {
+				hit = digraph.length - i;
+			}
+			fitness += hit;
+		}
+		return fitness;
+	},
+
+	fitnessTrigraph : function(word){
+		var fitness = 0;
+		var hit = 0;
+		for (var i=0; i<trigraph.length; i++){
+			if (word.search(trigraph[i].toUpperCase()) < 0) {
+				hit = 0;
+			}
+			else {
+				hit = trigraph.length - i;
+			}
+			fitness += hit;
+		}
+		return fitness;
+	},
+
+	fitnessSpelling : function(word) {
+		var fitness = 0;
+		var hit = 0;
+		var startSearchAt = 0;
+		var endSearchAt = dictionary.length;
+		for (var j = 0; j< 26; j++) {
+			if (word.charAt(0) == bookMarker.letters.charAt(j) && j<25) {
+				startSearchAt = bookMarker.letterIndexes[j];
+				endSearchAt = bookMarker.letterIndexes[j+1];
+			}
+			if (word.charAt(0) == bookMarker.letters.charAt(j) && j == 25) {
+				startSearchAt = bookMarker.letterIndexes[j];
+				endSearchAt = dictionary.length;
+			}
+		}
+		for (var i=startSearchAt; i<endSearchAt; i++){
+			if (word == dictionary[i].toUpperCase()) {
+				hit = word.length;
+				return hit;
+			}
+			else {
+				hit = 0;
+			}
+		}
+		return hit;
+	},
+};
+
+var geneticAlgorithm = {
+	population : 10,
+	chromosomes : [],
+	crossoverRate : 10,
+	mutationRate : 10,
+	maxGeneration : 100,
+	displayContainer : "",
+
+	createPopulation : function(number) {
+		var num = parseInt(number);
+		geneticAlgorithm.population = num;
+		for (var i=0; i<num; i++) {
+			geneticAlgorithm.chromosomes[i] = [createChromosome(parseInt(input_rows.value)*parseInt(input_cols.value)),0];
+		}
+	},
+
+	getToTalFitness : function() {
+		for (var i=0; i<geneticAlgorithm.population; i++) {
+			crossword.putLetters(geneticAlgorithm.chromosomes[i][0]);
+			geneticAlgorithm.chromosomes[i] = [geneticAlgorithm.chromosomes[i][0], crossword.totalFitness];
+		}
+	},
+
+	show : function() {
+		var innerHTML = "";
+		innerHTML += "<table>";
+		for (var i =0; i<geneticAlgorithm.population; i++) {
+			innerHTML += "<tr><td>" + geneticAlgorithm.chromosomes[i][0] + "</td><td>" + geneticAlgorithm.chromosomes[i][1]  + "</td></tr>";
+		}
+		innerHTML += "</table>";
+		geneticAlgorithm.displayContainer.innerHTML = innerHTML;
+	}
+};
+
+</script>
+
+<script>
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope) {
+    $scope.modelObject = crossword;
+    $scope.geneticAlgorithm = geneticAlgorithm;
+    $scope.range = function(min, max, step){
+        step = step || 1;
+        var input = [];
+        for (var i = min; i <= max; i += step) input.push(i);
+        return input;
+    };
+    $scope.cellClicked = function(er) {
+        alert(er);
+    	$scope.modelObject.toggleOccupy(er);
+    	$scope.modelObject.putLetters(geneticAlgorithm.chromosomes[0][0]);
+    	$scope.modelObject.showCrosswordHTML();
+    	$scope.modelObject.updateTable();
+    	$scope.geneticAlgorithm.getToTalFitness();
+    	$scope.geneticAlgorithm.show();
+    }
+});
+</script>
+
+

@@ -1,0 +1,128 @@
+{% load staticfiles %}
+<style>
+
+#browser_window .navbar-brand {
+  width: 70px;
+  height: 50px;
+  background: url('http://www.sneaker-mission.com/uploads/3/1/2/7/31279819/5617441.png') no-repeat center center;
+  background-size: 50px;
+}
+
+#browser_window .nav-tabs {
+  display: inline-block;
+  border-bottom: none;
+  padding-top: 15px;
+  font-weight: bold;
+}
+#browser_window .nav-tabs > li > a,
+#browser_window .nav-tabs > li > a:hover,
+#browser_window .nav-tabs > li > a:focus,
+#browser_window .nav-tabs > li.active > a,
+#browser_window .nav-tabs > li.active > a:hover,
+#browser_window .nav-tabs > li.active > a:focus {
+  border: none;
+  border-radius: 0;
+}
+
+#browser_window .nav-list { border-bottom: 1px solid #eee; }
+#browser_window .nav-list > li {
+  padding: 20px 15px 15px;
+  border-left: 1px solid #eee;
+}
+#browser_window .nav-list > li:last-child { border-right: 1px solid #eee; }
+#browser_window .nav-list > li > a:hover { text-decoration: none; }
+#browser_window .nav-list > li > a > span {
+  display: block;
+}
+
+#browser_window .mega-dropdown { position: static !important; }
+#browser_window .mega-dropdown-menu {
+  padding: 20px 15px 15px;
+  text-align: center;
+  width: 100%;
+}
+
+#browser_window .tab-pane ul li img {
+    height: 128px;
+    width: 128px;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<script src="{% static 'appsworld/js/angular.min.js' %}"></script>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+<div id="browser_window" ng-app="myApp" ng-controller="browserCtrl">
+
+<nav class="navbar navbar-default" role="navigation">
+  <div class="container-fluid">
+        <ul class="nav navbar-nav">
+				<div>
+				    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                       <li class="active"><a href="#image" role="tab" data-toggle="tab">Picture</a></li>
+                       <li><a href="#video" role="tab" data-toggle="tab">Video</a></li>
+                       <li><a href="#text" role="tab" data-toggle="tab">Text</a></li>
+                       <li><a href="#application" role="tab" data-toggle="tab">Application</a></li>
+                       <li><a href="#apps" role="tab" data-toggle="tab">Apps</a></li>
+                    </ul>
+                    <div class="container-fluid">
+    				    <!-- Tab panes -->
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="image">
+                            <ul class="nav-list list-inline">{% verbatim %}
+                                <li ng-repeat="n in filesJson" ng-if="n.fields.folder=='image'"><a href="#"><img class="img-responsive" ng-src="{{n.fields.file_url}}"></a><button>DP</button></li>
+                            </ul>{% endverbatim %}
+                          </div>
+                          <div class="tab-pane" id="video">
+                            <ul class="nav-list list-inline">{% verbatim %}
+                                <li ng-repeat="n in filesJson" ng-if="n.fields.folder=='video'"><a href="#"><img class="img-responsive" ng-src="{{n.fields.file_url}}"><span ng-bind='n.fields.title'></span></a></li>
+                            </ul>{% endverbatim %}
+                          </div>
+                          <div class="tab-pane" id="text">
+                            <ul class="nav-list list-inline">{% verbatim %}
+                                <li ng-repeat="n in filesJson" ng-if="n.fields.folder=='text'"><a href="#"><span ng-bind='n.fields.filename'></span></a></li>
+                            </ul>{% endverbatim %}
+                          </div>
+                          <div class="tab-pane" id="application">
+                            <ul class="nav-list list-inline">{% verbatim %}
+                                <li ng-repeat="n in filesJson" ng-if="n.fields.folder=='application'"><a href="#"><span ng-bind='n.fields.filename'></span></a></li>
+                            </ul>{% endverbatim %}
+                          </div>
+                          <div class="tab-pane" id="apps">
+                            <ul class="nav-list list-inline">{% verbatim %}
+                                <li ng-repeat="n in htmlAppsJson">
+                                  <a href="#"><span ng-bind='n.fields.name'></span></a>
+                                  <a ng-href="/edit_blog_entry/{{n.pk}}">Edit</a>
+                                </li>
+                            </ul>{% endverbatim %}
+                          </div>
+                        </div>
+                    </div>
+				</div>
+        </ul>
+  </div><!-- /.container-fluid -->
+</nav>
+</div>
+<script>
+var filesJson = {{files_json | safe}};
+var htmlAppsJson = {{html_apps_json | safe}};
+var app = angular.module('myApp', []);
+app.controller('browserCtrl', function($scope) {
+    $scope.filesJson = filesJson;
+    $scope.htmlAppsJson = htmlAppsJson;
+});
+$(document).ready(function(){
+    $(".dropdown").hover(
+        function() {
+            $('.dropdown-menu', this).stop( true, true ).slideDown("fast");
+            $(this).toggleClass('open');
+        },
+        function() {
+            $('.dropdown-menu', this).stop( true, true ).slideUp("fast");
+            $(this).toggleClass('open');
+        }
+    );
+});
+</script>

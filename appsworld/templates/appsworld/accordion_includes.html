@@ -1,0 +1,296 @@
+{% load staticfiles %}
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<script src="{% static 'appsworld/js/angular.min.js' %}"></script>
+<style type="text/css">
+	#INCLUDES_CONTAINER {
+        width: 100%;
+
+	}
+
+	#INCLUDES_CONTAINER > .panel {
+	    width: 100%;
+		border-radius: 0px;
+		padding: 0px;
+		margin: 0px;
+		min-height: 100px;
+		overflow-y: hidden;
+	}
+
+	#INCLUDES_CONTAINER > .panel > .panel-heading {
+		margin: 0px;
+		padding: 0px;
+		border-radius: 0px;
+		background-color: #c9dce2;
+	}
+
+	#INCLUDES_CONTAINER > .panel > .panel-body {
+		margin: 0px;
+		padding: 0px;
+		border-color: green;
+		min-height: 100px;
+		overflow-y: hidden;
+	}
+
+	#INCLUDES_CONTAINER > .panel > .panel-body .panel {
+		border-radius: 0px;
+		margin: 0px;
+		padding: 0px;
+		border-color: transparent;
+	}
+
+	#INCLUDES_CONTAINER > .panel > .panel-body .panel .panel-heading {
+		margin: 0px;
+		padding: 0px;
+		min-height: 20px;
+	}
+
+	#INCLUDES_CONTAINER > .panel > .panel-body .panel .panel-body {
+		margin: 0px;
+		padding: 0px;
+		background-color: yellow;
+		height: 100px;
+	}
+
+	#INCLUDES_CONTAINER .img_thumbnail {
+		width: 128px;
+		height: 128px;
+	}
+
+	#INCLUDES_CONTAINER textarea {
+		width: 100%;
+		height: 128px;
+	}
+
+</style>
+<div id="INCLUDES_CONTAINER" ng-app="includesApp" ng-controller="includesCtrl">
+  	<div class="panel panel-default">
+	    <div class="panel-heading">Archive
+	    	<input type="text" ng-model="app_name" />
+	    	<button ng-click="addFile();">add</button>
+	    	<button ng-click="saveHTML();">Save</button>
+	    </div>
+		<div ng-if="showFiles" class="panel-body">
+			<nav class="navbar navbar-default" role="navigation">
+			  <div class="container-fluid">
+			        <ul class="nav navbar-nav">
+							<div>
+							    <!-- Nav tabs -->
+			                    <ul class="nav nav-tabs" role="tablist">
+			                       <li class="active"><a href="#image" role="tab" data-toggle="tab">Picture</a></li>
+			                       <li><a href="#video" role="tab" data-toggle="tab">Video</a></li>
+			                       <li><a href="#text" role="tab" data-toggle="tab">Text</a></li>
+			                       <li><a href="#application" role="tab" data-toggle="tab">Application</a></li>
+			                    </ul>
+			                    <div class="container-fluid">
+			    				    <!-- Tab panes -->
+			                        <div class="tab-content">
+			                          <div class="tab-pane active" id="image">
+			                            <ul class="nav-list list-inline">{% verbatim %}
+			                                <li ng-repeat="n in allFiles" ng-if="n.fields.folder=='image'"><a href="#" ng-click="selectFile(n.pk);"><img class="img-responsive img_thumbnail" ng-src="{{n.fields.file_path}}"><span ng-bind='n.fields.filename'></span></a></li>
+			                            </ul>{% endverbatim %}
+			                          </div>
+			                          <div class="tab-pane" id="video">
+			                            <ul class="nav-list list-inline">{% verbatim %}
+			                                <li ng-repeat="n in allFiles" ng-if="n.fields.folder=='video'"><a href="#"><img class="img-responsive" ng-src="{{n.fields.file_url}}"><span ng-bind='n.fields.filename'></span></a></li>
+			                            </ul>{% endverbatim %}
+			                          </div>
+			                          <div class="tab-pane" id="text">
+			                            <ul class="nav-list list-inline">{% verbatim %}
+			                                <li ng-repeat="n in allFiles" ng-if="n.fields.folder=='text'"><a href="#" ng-click="selectFile(n.pk);"><span ng-bind='n.fields.filename'></span></a></li>
+			                            </ul>{% endverbatim %}
+			                          </div>
+			                          <div class="tab-pane" id="application">
+			                            <ul class="nav-list list-inline">{% verbatim %}
+			                                <li ng-repeat="n in allFiles" ng-if="n.fields.folder=='application'"><a href="#" ng-click="selectFile(n.pk);"><span ng-bind='n.fields.filename'></span></a></li>
+			                            </ul>{% endverbatim %}
+			                          </div>
+			                        </div>
+			                    </div>
+							</div>
+			        </ul>
+			  </div><!-- /.container-fluid -->
+			</nav>
+		<button ng-click="selectFile(file_id);">Select</button>
+		</div>
+	    <div class="panel-body">
+		    <div ng-repeat="p in range(0, files.length-1)" class="panel panel-default">
+		      	<div class="panel-heading">
+		      	<button ng-click="toggleShow(p);">Toggle</button>
+		      	<button ng-click="removeFile(p);">Remove</button>
+		      	<button ng-click="moveUp(p);">Up</button>
+		      	<button ng-click="moveDown(p);">Down</button>
+		      	    <span ng-if="files[p][1].file_type == 'javascript'" ng-bind="script_opening + files[p][1].file_path + script_closing"></span>
+		      	    <span ng-if="files[p][1].file_type == 'css'" ng-bind="link_opening + files[p][1].file_path + link_closing"></span>
+		      	    <span ng-if="files[p][1].file_type == 'html'" ng-bind="files[p][1].file_path"></span>
+		      	</div>
+		      	<div ng-if="files[p][0]" class="panel-body">
+		      	    <textarea ng-bind="files[p][2]"></textarea>
+		    	</div>
+	    	</div>
+	    </div>
+	</div>
+</div>
+<script>
+	var html_app_name;
+	var filesJson;
+	var edit = "{{edit}}"
+	function selectedFiles(){
+    	if (edit == "True"){
+    		filesJson = {{ app_json | safe}};
+    		html_app_name = filesJson[0].fields.name;
+    		return JSON.parse(filesJson[0].fields.files);
+    	}
+    	else{
+    		filesJson = [];
+    		html_app_name = "Unnamed App";
+    		return filesJson;
+    	}
+	}
+
+	function selectedFiles_less(files_tuple){
+		var less = [];
+		for (var i = 0; i<files_tuple.length; i++){
+			less.push(files_tuple[i][0], files_tuple[i][1]);
+		}
+		return less;
+	}
+
+	window.onload = function(){
+		selectedFiles();
+	}
+    var app = angular.module('includesApp', []);
+    
+    app.controller('includesCtrl', function($scope) {
+    	$scope.script_opening = "<script src='";
+    	$scope.script_closing = "''></\script>";
+    	$scope.link_opening = "<link  rel='stylesheet' href='";
+    	$scope.link_closing = ">"
+    	$scope.allFiles = {{ media_json | safe}};
+    	$scope.htmlAppId = {{html_app_id}};
+    	$scope.files = selectedFiles();
+        $scope.showFiles = false;
+        $scope.app_name = html_app_name;
+        
+        $scope.saveHTML = function(){
+            var obj = {
+                username : {{user_id}},
+                name : $scope.app_name,
+                //files : JSON.stringify($scope.files),
+                files : JSON.stringify(selectedFiles_less($scope.files)),
+                datetime : "01-10-2010",
+            };
+            if (edit == "True"){
+	            $.ajax({
+	                type: "PUT",
+	                url: "/api/apps/{{html_app_id}}/",
+	                beforeSend: function(xhr) {
+	                    xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+	                },
+	                headers: {
+	                  'Accept': 'application/json',
+	                  'Content-Type': 'application/json'
+	                  },
+	                dataType: 'json',
+	                data : JSON.stringify(obj),
+	                success: function (data) {
+	                	$scope.$apply(function(){
+				        	for(var i=0; i< $scope.files.length; i++){
+				        		$scope.files[i][0] = false;
+				        	}
+				        	$scope.showFiles = false;
+				        });
+				     	}
+	            }); 
+            }
+            else{
+	            $.ajax({
+	                type: "POST",
+	                url: "/api/apps",
+	                beforeSend: function(xhr) {
+	                    xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+	                },
+	                headers: {
+	                  'Accept': 'application/json',
+	                  'Content-Type': 'application/json'
+	                  },
+	                dataType: 'json',
+	                data : JSON.stringify(obj),
+	                success: function (data) {
+	                	$scope.$apply(function(){
+				        	for(var i=0; i< $scope.files.length; i++){
+				        		$scope.files[i][0] = false;
+				        	}
+				        	$scope.showFiles = false;
+				        });
+				     	}
+	            }); 
+            }
+        }
+
+        $scope.addFile = function(){
+        	$scope.showFiles = true;
+        };
+        $scope.selectFile = function(index){
+        	$scope.getFile(index);
+        };
+        $scope.toggleShow = function(index){
+            $scope.files[index][0] = ~$scope.files[index][0];
+        };
+        $scope.removeFile = function(index){
+            $scope.files.splice(index,1);
+        };
+        $scope.moveUp = function(index){
+        	if(index>0){
+        		var temp = $scope.files[index];
+            	$scope.files[index] = ~$scope.files[index-1];
+            	$scope.files[index-1] = temp;
+        	}
+        };
+        $scope.moveDown = function(index){
+        	if(index<$scope.files.length-1){
+        		var temp = $scope.files[index];
+            	$scope.files[index] = ~$scope.files[index+1];
+            	$scope.files[index+1] = temp;
+        	}
+        };
+        $scope.range = function(min, max, step){
+            step = step || 1;
+            var input = [];
+            for (var i = min; i <= max; i += step) input.push(i);
+            return input;
+        };
+
+        $scope.getFile = function(file_id){
+            $.ajax({
+                type: "GET",
+                url: "/api/media/" + file_id,
+                dataType: 'json',
+                success: function (data) {
+                	$scope.$apply(function(){
+			        	for(var i=0; i< $scope.files.length; i++){
+			        		$scope.files[i][0] = false;
+			        	}
+			        	$scope.files.push([true, data.media, data.text_string]);
+			        	$scope.showFiles = false;
+			        });
+			     	}
+            });        	
+        };
+
+    });
+    function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>

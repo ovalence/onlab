@@ -1,0 +1,90 @@
+{% extends 'appsworld/base.html' %}
+{% load staticfiles %}
+
+    {% block title %}[Website Name] | Edit App {% endblock title %}
+    {% block head_favicon %}
+        <link rel="icon" type="image/png"
+              href="{{ STATIC_URL }}images/favicon.ico">
+    {% endblock head_favicon %}
+    {% block head_meta %}
+        {% block head_meta_charset %}
+            <meta http-equiv="Content-Type"
+                  content="text/html; charset=utf-8" />
+        {% endblock head_meta_charset %}
+        {% block head_meta_contentlanguage %}
+            <meta http-equiv="Content-Language" value="en-US" />
+        {% endblock head_meta_contentlanguage %}
+        {% block head_meta_viewport %}
+            <meta name="viewport"
+                  content="width=device-width, initial-scale=1.0">
+        {% endblock head_meta_viewport %}
+    {% endblock head_meta %}
+    {% block head_css %}
+        <script src="{% static 'appsworld/js/jquery-3.1.1.js' %}"></script>
+        <script src="{% static 'appsworld/js/bootstrap.js' %}"></script>
+        <script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"</script>
+        <link href="{% static 'appsworld/css/bootstrap.css' %}" rel="stylesheet" media="screen">
+        <style type="text/css">
+        @font-face {
+            font-family: myFirstFont;
+            src: url({% static 'appsworld/fonts/FRABK.ttf' %});
+        }
+
+            main#CONTENT_WRAPPER {
+                margin-top:0px;
+                padding-top: 0px;
+                background-color: whitesmoke;
+            }
+
+            #MAIN_RIGHT_SECTION {
+                margin: 0px;
+                padding: 8px;
+            }
+
+
+            #MAIN_CONTENT_SECTION {
+                margin: 0px;
+                padding: 8px;
+            }
+
+            .side-section {
+                float: right;
+            }
+
+            @media (min-width: 992px) {
+                #MAIN_RIGH_SECTION {
+                    padding-left: 16px;
+                }
+            }
+
+        </style>
+    {% endblock head_css %}
+
+{% block content %}
+    <header>
+    {% block header %}
+        {% include 'appsworld/navigation_bar_top.html' %}
+
+    {% endblock header %}
+    </header>
+    <main id="CONTENT_WRAPPER" role="main">
+        <div class="container-fluid">      
+            <div id="row2_container" class="row">
+                {% include 'appsworld/row2_menu.html' %}
+            </div>
+            <div class="row">
+                <div id="MAIN_CONTENT_SECTION" class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                    {% include 'appsworld/event_details.html' %}
+                </div>
+                <div id="MAIN_RIGHT_SECTION" class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                    {% include 'appsworld/calendar_year.html' %}
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}
+
+    {# Set of blocks that can be used to display JavaScript files #}
+    {% block footer_javascript %}
+
+    {% endblock footer_javascript %}

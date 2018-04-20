@@ -1,0 +1,10 @@
+#LOGIN_PAGE_CONTENT {
+    margin: 0px;
+    padding: 0px;
+    height: 100vh;
+    background-color: rgba(240,221,224, 1);
+}
+
+#LOG_IN_FORM_DIV {
+    margin-top: 16px;
+}

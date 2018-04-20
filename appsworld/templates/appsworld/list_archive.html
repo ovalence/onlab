@@ -1,0 +1,103 @@
+{% load staticfiles %}
+
+<style type="text/css">
+	#ARCHIVE_CONTAINER {
+        width: 100%;
+
+	}
+
+	#ARCHIVE_CONTAINER > .panel {
+	    width: 100%;
+		border-radius: 0px;
+	}
+
+	#ARCHIVE_CONTAINER > .panel > .panel-heading {
+		margin: 0px;
+		padding: 8px;
+		border-radius: 0px;
+		background-color: #c9dce2;
+	}
+
+	#ARCHIVE_CONTAINER .panel .panel-group {
+		margin: 0px;
+		padding: 0px;
+		border-radius: 0px;
+	}
+
+	#ARCHIVE_CONTAINER > .panel > .panel-body {
+		margin: 0px;
+		padding: 0px;
+		border-color: transparent;
+	}
+
+	#ARCHIVE_CONTAINER > .panel > .panel-body .panel {
+		border-radius: 0px;
+		margin: 0px;
+		border-color: transparent;
+	}
+
+	#ARCHIVE_CONTAINER > .panel > .panel-body .panel .panel-heading {
+		margin: 0px;
+		padding: 4px;
+		min-height: 20px;
+	}
+
+	#ARCHIVE_CONTAINER > .panel > .panel-body .panel .panel-body {
+		margin: 0px;
+		padding: 4px;
+	}
+
+	#ARCHIVE_CONTAINER .list-group-item{
+	    overflow-x: hidden;
+	    padding: 2px;
+	    margin: 0px;
+	    border-width: 0px;
+	}
+
+	#ARCHIVE_CONTAINER img {
+	    width: 48px;
+	    height: 48px;
+	    padding: 0px;
+	    margin: 0px;
+	}
+
+	#ARCHIVE_CONTAINER a {
+	    margin-left: 0px;
+	    padding-left: 4px;
+	    overflow-x: hidden;
+	    white-space: nowrap;
+	}
+
+</style>
+
+<div id="ARCHIVE_CONTAINER">
+  	<div class="panel panel-default">
+	    <div class="panel-heading">Archive</div>
+	    <div class="panel-body" id="accordion">
+		  {% for month_name in app_archive %}
+		    <div class="panel panel-default">
+		      	<div class="panel-heading">
+		          <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{month_name.0.0.0.month_updated}}">{{ month_name.0.0.0.month_updated }}</a>
+		      	</div>
+		      	<div id="collapse{{month_name.0.0.0.month_updated}}" class="panel-collapse collapse">
+			        <div class="panel-body">
+			            <ul class="list-group">
+				            {% for app in month_name.0 %}
+				            <li class="list-group-item">
+				                <img class="img-responsive img-thumbnail" src="{{ app.0.thumbnail }}">
+				                <a href="{% url 'view_app' app.0.id %}">{{ app.0.app_name }}</a>
+				            </li>
+				            {% endfor %}
+				        </ul>
+			      	</div>
+		    	</div>
+	    	</div>
+	    	{% endfor %}
+	  	</div>
+	</div>
+</div>
+
+<script src="{% static 'appsworld/js/jquery-3.1.1.js' %}"></script>
+<script type="text/javascript">
+</script>
+

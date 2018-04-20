@@ -1,0 +1,24 @@
+{% load staticfiles %}
+<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src={% static 'appsworld/js/input_array_creator.js' %}></script>
+{% csrf_token %}
+<div id="input_array_container"></div>
+<script>
+var usersInfo = {{users_info_json | safe}};
+var inputArrays = new inputArrays("input_array_container", Object.keys(usersInfo).length, 3);
+inputArrays.tableInputs[0].className += " form-control";
+for (var i = 0; i< Object.keys(usersInfo).length; i++ ) {
+    for (var j = 0; j< 3; j++) {
+        inputArrays.setInputValue(i,0, usersInfo[i].fields.first_name);
+        inputArrays.setInputValue(i,1, usersInfo[i].fields.last_name);
+        inputArrays.setInputValue(i,2, usersInfo[i].pk);
+    }
+}
+for (var i = 0; i< Object.keys(usersInfo).length; i++ ) {
+    for (var j = 0; j< 3; j++) {
+        inputArrays.readOnly(i,j,true);
+    }
+}
+</script>

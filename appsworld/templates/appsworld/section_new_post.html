@@ -1,0 +1,223 @@
+<style type="text/css">
+
+	#NEW_FORM{
+		border: 0px solid transparent;
+		padding: 0px;
+		margin-bottom: 16px;
+	}
+
+	#NEW_FORM:hover {
+		border: 0px solid blue;
+		padding: 0px;
+		margin-bottom: 16px;
+	}
+
+	#NEW_FORM a {
+		text-decoration: none;
+	}
+
+	#NEW_FORM .panel {
+		border: 1px solid blue;
+		margin: 0px;
+		border-width: 0px;
+	}
+
+	#NEW_FORM div.tab {
+	    overflow: hidden;
+	    border: 1px solid #ccc;
+	    background-color: white;
+	    padding: 1px;
+	}
+
+	/* Style the buttons inside the tab */
+
+	#NEW_FORM div.tab .fa-upload {
+		color: blue;
+	}
+
+	#NEW_FORM div.tab .fa-file-o {
+		color: lightblue;
+	}
+
+	#NEW_FORM div.tab .fa-thumb-tack {
+		color: green;
+	}
+
+	/* Change background color of buttons on hover */
+	/* Create an active/current tablink class */
+	#NEW_FORM div.tab button.active {
+	    background-color: #ccc;
+	}
+
+	/* Style the tab content */
+	#NEW_FORM .tabcontent {
+	    display: none;
+	    padding: 0px;
+	    border: 1px solid #ccc;
+	    border-top: none;
+	}
+
+	#UPLOAD_FORM table {
+	    width: 100%;
+	}
+
+	#UPLOAD_FORM .img_icon {
+		width: 40px;
+		height: 40px;
+	}
+
+	#FILE_UPLOAD_FOLDER {
+		float: left;
+		border-color: transparent;
+		border-width: 0px;
+		border-style: solid;
+		border-bottom-color: lightgray;
+		border-bottom-width: 1px;
+		border-radius: 0px;
+		background-color: transparent;
+		box-shadow: none;
+	}
+
+	#FILE_UPLOAD_FILE {
+		border-color: transparent;
+		border-width: 0px;
+		border-style: solid;
+		border-bottom-color: lightgray;
+		border-bottom-width: 1px;
+		border-radius: 0px;
+		background-color: transparent;
+		box-shadow: none;
+	}
+
+	#FILE_UPLOAD_DESCRIPTION {
+		width: 100%;
+	}
+
+	#FILE_UPLOAD_KEYWORDS {
+		width: 100%;
+	}
+
+	#UPLOAD_SUBMIT_BUTTON{
+		float: right;
+		margin-left: 16px;
+	}
+
+	#UPLOAD_FORM .glyphicon-folder-close {
+		color: rgb(173, 169, 110);
+	}
+
+	#UPLOAD_FORM .glyphicon-file {
+		color: rgb(200, 200, 200);
+	}
+	#UPLOAD_FORM {
+	    overflow: auto;
+	}
+
+</style>
+
+<style type="text/css">
+	.tablinks {
+	    background-color: inherit;
+	    float: left;
+	    border: none;
+	    outline: none;
+	    cursor: pointer;
+	    padding: 14px 16px;
+	    transition: 0.3s;
+	    height: 32px;
+	    padding: 8px;
+	}
+	.tablinks:hover {
+	    background-color: #ddd;
+	}
+</style>
+
+
+<div id="NEW_FORM">
+	<div class="tab">
+        <button class="tablinks" onclick="creatPost(event, 'UPLOAD_FORM')">New Post</button>
+		<a class="tablinks" href="{% url 'view_user_files' user %}">My Files</a>
+		{% if request.user.is_superuser %}
+		<a class="tablinks" href="{% url 'view_create_blog_entry' %}">HTML</a>
+		{% endif %}
+		<button class="tablinks" onclick="creatPost(event, 'USERS')"><i class="fa fa-picture-o" aria-hidden="true">&nbsp</i>Users</button>
+		<button id="MINIMIZE_FORM" class="tablinks pull-right" onclick="creatPost(event, 'NEW_FORM_EXIT')">X</button>
+	</div>
+
+	<div id="NEW_FORM_EXIT" class="tabcontent">
+
+	</div>
+
+	<div id="UPLOAD_FORM" class="tabcontent">
+		<form method='POST' enctype="multipart/form-data">
+		{% csrf_token %}
+		    <table>
+		        <tr>
+		            <td><img src='{{ logged_user_info.picture }}' class='img-responsive img_icon'></td>
+		            <td>
+		                <select name="visibility" id="FILE_UPLOAD_VISIBILITY" class="selectpicker">
+                            <option value="PU">Public</option>
+                            <option value="FR">Friend</option>
+                            <option value="PR">Private</option>
+                            <option value="CU">Custom</option>
+                        </select>
+                    </td>
+		            <td>
+		                <button id="UPLOAD_SUBMIT_BUTTON" class='btn btn-sm btn-primary' type='submit'>Post</button>
+		            </td>
+		        </tr>
+		        <tr>
+		            <td colspan="3">
+		                {{ upload_form.description }}
+		            </td>
+		        </tr>
+		        <tr>
+		            <td>
+		                Add picture
+		            </td>
+		            <td colspan="2">
+		                {{upload_form.file}}
+		            </td>
+		        </tr>
+		    </table>
+		</form>
+	</div>
+	<div id="USERS" class="tabcontent">
+			<div class='panel panel-default'>
+				<div class='panel-heading'>
+
+				</div>
+				<div class='panel-body'>
+				{% include 'appsworld/list_other_users.html' %}
+				</div>
+				<div class='panel-footer'>
+
+				</div>
+			</div>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+
+	function creatPost(evt, cityName) {
+    // Declare all variables
+    var i, tabcontent, tablinks;
+
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+
+    // Show the current tab, and add an "active" class to the button that opened the tab
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+</script>

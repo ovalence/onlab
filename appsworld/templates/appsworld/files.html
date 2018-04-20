@@ -1,0 +1,119 @@
+{% load staticfiles %}
+
+<style type="text/css">
+#FILES_CONTAINER .panel {
+    margin-bottom: 8px;
+}
+
+#FILES_CONTAINER .panel .panel-heading{
+    margin: 0px;
+    padding: 8px;
+}
+
+#FILES_CONTAINER .panel .panel-body{
+    margin-bottom: 8px;
+    margin: 0px;
+    padding: 0px;
+}
+
+#FILES_CONTAINER table thead{
+    font-weight: bold;
+    color: teal;
+}
+
+#FILES_CONTAINER form a {
+    background-color: transparent;
+    border-color: transparent;
+    color: blue;
+}
+
+#FILES_CONTAINER form button {
+    background-color: transparent;
+    border-color: transparent;
+    color: red;
+}
+
+
+</style>
+
+<style>
+
+</style>
+
+
+<div id="FILES_CONTAINER">
+    <div class="panel panel-default">
+            <div class="panel-heading"><b>Uploaded Files:</b><a class="btn-xs btn-success pull-right" href="{% url 'create_a_post' user %}">Create a Post</a></div>
+            <div class="panel-body">
+
+                <table class="table">
+                    <thead>
+                        <td>
+                            ID
+                        </td>
+                        <td>
+                            FOLDER
+                        </td>
+                        <td>
+                            FILENAME
+                        </td>
+                        <td>
+                            DATE UPDATED
+                        </td>
+                        <td>
+                            DESCRIPTION
+                        </td>
+                    </thead>
+                    <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <tr>
+                        <td>
+                            <span class="glyphicon glyphicon-star">&nbsp&nbsp</span><button id="CREATE_APP_FORM_SUBMIT_BUTTON" class="btn btn-sm btn-primary" type="submit"><span class="glyphicon glyphicon-upload"></span></button>
+                        </td>
+                        <td>
+                            {{ form.folder }}
+                        </td>
+                        <td>
+                            {{ form.file }}
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                            {{ form.description }}
+                        </td>
+                    </tr>
+
+                    </form>
+                    {% for file in files_list %}
+                    <tr>
+                        <td>
+                            <form action="{% url 'delete_file' file.id %}" class="form-inline" method="GET">
+                                <b>{{ file.id }}</b>
+                                <a class="btn btn-sm btn-warning form-control" href="{% url 'edit_file' file.id %}"><span class="glyphicon glyphicon-edit"></span></a>
+                                <button type="submit" class="btn btn-sm btn-danger form-control"><span class="glyphicon glyphicon-trash"></span></button>
+                            </form>
+                        </td>
+                        <td>
+                            {{ file.folder }}
+                        </td>
+                        <td>
+                            <a href="{{ file.file_url }}">{{ file.filename }}</a>
+                        </td>
+                        <td>
+                            {{ file.date_updated }}
+                        </td>
+                        <td>
+                            {{ file.description }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+
+
+            </div>
+    </div>
+</div>
+
+
+
+

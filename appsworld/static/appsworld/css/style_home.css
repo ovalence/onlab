@@ -1,0 +1,86 @@
+html {
+	background-color: black;
+	height: 100%;
+}
+
+body {
+	height: 100%;
+	margin: 1px;
+}
+
+#TOP {
+	background-color: rgba(100, 100, 240, 1);
+	width: 100%;
+	height: 3%;
+}
+
+#LEFT {
+	background-color: rgba(240, 240, 240, 1);
+	width: 10%;
+	height:100%;
+	float: left;
+}
+
+#MIDDLE {
+	background-color: rgba(245, 245, 245, 1);
+	width: 45%;
+	height:100%;
+	float: left;
+	overflow: auto;
+}
+
+#RIGHT {
+	background-color: rgba(235, 235, 240, 1);
+	width: 45%;
+	height:100%;
+	float: right;
+	overflow: auto;
+}
+
+.maximized {
+
+}
+
+#DIV_CANVASES {
+	border-radius: 1%;
+}
+
+#DIV_WORLD {
+	margin: 2px 2px 2px 2px;
+	border-radius: 2px;
+	height: 50%;
+	background-color: rgba(100, 200, 150, 0.8);
+}
+
+#CANVAS_WORLD {
+	margin: auto auto auto auto;
+    width: 90%;
+    height: 90%;
+    background-color: black;
+}
+
+#DIV_GRAPH {
+	margin: 2px 2px 2px 2px;
+	border-radius: 2px;
+	height: 50%;
+	background-color: rgba(100, 200, 150, 0.8);
+}
+
+#DIV_INPUTS {
+	margin: 2px 2px 2px 2px;
+	border-radius: 2px;
+	background-color: rgba(100, 200, 150, 1);
+}
+
+#DIV_SELECTED {
+	height: 20%;
+}
+
+#DIV_TABLE {
+	height: 20%;
+	background-color: rgba(100, 200, 150, 0.8);
+}
+
+#TABLE_MATERIALS {
+	width: 100%;
+}

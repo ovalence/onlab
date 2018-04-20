@@ -1,0 +1,39 @@
+<style>
+	#HSL_WRAPPER > div {
+		margin: 4px;
+	} 
+	#HSL_WRAPPER label {
+		float: left;
+	}
+	#HSL_WRAPPER input[type='range'] {
+		width: 100px;
+	}
+	#OUTPUT {
+		width: 100px;
+		height: 100px;
+		background-color: gray;
+	}
+</style>
+<div id="HSL_WRAPPER">
+<div><label>R</label><input type='range' name='R' min='0' max='255' value='{{logged_user_info.text_editor_r}}' step='1' id='R_CONTROLLER'></div>
+<div><label>G</label><input type='range' name='G' min='0' max='255' value='{{logged_user_info.text_editor_g}}' step='1' id='G_CONTROLLER'></div>
+<div><label>B</label><input type='range' name='B' min='0' max='255' value='{{logged_user_info.text_editor_b}}' step='1' id='B_CONTROLLER'></div>
+</div>
+<div id="OUTPUT">
+</div>
+<script>
+	var r_controller = document.getElementById('R_CONTROLLER');
+	var g_controller = document.getElementById('G_CONTROLLER');
+	var b_controller = document.getElementById('B_CONTROLLER');
+	r_controller.addEventListener('input', adjustRGB);
+	g_controller.addEventListener('input', adjustRGB);
+	b_controller.addEventListener('input', adjustRGB);
+	var output = document.getElementById('OUTPUT');
+
+	function adjustRGB(){
+		var r = r_controller.value;
+		var g = g_controller.value;
+		var b = b_controller.value;
+		output.style.backgroundColor = 'rgb(' + r + ',' + g + ', ' +  b + ')';		
+	}
+</script>

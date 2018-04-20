@@ -1,0 +1,142 @@
+{% extends 'appsworld/base.html' %}
+{% load staticfiles %}
+        {% block title %}[Website Name] | Edit App {% endblock title %}
+        {% block head_favicon %}
+            <link rel="icon" type="image/png"
+                  href="{{ STATIC_URL }}images/favicon.ico">
+        {% endblock head_favicon %}
+        {% block head_meta %}
+            {% block head_meta_charset %}
+                <meta http-equiv="Content-Type"
+                      content="text/html; charset=utf-8" />
+            {% endblock head_meta_charset %}
+            {% block head_meta_contentlanguage %}
+                <meta http-equiv="Content-Language" value="en-US" />
+            {% endblock head_meta_contentlanguage %}
+            {% block head_meta_viewport %}
+                <meta name="viewport"
+                      content="width=device-width, initial-scale=1.0">
+            {% endblock head_meta_viewport %}
+        {% endblock head_meta %}
+        {% block head_css %}
+            {% block head_css_site %}
+                <link href="{% static 'appsworld/css/bootstrap.css' %}" rel="stylesheet" media="screen">
+                <link href="{% static 'appsworld/css/site.css' %}" rel="stylesheet" media="screen">
+            {% endblock head_css_site %}
+            {% block head_css_page %}
+                <style type="text/css">
+                    #CONTENT_WRAPPER {
+                        padding-top: 50px;
+                        -webkit-transition: all .5s ease;
+                        -moz-transition: all .5s ease;
+                        -o-transition: all .5s ease;
+                        transition: all .5s ease;
+                        height: 100%;
+                    }
+
+                    main {
+                        background-color: rgba(240,221,224,1);
+                        padding-top: 8px;
+                        height: 100vh;
+                    }
+
+                    #FILES_CONTAINER .panel .panel-heading{
+                        margin: 0px;
+                        padding: 8px;
+                    }
+
+                    #FILES_CONTAINER .panel .panel-body{
+                        margin-bottom: 8px;
+                        margin: 0px;
+                        padding: 0px;
+                    }
+
+                </style>
+            {% endblock head_css_page %}
+
+            {% block head_css_section %}
+
+            {% endblock head_css_section %}
+
+        {% endblock head_css %}
+{% block content %}
+    <header>
+    {% block header %}
+        {% include 'appsworld/navigation_bar_top.html' %}
+    {% endblock header %}
+    </header>
+    <div id="CONTENT_WRAPPER">
+        <main id="page-content-wrapper" role="main">
+            <div class="container-fluid">
+            <br>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="row">
+                            {% include 'appsworld/create_function_form.html' %}
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="container-fluid">
+                        <div class="row">
+                            <div id="FILES_CONTAINER">
+                                <div class="panel panel-default">
+                                        <div class="panel-heading"><b>Your recent files:</b></div>
+                                        <div class="panel-body">
+
+                                            <table class="table">
+                                                <tr>
+                                                    <td>
+                                                        ID
+                                                    </td>
+                                                    <td>
+                                                        FOLDER
+                                                    </td>
+                                                    <td>
+                                                        FILE PATH
+                                                    </td>
+                                                </tr>
+                                                {% for file in files_list %}
+                                                <tr>
+                                                    <td>
+                                                        {{ file.id }}
+                                                    </td>
+                                                    <td>
+                                                        {{ file.folder }}
+                                                    </td>
+                                                    <td>
+                                                        <a href="{{file.file_url}}">{{ file.filename }}</a>
+                                                    </td>
+                                                </tr>
+                                                {% endfor %}
+                                            </table>
+
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <a class="btn btn-sm btn-primary pull-right" href="{% url 'view_user_files' user %}" >Go To Files</a>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+{% endblock content %}
+
+{% block footer_javascript %}
+
+    {% block footer_javascript_site %}
+        <script src="{% static 'appsworld/js/jquery-3.1.1.js' %}"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    {% endblock footer_javascript_site %}
+
+    {% block footer_javascript_page %}
+    {% endblock footer_javascript_page %}
+
+    {% block footer_javascript_section %}
+        <script type="text/javascript" src="{% static 'appsworld/js/files.js' %}"></script>
+    {% endblock footer_javascript_section %}
+
+{% endblock footer_javascript %}

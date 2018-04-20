@@ -1,0 +1,154 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    background-color: #CCCCCC;
+    color: black;
+    border:1px;
+    vertical-align:top;
+    font-family:"Calibri", Arial, Helvetica, sans-serif;
+    font-size:14px;
+    height: 100%;
+}
+
+.code_div {
+    border-style: solid;
+    border-width: 0px 1px 0px 0px;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+
+#html_code {
+    width: 20%;
+    float: left;
+    background: url("https://www.w3.org/html/logo/downloads/HTML5_Logo_256.png") no-repeat right top;
+    background-size: 40px;
+}
+
+
+#javascript_code {
+    width: 20%;
+    float: left;
+    background: url("https://www.grifare.net/logos/JavaScript-Logo.png") no-repeat right top;
+    background-size: 35px;
+}
+
+
+#css_code {
+    width: 20%;
+    float: left;
+    background: url("http://wpguru.co.uk/wp-content/uploads/2013/09/CSS-Logo-214x300.png") no-repeat right top;
+    background-size: 30px;
+}
+
+#TOP_ROW_LOGGED {
+    background: url("earth.png");
+}
+
+#TOP_ROW_UNLOGGED {
+    background-color: black;
+}
+
+.form-inline {
+    margin: 0px;
+    padding: 4px;
+    text-align: center;
+}
+
+.navbar-brand {
+    height: 42px;
+    color: white;
+    font-size: 15px;
+    padding: 0px;
+    margin: 0px;
+}
+
+
+.navbar-brand:hover
+{
+    background-image: url("earth.png");
+    color: white;
+}
+
+.navbar-nav {
+    height: 42px;
+    padding: 0px;
+    margin: 0px;
+}
+
+#MAIN_ROW {
+    margin-top: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    padding-top: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+}
+
+#COL_LEFT {
+    height:100vh;
+    overflow: auto;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    padding-top: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    border-color: black;
+    border-width: 1px;
+    border-style: solid;
+}
+
+#COL_MIDDLE {
+    height:100vh;
+    overflow: auto;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    padding-top: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    border-color: black;
+    border-width: 1px;
+    border-style: solid;
+}
+
+#COL_RIGHT {
+    height:100vh;
+    overflow: auto;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    padding-top: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    border-color: black;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.ProfilePictureIcon {
+    width: 40px;
+    height: 40px;
+}
+
+.ProfilePictureThumbnail {
+    width: 100px;
+    height: 100px;
+}
+
+
+
+
+
+
+

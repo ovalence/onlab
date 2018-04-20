@@ -1,0 +1,124 @@
+#NAVBAR_TOP {
+    height: 100% !important;
+    width: 100% !important;
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+    background-color: rgba(15,51,77, 1) !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    padding-left:0px !important;
+    padding-right:0px !important;
+    border-color: transparent;
+    border-width: 0px !important;
+    border-style: none !important;
+    border-radius: 0px !important;
+    border-bottom-style: solid !important;
+    border-bottom-width: 0px !important;
+    border-bottom-color: rgba(228, 228, 228, 0.5) !important;
+    border-top-style: none !important;
+    border-top-width: 0px !important;
+    border-top-color: rgba(128, 128, 128, 0);
+    position: relative !important;
+    top:0px !important;
+}
+
+#NAVBAR_TOP > div > .appsworld-navbar-header {
+    float: left;
+    margin-left: 0px;
+    padding: left; 0px
+}
+
+#NAVBAR_TOP > div > ul {
+    list-style-type: none !important;
+    margin: 0px !important;
+    padding: 0px !important;
+    position: absolute !important;
+    top: 8px !important;
+    right: 8px !important;
+}
+
+#NAVBAR_TOP > div > ul > li {
+    border-radius: 0px !important;
+    box-shadow:none !important;
+    margin: 0px !important;
+    padding: 0px !important;
+    float: left !important;
+}
+
+
+#WEBSITE_LOGO {
+    margin: 8px !important;
+    margin-right: 0px !important;
+    width: 44px !important;
+    height: 44px !important;
+    padding: 8px !important;
+    float: left !important;
+    overflow: hidden !important;
+    border-radius: 50% !important;
+    background-color: rgba(210, 210, 100, 1) !important;
+    border-radius: 50% !important;
+    box-shadow: none !important;
+}
+
+#WEBSITE_LOGO:hover {
+    background-color: rgba(255, 255, 150, 1) !important;
+    box-shadow: 0 0 20px yellow !important;
+}
+
+#WEBSITE_LOGO > center {
+    width: 100% !important;
+    height: 100% !important;
+    font-size: 24px !important;
+    color: white !important;
+    float:left !important;
+    text-decoration: none !important;
+    padding-top: 2px;
+    padding-bottom: 8px;
+}
+
+#WEBSITE_LOGO > center > span{
+    font-size: 0.6em !important;
+    margin-top: 0px !important;
+}
+
+#NAVBAR_TOP > div > ul > li > a {
+    border-radius: 0px !important;
+    box-shadow:none !important;
+    margin-right: 8px !important;
+    float: left !important;
+    color: white;
+    text-align: center !important;
+}
+
+#NAVBAR_PROFILE_PIC_CONTAINER:hover {
+	box-shadow: 0 0 8px rgb(20, 20, 20) !important;
+}
+
+#NAVBAR_TOP > div > ul > li > a:hover {
+    border-radius: 0px !important;
+    margin-right: 8px !important;
+    float: left !important;
+    color: yellow !important;
+    text-align: center !important;
+    text-shadow: 0 0 20px yellow !important;
+}
+
+#NAVBAR_PROFILE_PIC_CONTAINER {
+    width: 44px !important;
+    height: 44px !important;
+    padding: 0px !important;
+    margin: 0px !important;
+    box-shadow: none !important;
+}
+
+
+#NAVBAR_PROFILE_PIC {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+#LOG_OUT_DROPDOWN {
+    position: relative !important;
+}

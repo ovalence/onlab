@@ -1,0 +1,158 @@
+{% load staticfiles %}
+    <style type="text/css">
+		#PROFILE_INFO_CONTAINER {
+
+
+		}
+
+    	#PROFILE_INFO_CONTAINER figure {
+    width: 100%;
+    height: 40vh;
+    max-width: 256px;
+    border-color: lightblue;
+    border-style: solid;
+    border-width: 1px;
+    margin: 0px;
+    margin-right: 8px;
+    position: relative;
+    	}
+
+    	#PROFILE_INFO_CONTAINER figure img {
+    		    position  : absolute;
+  top       : 50%;
+  left      : 50%;
+  width     : 150%;
+  transform : translate(-50%,-50%);
+    	}
+
+    	#PROFILE_INFO_CONTAINER figure figcaption {
+    		text-align: center;
+    	}
+
+		@media (max-width: 768px) {
+	    	#PROFILE_INFO_CONTAINER figure img {
+	    	}
+		}
+
+		@media (max-width: 768px) {
+	    	#PROFILE_INFO_CONTAINER figure img {
+	    	}
+		}
+
+		.profile-userbuttons {
+		  text-align: center;
+		  margin-top: 10px;
+		}
+
+		.profile-userbuttons .btn {
+		  text-transform: uppercase;
+		  font-size: 11px;
+		  font-weight: 600;
+		  padding: 6px 15px;
+		  margin-right: 5px;
+		}
+
+    </style>
+
+    <div id="PROFILE_INFO_CONTAINER" class="container-fluid">
+        <div class="row">
+            <div class="col-sx-3 col-sm-3 col-md-4 col-lg-4">
+
+            </div>
+            <div class="col-sx-6 col-sm-6 col-md-4 col-lg-4">
+        		<div class="profile-userbuttons">
+                    {% if user !=  profile_owner_info.username %}
+                        {% if following_count > 0 %}
+                            <input id="FOLLOW_USER_BUTTON" type="button" class="btn btn-success btn-sm" value="Unfollow" onclick="followUser()">
+                            <input id="MESSAGE_USER_BUTTON" type="button" class="btn btn-warning btn-sm" value="Message" onclick="followUser()">
+                        {% else %}
+                        {% if request.user.is_authenticated %}
+                            <input id="FOLLOW_USER_BUTTON" type="button" class="btn btn-primary btn-sm" value="Follow" onclick="followUser()">
+                        {% endif %}
+                        {% endif %}
+                    {% endif %}
+        		</div>
+            </div>
+            <div class="col-sx-3 col-sm-3 col-md-4 col-lg-4">
+
+            </div>
+        </div>
+
+    </div>
+
+<script src="{% static 'appsworld/js/jquery-3.1.1.js' %}"></script>
+
+{% if request.user.is_authenticated %}
+<script>
+
+var follow_user_button;
+
+var csrftoken = getCookie('csrftoken');
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+window.onload = function() {
+    //follow_user_button.addEventListener("click", followUser(), false)
+}
+
+function followUser() {
+    follow_user_button = document.getElementById("FOLLOW_USER_BUTTON")
+    if (follow_user_button.value == "Follow") {
+        $.ajax({
+            //type: "POST",
+            url: "/ajax/follow_user",
+            data: {
+                'username': "{{user_info.username}}",
+                'follow_username': "{{other_user_info.username}}"
+            },
+            dataType: 'json',
+            //beforeSend: function(xhr) {
+            //    xhr.setRequestHeader('X-CSRFToken', csrftoken)
+            //},
+            success: function (data) {
+                follow_user_button.value = "Unfollow"
+            }
+        });
+    }
+    else {
+        $.ajax({
+            //type: "POST",
+            url: "/ajax/unfollow_user",
+            data: {
+                'username': "{{user_info.username}}",
+                'follow_username': "{{other_user_info.username}}"
+            },
+            dataType: 'json',
+            //beforeSend: function(xhr) {
+            //    xhr.setRequestHeader('X-CSRFToken', csrftoken)
+            //},
+            success: function (data) {
+                follow_user_button.value = "Follow"
+            }
+        });
+    }
+}
+
+</script>
+
+{% else %}
+<script type="text/javascript">
+    function followUser() {
+        alert("You are not logged in!");
+    }
+</script>
+
+{% endif %}

@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html>
+{% load staticfiles %}
+<head>
+<style type="text/css">
+	#canvas_cont {
+		position: absolute;
+		width: 50%;
+		height: 50%;
+		top: 0;
+		left: 0;
+	}
+</style>
+<script src="{% static 'appsworld/js/b4w.min.js' %}"></script>
+<script>
+
+var m_app = b4w.require("app");
+var m_data = b4w.require("data");
+
+m_app.init({
+    canvas_container_id: "canvas_cont",
+    callback: load_cb
+})
+
+function load_cb() {
+    m_data.load("{% static 'appsworld/js/dominos.json' %}", loaded_cb);
+}
+
+function loaded_cb() {
+    m_app.enable_camera_controls();
+}
+
+</script>
+</head>
+
+<body>
+    <div id="canvas_cont"></div>
+</body>
+
+</html>

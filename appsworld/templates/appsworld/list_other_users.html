@@ -1,0 +1,56 @@
+<style>
+#APPSWORLD-OTHER_USERS-CONTAINER {
+    width: 100%;
+    display: block;
+}
+
+#APPSWORLD-OTHER_USERS-CONTAINER .panel .panel-heading {
+    padding: 4px;
+    padding-left: 8px;
+}
+
+#APPSWORLD-OTHER_USERS-CONTAINER .panel .panel-body {
+    padding: 4px;
+}
+
+#APPSWORLD-OTHER_USERS-CONTAINER .panel .panel-body .list-group .list-group-item{
+    overflow: hidden;
+    padding: 2px;
+    margin: 0px;
+    border-width: 0px;
+}
+
+#APPSWORLD-OTHER_USERS-CONTAINER .panel .panel-body .list-group .list-group-item img {
+    width: 36px;
+    height: 36px;
+    padding: 0px;
+    margin: 0px;
+}
+
+#APPSWORLD-OTHER_USERS-CONTAINER .panel .panel-body .list-group .list-group-item a {
+    margin-left: 0px;
+    padding-left: 4px;
+    overflow-x: hidden;
+    white-space: nowrap;
+}
+
+</style>
+
+{% if request.user.is_authenticated %}
+<div id="APPSWORLD-OTHER_USERS-CONTAINER">
+  <div class="panel panel-default">
+    <div class="panel-heading">Other Users</div>
+    <div class="panel-body">
+        <ul class="list-group">
+            {% for other_user in all_users %}
+            <li class="list-group-item">
+                <img class="img-responsive img-thumbnail" src="{{ other_user.picture }}">
+                <a href="{% url 'user_profile'  other_user.user_account.username %}">{{ other_user.first_name }} {{ other_user.last_name }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+  </div>
+</div>
+{% endif %}
+

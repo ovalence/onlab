@@ -1,0 +1,349 @@
+<style type="text/css">
+	#CALENDAR_CONTAINER {
+
+
+	}
+	#CALENDAR_CONTAINER .month_container {
+		margin: 0px;
+		padding: 2px;
+		float: left;
+	    border-color: gray;
+    	border-width: 1px;
+    	border-style: solid;
+
+	}
+	#CALENDAR_CONTAINER .months_row {
+		margin: 0px;
+		padding: 0px;
+	}
+	#CALENDAR_CONTAINER .months_col {
+		margin: 0px;
+		padding: 0px;
+	}
+
+	#CALENDAR_CONTAINER .table {
+		background-color: silver;
+		font-size: 10px;
+    	table-layout: fixed;
+
+	}
+
+	#CALENDAR_CONTAINER .month_name {
+		font-size: 16px;
+	}
+
+	#CALENDAR_CONTAINER tr {
+		padding: 0px;
+		margin: 0px;
+	}
+
+	#CALENDAR_CONTAINER .day_cell {
+		padding: 1px;
+		text-align: center;
+		width: 30px;
+		height: 20px;
+		font-size: 10px;
+	}
+
+	.weekend {
+		background-color: rgba(163, 228, 215, 0.5);
+	}
+	.weekday {
+		background-color: rgb(236, 240, 241);
+	}
+	.no_day {
+		background-color: rgb(236, 240, 241);
+	}
+	.day_of_week {
+		background-color: white;
+		font-size: 10px;
+		text-align: center;
+	}
+	.holiday {
+		background-color: yellow;
+	}
+
+</style>
+
+<style type="text/css">
+	.tooltips {
+	    position: relative;
+	    display: inline-block;
+	    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+	}
+
+	/* Tooltip text */
+	.tooltips .tooltiptext {
+	    visibility: hidden;
+	    width: 120px;
+	    background-color: #555;
+	    color: #fff;
+	    text-align: center;
+	    padding: 5px 0;
+	    border-radius: 6px;
+
+	    /* Position the tooltip text */
+	    position: absolute;
+	    z-index: 1;
+	    bottom: 125%;
+	    left: 50%;
+	    margin-left: -60px;
+
+	    /* Fade in tooltip */
+	    opacity: 0;
+	    transition: opacity 1s;
+	}
+
+	/* Tooltip arrow */
+	.tooltips .tooltiptext::after {
+	    content: "";
+	    position: absolute;
+	    top: 100%;
+	    left: 50%;
+	    margin-left: -5px;
+	    border-width: 5px;
+	    border-style: solid;
+	    border-color: #555 transparent transparent transparent;
+	}
+
+	/* Show the tooltip text when you mouse over the tooltip container */
+	.tooltips:hover .tooltiptext {
+	    visibility: visible;
+	    opacity: 1;
+	}
+
+</style>
+
+<div id="CALENDAR_CONTAINER">
+		<div class="row">
+			<div class="btn-group">
+			  <a class="btn btn-xs btn-warning" onclick="decrementYear();"><span class="glyphicon glyphicon-arrow-left"></span> Previous</a>
+			  <a id="DISPLAY_YEAR" class="btn btn-xs btn-info" href="{% url 'view_calendar_year' user year_today %}">{{year}}</a>
+			  <a class="btn btn-xs btn-success" onclick="incrementYear();">Next <span class="glyphicon glyphicon-arrow-right"></span></a>
+			</div>
+		<a class="btn btn-xs btn-warning" href="{% url 'view_calendar_month' user year_today month_today %}">Month</a>
+		</div>
+		<div class="row">
+			<div class="month_container">
+
+			</div>
+			<div class="month_container">
+
+			</div>
+			<div class="month_container">
+
+			</div>
+			<div class="month_container">
+
+			</div>
+			<div class="month_container">
+
+			</div>
+			<div class="month_container">
+
+			</div>
+			<div class="month_container">
+
+			</div>
+			<div class="month_container">
+
+			</div>
+			<div class="month_container">
+
+			</div>
+			<div class="month_container">
+
+			</div>
+			<div class="month_container">
+
+			</div>
+			<div class="month_container">
+
+			</div>
+		</div>
+</div>
+<script>
+var table_container;
+var monthContainers;
+var innerHTML = "";
+var yearDisplay;
+var yearToDisplay = 2017;
+var holidaysJSON;
+var holidaysCount;
+function getElements(){
+	calendarContainer = document.getElementById("CALENDAR_CONTAINER");
+	yearDisplay = document.getElementById("DISPLAY_YEAR");
+	monthContainers = document.getElementsByClassName("month_container");
+}
+
+function wordDay(day) {
+	if (day == 0) {
+		return "Sun";
+	}
+	if (day == 1) {
+		return "Mon";
+	}
+	if (day == 2) {
+		return "Tue";
+	}
+	if (day == 3) {
+		return "Wed";
+	}
+	if (day == 4) {
+		return "Thu";
+	}
+	if (day == 5) {
+		return "Fri";
+	}
+	if (day == 6) {
+		return "Sat";
+	}
+}
+
+function wordMonth(month) {
+	if (month == 0) {
+		return "Jan";
+	}
+	if (month == 1) {
+		return "Feb";
+	}
+	if (month == 2) {
+		return "Mar";
+	}
+	if (month == 3) {
+		return "Apr";
+	}
+	if (month == 4) {
+		return "May";
+	}
+	if (month == 5) {
+		return "Jun";
+	}
+	if (month == 6) {
+		return "Jul";
+	}
+	if (month == 7) {
+		return "Aug";
+	}
+	if (month == 8) {
+		return "Sep";
+	}
+	if (month == 9) {
+		return "Oct";
+	}
+	if (month == 10) {
+		return "Nov";
+	}
+	if (month == 11) {
+		return "Dec";
+	}
+}
+
+function createMonthCalendar(year, month) {
+	var startDate = new Date(year, month, 1);
+	var startDay = startDate.getDay();
+	var endDate;
+	if (month < 12) {
+		endDate = new Date(year, month+1, 0);
+	}
+	else {
+		endDate = new Date(year+1, 0, 0);
+	}
+	var endDay = endDate.getDate();
+	var dayCount = 1;
+	var monthInnerHTML = "<table><tr><td colspan='7' align='center'><a class='month_name'>" + wordMonth(month) + "</a></td></tr>";
+	for (j=0; j<7; ++j) {
+		monthInnerHTML += "<td class='day_of_week'>" + wordDay(j) + "</td>";
+	}
+	for (i=0; i<6; ++i) {
+		monthInnerHTML += "<tr>";
+		for (j=0; j<7; ++j) {
+			if (j == startDay%7 & dayCount <= endDay) {
+				var id = year + "_" + month + "_" + dayCount;
+				if (j == 0 | j == 6) {
+					monthInnerHTML += "<td id='" + id + "' class='day_cell date_day weekend'>"+ dayCount + "</td>";
+				}
+				else {
+					monthInnerHTML += "<td id='" + id + "' class='day_cell date_day weekday'>"+ dayCount + "</td>";
+				}
+
+
+				dayCount += 1;
+				startDay += 1;
+			}
+			else {
+
+				if (j == 0 | j == 6) {
+					monthInnerHTML += "<td class='day_cell weekend'></td>";
+				}
+				else {
+					monthInnerHTML += "<td class='day_cell weekday'></td>";
+				}
+			}
+
+		}
+		monthInnerHTML += "</tr>";
+	}
+	monthInnerHTML += "</table>"
+	return monthInnerHTML;
+}
+
+function addHolidayClass() {
+	var is_holiday = false;
+	var day_squares = document.getElementsByClassName("date_day");
+	for (var i=0; i<day_squares.length; i++) {
+		for (var j=0; j< holidaysCount; j++) {
+			date_data = new Date(holidaysJSON[j].fields.date);
+			day_square_date = day_squares[i].id.split("_");
+			if (parseInt(day_square_date[0])== date_data.getFullYear() && parseInt(day_square_date[1]) == date_data.getMonth() && parseInt(day_square_date[2]) == date_data.getDate()){
+				day_squares[i].className += " holiday";
+				var innerHTML = "<div class='tooltips'>" + day_square_date[2] + "<span class='tooltiptext'>" + holidaysJSON[j].fields.name + "</span></div>";
+				day_squares[i].innerHTML =innerHTML;
+			}
+			else {
+
+			}
+		}
+	}
+}
+
+
+function createYearCalendar(year){
+	monthContainers[0].innerHTML = createMonthCalendar(year, 0);
+	monthContainers[1].innerHTML = createMonthCalendar(year, 1);
+	monthContainers[2].innerHTML = createMonthCalendar(year, 2);
+	monthContainers[3].innerHTML = createMonthCalendar(year, 3);
+	monthContainers[4].innerHTML = createMonthCalendar(year, 4);
+	monthContainers[5].innerHTML = createMonthCalendar(year, 5);
+	monthContainers[6].innerHTML = createMonthCalendar(year, 6);
+	monthContainers[7].innerHTML = createMonthCalendar(year, 7);
+	monthContainers[8].innerHTML = createMonthCalendar(year, 8);
+	monthContainers[9].innerHTML = createMonthCalendar(year, 9);
+	monthContainers[10].innerHTML = createMonthCalendar(year, 10);
+	monthContainers[11].innerHTML = createMonthCalendar(year, 11);
+}
+
+function incrementYear(){
+	yearToDisplay = parseInt(yearToDisplay) + 1;
+	yearDisplay.innerHTML = yearToDisplay;
+	createYearCalendar(yearToDisplay)
+	addHolidayClass();
+}
+
+function decrementYear(){
+	yearToDisplay = parseInt(yearToDisplay) -1;
+	yearDisplay.innerHTML = yearToDisplay;
+	createYearCalendar(yearToDisplay);
+	addHolidayClass();
+}
+
+function main() {
+	getElements();
+	holidaysJSON = {{ holidays_JSON | safe }};
+	holidaysCount = Object.keys(holidaysJSON).length;
+	createYearCalendar({{year}});
+	addHolidayClass();
+}
+
+window.onload = main();
+</script>

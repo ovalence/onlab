@@ -1,0 +1,107 @@
+<style>
+    /*Panel tabs*/
+
+.appsworld-field-label {
+    color: rgb(15,51,77);
+    font-weight: normal;
+}
+
+#APP_DESCRIPTION {
+    width: 100%;
+    margin-bottom: 20px;
+    border-color: teal;
+    border-width: 2px;
+    border-style: solid;
+    height: 12em;
+}
+
+#APP_THUMBNAIL, #APP_KEYWORDS, #APP_HTML_PATH {
+    width: 100%;
+    margin-bottom: 20px;
+    border-color: teal;
+    border-width: 2px;
+    border-style: solid;
+}
+
+#CREATE_APP_FORM_CONTAINER {
+    max-width: 640px;
+}
+
+
+#CREATE_APP_FORM_CONTAINER .panel{
+    border-color: lightgreen;
+    border-width: 1px;
+    border-style: solid;
+}
+
+#CREATE_APP_FORM_CONTAINER form {
+    margin: 0px;
+    padding: 0px;
+}
+
+
+
+</style>
+<div id="CREATE_APP_FORM_CONTAINER" class="container-fluid">
+    <div class="row">
+    <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="panel panel-success">
+        <div class="panel-heading">
+        <b>Post</b>
+        </div>
+        <div class="panel-body">
+            <div class="container-fluid">
+                <div class="aw-label-div row">
+                    <div class="form-group pull-right">
+                    <a href="{% url 'index' %}" class="btn btn-sm btn-warning" role="button">Discard</a>
+                    <input type="submit" class="btn btn-sm btn-danger" value="Post">
+                    </div>
+                </div>
+                <div class="aw-label-div row">
+                    <label class="appsworld-field-label">Post Title:</label>
+                </div>
+                <div class="aw-field-div row">
+                    {{ form.app_name }}
+                    <div class="checkbox pull-right">
+                        <label>{{ form.create_html_file }} Create an HTML File</label>
+                    </div>
+                </div>
+                <div class="form-inline row">
+                    <label class="appsworld-field-label">Visibility: </label>{{ form.visibility }}
+                </div>
+                <div class="aw-label-div row">
+                    <label class="appsworld-field-label">Description:</label>
+                </div>
+                <div class="aw-field-div row">
+                    {{ form.description }}
+                </div>
+                <div class="aw-label-div row">
+                    <label class="appsworld-field-label">Tags:</label>
+                </div>
+                <div class="aw-field-div row">
+                    {{ form.keywords }}
+                </div>
+                <div class="aw-label-div row">
+                    <label class="appsworld-field-label">Thumbnail:</label>
+                </div>
+                <div class="aw-field-div row">
+                    {{ form.thumbnail }}
+                </div>
+                <div class="aw-label-div row">
+                    <label class="appsworld-field-label">Associated HTML:</label>
+                </div>
+                <div id="FILE_DIV" class="aw-field-div row">
+                    {{ form.html_file_id }}
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+    </div>
+</div>
+
+
+
+
+

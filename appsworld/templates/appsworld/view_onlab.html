@@ -1,0 +1,1199 @@
+{# HTML5 declaration #}
+<!DOCTYPE html>
+<html>
+{% load staticfiles %}
+    {# Make modifiable head elements #}
+    <head>
+        <title>{% block title %}{{websiteName}}{% endblock title %}</title>
+        <meta property="og:url"           content="http://onald.pythonanywhere.com/" />
+        <meta property="og:type"          content="website" />
+        <meta property="og:title"         content="Onald" />
+        <meta property="og:description"   content="Your description" />
+        <meta property="og:image"         content="http://www.your-domain.com/path/image.jpg" />
+        <link rel="icon" type="image/png" href="{{ STATIC_URL }}images/favicon.ico">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="Content-Language" value="en-US" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+        <script src="{% static 'appsworld/js/angular.min.js' %}"></script>
+        <script src="{% static 'appsworld/js/jquery-3.1.1.js' %}"></script>
+        <script src="{% static 'appsworld/js/three.min.js' %}"></script>
+        <link href="{% static 'appsworld/css/bootstrap.css' %}" rel="stylesheet" media="screen">
+        <script src="{% static 'appsworld/js/bootstrap.js' %}"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+            body {
+                background-color: white;
+            }
+
+
+            #all_functions_div {
+                height: 100%;
+            }
+
+            #all_functions_div .navbar-nav {
+                width: 100%;
+            }
+
+            .window_array {
+                overflow: auto;
+            }
+
+            .window_array table{
+                width: 100%;
+                overflow: auto;
+                color: blue;
+            }
+
+            .window_array table tr{
+                border-width: 0px;
+            }
+
+            .window_array table table{
+                width: 100%;
+                overflow: auto;
+                color: blue;
+            }
+
+
+            .window_array table .row1col2 {
+                width: 600px;
+            }
+
+            #CONTENT_WRAPPER {
+                margin-top: 0px;
+                padding-top: 0px;
+                position: relative;
+            }
+
+            #display {
+                overflow: auto;
+            }
+
+            #functions_div select {
+                float: right;
+            }
+
+            #functions_div td:hover {
+                background-color: lightblue;
+            }
+
+            td .btn-group {
+            }
+
+            td .btn-group .btn {
+                background-color: transparent;
+                border-width: 0px;
+            }
+
+            #execute_button {
+                float: left;
+            }
+
+            #auto_run_check_box {
+                float: left;
+            }
+
+            #auto_run {
+                font-size: 8px;
+                float: left;
+            }
+*/
+
+            #canvas_div {
+                width: 100%;
+                border-color: gray;
+                border-width: 1px;
+                border-style: solid;
+                overflow: auto;
+            }
+
+            #treeview_div {
+            }
+
+            #treeview_div table tr td{
+                padding-left: 8px;
+                padding-right: 8px;
+            }
+
+            thead tr td {
+                background-color: lightblue;
+                vertical-align: center;
+            }
+
+            #new_value_div {
+                width: 100%;
+            }
+
+            #type_selector {
+                width: 100%;
+            }
+
+            #view_scalar_div {
+                height: 40vh;
+            }
+
+            #view_matrix_div {
+                height: 40vh;
+            }
+
+            #value_div {
+                width: 100%;
+                overflow-y: hidden;
+                overflow-x: auto;
+                min-height: 100px;
+                padding: 4px;
+            }
+
+            #panel .navbar {
+                width: 100%;
+                padding: 0px;
+                margin: 0px;
+            }
+
+            #panel .navbar-nav {
+                width: 100%;
+            }
+
+            .picture {
+                width: 100px;
+                height: 100px;
+            }
+
+            .selected {
+
+            }
+
+            img:active {
+                border-color: blue;
+                border-width: 2px;
+                border-style: solid;
+            }
+
+            .icon_container {
+                width: 32px;
+                height: 32px;
+            }
+            .thumbnail {
+                width:256px;
+                height: 256px;
+                float: left;
+            }
+
+            .glyphicon-arrow-right{
+                color: green;
+            }
+            .glyphicon-arrow-left{
+                color: red;
+            }
+
+
+            #nav_tabs {
+                width: 100%;
+                padding: 0px;
+                margin: 0px;
+                height: 30px;
+            }
+            #nav_tabs li {
+                height: 100%;
+            }
+            #nav_tabs a {
+                height: 100%;
+                background-color: pink;
+            }
+            #nav_tabs span {
+                padding-bottom: 12px;
+            }
+
+            .close_button {
+                float: right;
+            }
+
+
+    </style>
+
+ <style>
+#tab_pane_container {
+    padding-top: 8px;
+    margin: 0px;
+    width: 100%;
+}
+
+#panel .tab-content {
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    margin: 0px;
+    overflow: auto;
+}
+
+#panel .tab-content .tab-pane{
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    margin: 0px;
+    overflow: auto;
+}
+
+#panel .tab-content table{
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+
+.function_btn {
+    padding: 2px;
+    margin: 2px;
+}
+
+table tr td input {
+    width: 100%;
+    height: 100%;
+    border-width: 0px;
+    background-color: transparent;
+}
+
+.matrix_cell input{
+    width: 60px;
+    background-color: pink;
+}
+
+table.output tr td {
+    border-style: solid;
+    border-width: 1px;
+    border-color: black;
+}
+
+.node_value_div {
+    width: 100%;
+}
+
+.node_value_div input{
+    width: 100%;
+    height: 100%;
+}
+
+.node_value_td {
+    width: 200px;
+    height: 100%;
+}
+
+            @media (min-width: 0px) and (max-width: 767px) {
+                #display {
+                    background-color: black;
+                    width: 100vw;
+                    height:50vh;
+                    float: left;
+                }
+                #panel {
+                    background-color: green;
+                    width: 100vw;
+                    height:50vh;
+                    float: left;
+                }
+            }
+
+            @media (min-width: 768px) and (max-width: 991px) {
+                #display {
+                    background-color: black;
+                    width: 100vw;
+                    height:50vh;
+                    float: left;
+                }
+                #panel {
+                    background-color: green;
+                    width: 100vw;
+                    height:50vh;
+                    float: left;
+                }
+            }
+
+            @media (min-width: 992px) and (max-width: 1199px) {
+                #display {
+                    background-color: black;
+                    width: calc(100% - 320px);
+                    height:100vh;
+                    float: left;
+                }
+                #panel {
+                    background-color: green;
+                    width: 320px;
+                    height:100vh;
+                    float: left;
+                }
+            }
+
+            @media (min-width: 1200px){
+                #display {
+                    background-color: black;
+                    width: calc(100% - 320px);
+                    height:100vh;
+                    float: left;
+                }
+                #panel {
+                    background-color: whitesmoke;
+                    width: 320px;
+                    height:100vh;
+                    float: left;
+                }
+            }
+            .node_value_td {
+                width: 200px;
+            }
+
+
+        </style>
+    {% autoescape off %} {{ sources }} {% endautoescape %}
+    </head>
+<body>
+
+
+    <div id="CONTENT_WRAPPER" ng-app="myApp" ng-controller="customersCtrl">
+        <div ng-bind="displayer"></div>
+            <script>{% autoescape off %} {{ createObjectString }} {% endautoescape %}</script>
+            <div id="display">
+                    <nav id="all_functions_div" class="navbar navbar-default" role="navigation">
+                            <div class="nav navbar-nav">
+                                <!-- Nav tabs -->
+                                <ul id="nav_tabs" class="nav nav-tabs" role="tablist">
+                                    <li><a href="#public_functions" role="tab" data-toggle="tab"><span>Public</span></a></li>
+                                    <button class="btn btn-sm btn-default close_button" ng-click="closeAllFunctionsDiv();">Close</button>
+                                </ul>
+                                <div id="tab_pane_container" class="container-fluid">
+                                    <!-- Tab panes -->
+                                    <div class="tab-content">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <a class="btn btn-xs btn-success" href="{% url 'view_create_function' %}">Create New</a>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                {% for f in functions %}<button type="button" class="btn btn-xs function_btn" ng-click="myFunc({{f.id}});">{{ f.name }}</button>{% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </nav>
+
+
+
+
+
+
+
+                <nav id="new_value_div" class="navbar navbar-default" role="navigation">
+                    <div class="navbar-collapse">
+                        <div class="nav navbar-nav">
+                            <!-- Nav tabs -->
+                            <ul id="nav_tabs" class="nav nav-tabs" role="tablist">
+                                <li class="active"><a href="#scalar" role="tab" data-toggle="tab" ng-click="createParameter('scalar');"><span>Scalar</span></a></li>
+                                <li><a href="#matrix" role="tab" data-toggle="tab" ng-click="createParameter('matrix');"><span>Matrix</span></a></li>
+                                <li><a href="#mat3" role="tab" data-toggle="tab" ng-click="createParameter('Image');"><span>Picture</span></a></li>
+                                <button class="btn btn-sm btn-default close_button" ng-click="closeNewValueDiv();">Close</button>
+                            </ul>
+                            <div id="tab_pane_container" class="container-fluid">
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="scalar">
+                                        <table>
+                                          <tr>
+                                              <td></td><td><input type="text" ng-model="newParameter.name" placeholder="Variable Name"></td><td><button ng-click="saveParameter();">Save</button></td>
+                                          </tr>
+                                          <tr>
+                                              <td align="center"></td><td><input type="text" ng-model="newParameter.value"></td>
+                                          </tr>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane" id="matrix">
+                                        <table>
+                                          <tr>
+                                              <td></td><td><input type="text" ng-model="newParameter.name" placeholder="Variable Name"></td><td class="matrix_cell"><input type="text" ng-model="newParameter.rows" ng-change="adjustDim();" placeholder="Rows"></td><td class="matrix_cell"><input type="text" ng-model="newParameter.columns" ng-change="adjustDim();" placeholder="Columns"></td><td><button ng-click="saveParameter();">Save</button></td>
+                                          </tr>
+                                          <tr>
+                                              <td></td><td align="center" ng-repeat="colNum in range(0, newParameter.value.length-1)" ng-bind="colNum"></td>
+                                          </tr>
+                                          <tr ng-repeat="rowNum in range(0, newParameter.value[0].length-1)">
+                                              <td align="center"><span ng-bind="rowNum"></span></td><td  ng-repeat="colNum in range(0, newParameter.value.length-1)" class="matrix_cell"><input type="text" ng-model="newParameter.value[colNum][rowNum]"></td>
+                                          </tr>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane" id="mat3">
+                                        <div class="row">
+                                            <input type="text" ng-model="newParameter.name"><button ng-click="saveParameter();">Save</button>
+                                        </div>
+                                        <hr>
+                                        <div>
+                                            <div class="thumbnail" ng-repeat="n in picturesFromServer">{% verbatim %}
+                                                <img class="img-responsive" src="{{n.fields.file_url}}" ng-click="assignImageSrc(n.fields.file_url);">{% endverbatim %}
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- /.navbar-collapse -->
+                </nav>
+                <div class="row window_array" ng-repeat="w in range(0, windows.length-1)">
+                                            <table ng-if="windows[w].dataType == 'function'" class="table table-hover">
+                                                <thead>
+                                                    <tr class="function">
+                                                        <td class="row1col1"><i class="fa fa-microchip"></i><input ng-model="windows[w].parameter.name"></td>
+                                                        <td class="row1col2"><button type="button" class="btn btn-sm btn-default button-cell" ng-click="executeFunction(f);"><span>Execute</span></button></td>
+                                                        <td><button class="btn btn-sm btn-default close_button" ng-click="closeDetailsWindow(w);">Close</button></td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody ng-repeat="p in range(0, windows[w].parameter.params.length-1)" class="port inputs">
+                                                    <tr>
+                                                        <td><span class="glyphicon glyphicon-arrow-right"></span><span ng-bind="windows[w].parameter.params[p].name" ng-click="viewFunction(windows[w].parameter, windows[w].dataType);"></span></td>
+                                                        <td rowspan="2" class="node_value_td">
+                                                            <div ng-if="windows[w].parameter.params[p].dataType == 'scalar'">
+                                                                <input type="text" ng-model="windows[w].parameter.params[p].value" ng-change="updateNode(windows[w].parameter, p);">
+                                                            </div>
+                                                            <div ng-if="windows[w].parameter.params[p].dataType == 'vector'" class="node_value_div">
+                                                                <table ng-if="windows[w].parameter.params[p].direction == 'input'">
+                                                                    <tr>
+                                                                      <td class="matrix_cell"><input type="text" ng-model="windows[w].parameter.params[p].value.length" ng-change="adjustDim();" placeholder="Rows"></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                      <td>Value:</td><td align="center" ng-repeat="colNum in range(0, windows[w].parameter.params[p].value.length-1)" ng-bind="colNum" class="matrix_cell"></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                      <td></td><td ng-repeat="colNum in range(0, windows[w].parameter.params[p].value.length-1)" class="matrix_cell"><input type="text" ng-model="windows[w].parameter.params[p].value[colNum]"></td>
+                                                                    </tr>
+                                                                </table>
+                                                                <table ng-if="windows[w].parameter.params[p].direction == 'output'">
+                                                                    <tr>
+                                                                        <td class="matrix_cell"><span type="text" ng-bind="windows[w].parameter.params[p].value.length"></span></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                      <td>Value:</td><td align="center" ng-repeat="colNum in range(0, windows[w].parameter.params[p].value.length-1)" ng-bind="colNum"></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td></td><td  ng-repeat="colNum in range(0, windows[w].parameter.params[p].value.length-1)" class="matrix_cell"><span ng-bind="windows[w].parameter.params[p].value[colNum]"></span></td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                            <div ng-if="windows[w].parameter.params[p].dataType == 'matrix'">
+                                                                <table ng-if="windows[w].parameter.params[p].direction == 'input'">
+                                                                    <tr>
+                                                                      <td class="matrix_cell"><input type="text" ng-model="windows[w].parameter.params[p].value[0].length" ng-change="adjustDim();" placeholder="Rows"></td><td class="matrix_cell"><input type="text" ng-model="windows[w].parameter.params[p].value.length" ng-change="adjustDim();" placeholder="Columns"></td><td></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                      <td>Value:</td><td align="center" ng-repeat="colNum in range(0, windows[w].parameter.params[p].value.length-1)" ng-bind="colNum"></td>
+                                                                    </tr>
+                                                                    <tr ng-repeat="rowNum in range(0, windows[w].parameter.params[p].value[0].length - 1)">
+                                                                      <td><span ng-bind="rowNum"></span></td><td  ng-repeat="colNum in range(0, windows[w].parameter.params[p].value.length-1)" class="matrix_cell"><input type="text" ng-model="windows[w].parameter.params[p].value[colNum][rowNum]"></td>
+                                                                    </tr>
+                                                                </table>
+                                                                <table class="output" ng-if="windows[w].parameter.params[p].direction == 'output'">
+                                                                    <tr>
+                                                                        <td class="matrix_cell"><span>Rows:&nbsp</span><span ng-bind="windows[w].parameter.params[p].value[0].length"></span></td><td class="matrix_cell"><span>Columns:&nbsp</span><span ng-bind="windows[w].parameter.params[p].value.length"></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                      <td>Value:</td><td align="center" ng-repeat="colNum in range(0, windows[w].parameter.params[p].value.length-1)" ng-bind="colNum"></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td></td><td  ng-repeat="colNum in range(0, windows[w].parameter.params[p].value.length-1)" class="matrix_cell"><span ng-bind="windows[w].parameter.params[p].value[colNum][rowNum]"></span></td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                            <div class = "icon_container" ng-if="windows[w].parameter.params[p].dataType == 'Image'">{% verbatim %}
+                                                                <img class="img-responsive" ng-src="{{windows[w].parameter.params[p].value.src}}">{% endverbatim %}
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div ng-if="windows[w].parameter.params[p].direction == 'input'">
+                                                                <select ng-model="selectedValue" ng-options="x.function.name + '.' + x.function.params[x.portNumber].name for x in nodesList" ng-change="connectNode(windows[w].parameter, p, selectedValue.function, selectedValue.portNumber);">
+                                                                </select>
+                                                            </div>
+                                                            <div ng-if="windows[w].parameter.params[p].direction == 'output'">
+                                                                <select ng-model="selectedValue" ng-options="x.function.name + '.' + x.port.name for x in nodesList" ng-change="connectNode(windows[w].parameter, p, windows[w].parameter.params[p]);">
+                                                                </select>
+                                                            </div>
+
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+
+                                            <nav ng-if="windows[w].parameter.function.params[windows[w].parameter.portNumber].dataType == 'scalar'" id="scalar_details_div" class="navbar navbar-default" role="navigation">
+                                                <div class="navbar-collapse" id="bs-megadropdown-tabs">
+                                                    <div class="nav navbar-nav">
+                                                        <!-- Nav tabs -->
+                                                        <ul id="nav_tabs" class="nav nav-tabs" role="tablist">
+                                                            <li class="active"><a href="#scalar_value" role="tab" data-toggle="tab"><span>Value</span></a></li>
+                                                            <li><a href="#scalar_pixel" role="tab" data-toggle="tab"><span>Pixel</span></a></li>
+                                                            <button class="btn btn-sm btn-default close_button" ng-click="closeDetailsWindow(w);">Close</button>
+                                                        </ul>
+                                                        <div id="tab_pane_container" class="container-fluid">
+                                                            <!-- Tab panes -->
+                                                            <div class="tab-content">
+                                                                <div class="tab-pane active" id="scalar_value">
+                                                                    <table>
+                                                                        <tr>
+                                                                          <td></td><td colspan="2" ng-bind="windows[w].parameter.function.name"></td><td></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                          <td></td><td colspan="2" ng-bind="windows[w].parameter.function.params[windows[w].parameter.portNumber].name"></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                          <td>Value:</td><td><input type="text" ng-model="windows[w].parameter.function.params[windows[w].parameter.portNumber].value" placeholder="Value" ng-change="updateNode(windows[w].parameter.function, windows[w].parameter.portNumber);"></td><td></td>
+                                                                        </tr>
+
+                                                                    </table>
+                                                                </div>
+                                                                <div class="tab-pane" id="scalar_pixel">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div><!-- /.navbar-collapse -->
+                                            </nav>
+
+
+                                            <nav ng-if="windows[w].parameter.function.params[windows[w].parameter.portNumber].dataType == 'vector'" id="matrix_details_div" class="navbar navbar-default" role="navigation">
+                                                <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
+                                                    <div class="nav navbar-nav">
+                                                        <!-- Nav tabs -->
+                                                        <ul id="nav_tabs" class="nav nav-tabs" role="tablist">
+                                                            <li class="active"><a href="#matrix_value" role="tab" data-toggle="tab"><span>Value</span></a></li>
+                                                            <li><a href="#matrix_pixel" role="tab" data-toggle="tab"><span>Pixel</span></a></li>
+                                                            <button class="btn btn-sm btn-default close_button" ng-click="closeDetailsWindow(w);">Close</button>
+                                                        </ul>
+                                                        <div id="tab_pane_container" class="container-fluid">
+                                                            <!-- Tab panes -->
+                                                            <div class="tab-content">
+                                                                <div class="tab-pane active" id="matrix_value">
+                                                                    <table>
+                                                                        <tr>
+                                                                          <td></td><td colspan="2"><input type="text" ng-model="windows[w].parameter.function.params[windows[w].parameter.portNumber].name" placeholder="Variable Name"></td><td class="matrix_cell"></td><td class="matrix_cell"><input type="text" ng-model="windows[w].parameter.function.params[windows[w].parameter.portNumber].value.length" ng-change="adjustVectorLength(windows[w].parameter.function, windows[w].parameter.portNumber, windows[w].parameter.function.params[windows[w].parameter.portNumber].value.length);" placeholder="Columns"></td><td></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                          <td>Value:</td><td align="center" ng-repeat="colNum in range(0, windows[w].parameter.function.params[windows[w].parameter.portNumber].value.length-1)" ng-bind="colNum"></td>
+                                                                        </tr>
+                                                                        <tr ng-repeat="rowNum in range(0, windows[w].parameter.function.params[windows[w].parameter.portNumber].value[0].length - 1)">
+                                                                          <td></td><td  ng-repeat="colNum in range(0, windows[w].parameter.function.params[windows[w].parameter.portNumber].value.length-1)" class="matrix_cell"><input type="text" ng-model="windows[w].parameter.function.params[windows[w].parameter.portNumber].value[colNum]"></td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </div>
+                                                                <div class="tab-pane" id="matrix_pixel">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div><!-- /.navbar-collapse -->
+                                            </nav>
+
+
+
+                                            <nav ng-if="windows[w].parameter.function.params[windows[w].parameter.portNumber].dataType == 'matrix'" id="matrix_details_div" class="navbar navbar-default" role="navigation">
+                                                <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
+                                                    <div class="nav navbar-nav">
+                                                        <!-- Nav tabs -->
+                                                        <ul id="nav_tabs" class="nav nav-tabs" role="tablist">
+                                                            <li class="active"><a href="#matrix_value" role="tab" data-toggle="tab"><span>Value</span></a></li>
+                                                            <li><a href="#matrix_pixel" role="tab" data-toggle="tab"><span>Pixel</span></a></li>
+                                                            <button class="btn btn-sm btn-default close_button" ng-click="closeDetailsWindow(w);">Close</button>
+                                                        </ul>
+                                                        <div id="tab_pane_container" class="container-fluid">
+                                                            <!-- Tab panes -->
+                                                            <div class="tab-content">
+                                                                <div class="tab-pane active" id="matrix_value">
+                                                                    <table>
+                                                                        <tr>
+                                                                          <td></td><td><input type="text" ng-model="windows[w].parameter.function.params[windows[w].parameter.portNumber].name" placeholder="Variable Name"></td><td class="matrix_cell"><input type="text" ng-model="windows[w].parameter.function.params[windows[w].parameter.portNumber].value[0].length" ng-change="adjustDim();" placeholder="Rows"></td><td class="matrix_cell"><input type="text" ng-model="windows[w].parameter.function.params[windows[w].parameter.portNumber].value.length" ng-change="adjustDim();" placeholder="Columns"></td><td></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                          <td>Value:</td><td align="center" ng-repeat="colNum in range(0, windows[w].parameter.function.params[windows[w].parameter.portNumber].value.length-1)" ng-bind="colNum"></td>
+                                                                        </tr>
+                                                                        <tr ng-repeat="rowNum in range(0, windows[w].parameter.function.params[windows[w].parameter.portNumber].value[0].length - 1)">
+                                                                          <td><span ng-bind="rowNum"></span></td><td  ng-repeat="colNum in range(0, windows[w].parameter.function.params[windows[w].parameter.portNumber].value.length-1)" class="matrix_cell"><input type="text" ng-model="windows[w].parameter.function.params[windows[w].parameter.portNumber].value[colNum][rowNum]"></td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </div>
+                                                                <div class="tab-pane" id="matrix_pixel">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div><!-- /.navbar-collapse -->
+                                            </nav>
+
+                                            <nav ng-if="windows[w].dataType == 'mat3'" id="picture_details_div" class="navbar navbar-default" role="navigation">
+                                                <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
+                                                    <div class="nav navbar-nav">
+                                                        <!-- Nav tabs -->
+                                                        <ul id="nav_tabs" class="nav nav-tabs" role="tablist">
+                                                            <li class="active"><a href="#mat3_value" role="tab" data-toggle="tab"><span>Value</span></a></li>
+                                                            <li><a href="#mat3_pixel" role="tab" data-toggle="tab"><span>Pixel</span></a></li>
+                                                            <button class="btn btn-sm btn-default close_button" ng-click="closeDetailsWindow(w);">Close</button>
+                                                        </ul>
+                                                        <div id="tab_pane_container" class="container-fluid">
+                                                            <!-- Tab panes -->
+                                                            <div class="tab-content">
+                                                                <div class="tab-pane active" id="mat3_value">
+                                                                    <canvas id="imageViewer"></canvas>
+                                                                </div>
+                                                                <div class="tab-pane" id="mat3_pixel">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div><!-- /.navbar-collapse -->
+                                            </nav>
+
+                </div>
+            </div>
+            <div id="panel" class="container-fluid">
+                <div class="row">
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class=" navbar-collapse">
+                            <div class="nav navbar-nav">
+                                <!-- Nav tabs -->
+                                <ul id="nav_tabs" class="nav nav-tabs" role="tablist">
+                                    <li class="active"><a href="#system_functions" role="tab" data-toggle="tab">Functions</a></li>
+                                    <li><a href="#system_nodes" role="tab" data-toggle="tab">Nodes</a></li>
+                                    <li><a href="#my_values" role="tab" data-toggle="tab">Values</a></li>
+                                    <a class="btn btn-sm btn-default" href="{% url 'index' %}"><span class="glyphicon glyphicon-home"></span></a>
+                                </ul>
+                                <div id="tab_pane_container">
+                                    <!-- Tab panes -->
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="system_functions">
+
+                                            <table ng-repeat="f in system.functions" class="table">
+                                                    <tr class="function">
+                                                        <td ng-click="viewParameter(f, f);">
+                                                            <i class="fa fa-microchip"></i><b ng-bind="f.name" ng-click="viewFunction(f);"></b>
+                                                        </td>
+                                                        <td colspan="1">
+                                                            <div class="btn-group">
+                                                              <button type="button" class="btn btn-sm btn-default" ng-click="executeFunction(f);"><span class="glyphicon glyphicon-play"></span></button>
+                                                              <button type="button" class="btn btn-sm btn-default" ng-click="toggleOnChange(f);"><span ng-if="f.onchange==true" class="glyphicon glyphicon-flash"></span><span ng-if="f.onchange==false" class="glyphicon glyphicon-stop"></span></button>
+                                                              <button type="button" class="btn btn-sm btn-default" ng-click="deleteFunction(f);"><span class="glyphicon glyphicon-trash"></span></button>
+                                                              <button class="btn btn-sm btn-default" ng-click="showAllFunctions();"><span class="glyphicon glyphicon-plus"></span>
+                                                              </button>
+
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr ng-repeat="p in range(0, f.params.length-1)" class="port inputs">
+                                                        <td class="port_name" ng-click="viewNode(f, p);">
+                                                            <span ng-if="f.params[p].direction == 'input'" class="glyphicon glyphicon-arrow-right"></span>
+                                                            <span ng-if="f.params[p].direction == 'output'" class="glyphicon glyphicon-arrow-left"></span>
+                                                            <span ng-bind="f.params[p].name"></span>
+                                                        </td>
+                                                        <td class="value_cell" >
+                                                            <div ng-if="f.params[p].direction == 'input'">
+                                                                <div ng-if="f.params[p].dataType == 'scalar'">
+                                                                    <input ng-model="f.params[p].value" ng-change="updateNode(f, p);">
+                                                                </div>
+                                                                <div ng-if="f.params[p].dataType == 'vector'">
+                                                                    <span ng-bind="f.params[p].value"></span>
+                                                                </div>
+                                                                <div ng-if="f.params[p].dataType == 'matrix'">
+                                                                    <span ng-bind="f.params[p].value"></span>
+                                                                </div>
+                                                                <div class = "icon_container" ng-if="f.params[p].dataType == 'Image'">
+                                                                    {% verbatim %}
+                                                                    <img class="img-responsive" src="{{convertDataToPicture(f.params[p].value)}}" ng-click="viewPictureDiv(f.params[p].value);">
+                                                                    {% endverbatim %}
+                                                                </div>
+                                                            </div>
+                                                            <div ng-if="f.params[p].direction == 'output'">
+                                                                <div ng-if="f.params[p].dataType == 'scalar'">
+                                                                    <span ng-bind="f.params[p].value"></span>
+                                                                </div>
+                                                                <div ng-if="f.params[p].dataType == 'matrix'">
+                                                                    <span ng-bind="f.params[p].value"></span>
+                                                                </div>
+                                                                <div class = "icon_container" ng-if="f.params[p].dataType == 'Image'">
+                                                                    {% verbatim %}
+                                                                    <img class="img-responsive" src="{{convertDataToPicture(f.params[p].value)}}" ng-click="viewParameter(f, f.params[p]);">
+                                                                    {% endverbatim %}
+                                                                </div>
+                                                            </div>
+                                                        </td>
+
+                                                    </tr>
+                                            </table>
+                                            <button class="btn btn-sm btn-default" ng-click="showAllFunctions();" style="float: right"><span class="glyphicon glyphicon-plus"></span>
+                                            </button>
+                                            </tr>
+                                        </div>
+                                        <div class="tab-pane" id="system_nodes">
+                                            <table class="table">
+                                                <thead>
+                                                <tr>
+                                                    <td>Nodes</td>
+                                                    <td></td>
+                                                    <td><button class="btn btn-sm btn-default" ng-click="createNewNode();" style="float: right"><span class="glyphicon glyphicon-plus"></span></button></td>
+                                                </tr>
+                                                </thead>
+                                                <tbody ng-repeat="n in system.nodes">
+                                                    <tr ng-repeat="c in n.outputs">
+                                                        <td ng-bind="c.name">
+
+                                                        </td>
+                                                        <td ng-bind="c.value"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        {% verbatim %}
+                                                        <td class rowspan="{{ n.inputs.length + n.outputs.length + 1 }}"><span ng-bind="n.name"></span></td>
+                                                        <td>99</td>
+                                                        <td>99</td>
+                                                        {% endverbatim %}
+                                                    </tr>
+                                                    <tr ng-repeat="c in n.inputs">
+                                                        <td ng-bind="c.name">12
+
+                                                        </td>
+                                                        <td ng-bind="c.value"></td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="tab-pane" id="my_values">
+                                            <table class="table">
+                                                <thead>
+                                                <tr>
+                                                    <td>Values</td>
+                                                    <td></td>
+                                                    <td><button class="btn btn-sm btn-default" ng-click="createNewValue();" style="float: right"><span class="glyphicon glyphicon-plus"></span></button></td>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="n in parameters">
+                                                        <td class = "FirstColumn" ng-bind="n.dataType"></td>
+                                                        <td><span ng-bind="n.name"></span></td>
+                                                        <td ng-if="n.dataType == 'Image'">
+                                                            <div class = "icon_container">
+                                                                {% verbatim %}
+                                                                <img class="img-responsive" src="{{convertDataToPicture(n.value)}}">
+                                                                {% endverbatim %}
+                                                            </div>
+                                                        </td>
+                                                        <td ng-if="n.dataType != 'Image'">
+                                                            <span ng-bind="n.value"></span>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- /.navbar-collapse -->
+                    </nav>
+                </div>
+
+
+                <div id="functions_div" class="row">
+
+                </div>
+                <div id="values_div" class="row">
+
+                </div>
+                <div id="nodes_div" class="row">
+
+                </div>
+
+
+            </div>
+
+            {{ htmlText }}
+
+        </div>
+
+    <script>
+        var functions = [];
+        var pictures = [];
+        var videos = [];
+
+        functions = {{functions_JSON | safe}};
+        var app = angular.module('myApp', []);
+        app.controller('customersCtrl', function($scope) {
+            $scope.system = new Object();
+            $scope.system.functions = [];
+            $scope.system.nodes = [];
+            $scope.nodesList = [];
+            $scope.parameters = new Array();
+            $scope.system.getNodes = function(){
+                var ports = [];
+                for(var i = 0; i< $scope.system.functions.length; i++) {
+                    for(var j = 0; j< $scope.system.functions[i].params.length; j++){
+                        var port = new Object();
+                        port.function = $scope.system.functions[i];
+                        port.portNumber = j;
+                        ports.push(port);
+                    }
+                }
+                for(var i = 0; i< $scope.parameters.length; i++ ){
+                    var port = new Object();
+                    var func = new Object();
+                    func.name = "-->";
+                    port.function = func;
+                    port.portNumber = i;
+                    ports.push(port);
+                }
+                $scope.nodesList = ports;
+            }
+            $scope.system.getNodes();
+            $scope.htmlText = "<h1>Hello</h1>";
+            $scope.windows = [];
+            $scope.display = "";
+            $scope.parameterCount = 0;
+            $scope.matrixCount = 0;
+            $scope.nodeCount = 0;
+            $scope.scalarCount = 0;
+            $scope.scalars = new Array();
+            $scope.matrices = new Array();
+
+
+            $scope.newScalar = new Object();
+            $scope.newMatrix = new Object();
+
+            $scope.activeScalar = new Object();
+            $scope.activeMatrix = new Object();
+            $scope.activeMat3 = new Object();
+            $scope.activeImage = new Image();
+            $scope.activeParameter = new Object();
+
+            $scope.newParameter = new Object();
+
+            $scope.createNewNode = function(){
+                var node = new Object();
+                $scope.nodeCount += 1;
+                node.name = "n" + $scope.nodeCount;
+                var parameter = Object();
+                    parameter.dataType = 'scalar';
+                    $scope.scalarCount += 1;
+                    parameter.value = 3 + $scope.scalarCount;
+                    parameter.name = "s" + $scope.scalarCount;
+                node.inputs = [parameter];
+                node.output = function(){
+                    var sum = 0;
+                    for(var i=0; i<node.inputs.length-1; i++){
+                        sum += node.inputs[i].value;
+                    }
+                    return node.inputs.length;
+                };
+                $scope.system.nodes.push(node);
+            }
+
+            $scope.connectNode = function(func1, i1, func2, i2){
+                if(func1.params[i1].direction == 'output' && func2.params[i2].direction == 'input'){
+                    func2.setParameter(i2, func1.params[i1].value);
+                    if(func2.onchange==true){
+                        $scope.executeFunction(func2);
+                    }
+                }
+                if(func1.params[i1].direction == 'input' && func2.params[i2].direction == 'output'){
+                    func1.setParameter(i1, func2.params[i2].value);
+                    if(func1.onchange==true){
+                        $scope.executeFunction(func1);
+                    }
+                }
+            };
+
+            $scope.updateNode = function(func, i){
+                func.setParameter(i, func.params[i].value);
+                if(func.onchange==true){
+                    $scope.executeFunction(func);
+                }
+            }
+
+            $scope.closeNewValueDiv = function(){
+                $("#new_value_div").hide();
+            }
+
+            $scope.closeDetailsWindow = function(i){
+                $scope.windows.splice(i,1);
+            }
+
+            $scope.viewPictureDiv = function(param){
+                var canvas = document.getElementById('imageViewer');
+                canvas.width = param.value[0].length;
+                canvas.height = param.value.length;
+                var context_orig = canvas.getContext('2d');
+
+                for (var i = 0; i< param.value.length; i++) {
+                    for (var j=0; j< param.value[0].length; j++) {
+                        context_orig.fillStyle = "rgba(" + param.value[i][j][0] + "," + param.value[i][j][1] + "," + param.value[i][j][2] + "," + 1 + ")";
+                        context_orig.fillRect(j, i, 1, 1);
+                    }
+                }
+                $("#picture_details_div").show();
+            }
+
+            $scope.getPictures = function(){
+                $.ajax({
+                    type: 'GET',
+                    url: "/appsworld/ajax_get_pictures",
+                    dataType: 'json',
+                    beforeSend: function(xhr) {
+
+                    },
+                    success: function (data) {
+                        $scope.picturesFromServer = JSON.parse(data.picturesFromServer);
+                        $scope.pictureCount = Object.keys($scope.picturesFromServer).length;
+                    }
+                });
+            }
+
+            $scope.ajaxGetVideos = function(){
+                $.ajax({
+                    type: 'GET',
+                    url: "/appsworld/ajax_get_videos",
+                    dataType: 'json',
+                    beforeSend: function(xhr) {
+
+                    },
+                    success: function (data) {
+                        $scope.videosFromServer = JSON.parse(data.videosFromServer);
+
+                    }
+                });
+            }
+
+            $scope.convertDataToPicture = function(value){
+                var img = document.createElement('img');
+                var canvas_original = document.createElement('canvas');
+
+                canvas_original.width = value[0].length;
+                canvas_original.height = value.length;
+                var context_orig = canvas_original.getContext('2d');
+
+                for (var i = 0; i< value.length; i++) {
+                    for (var j=0; j< value[0].length; j++) {
+                        context_orig.fillStyle = "rgba(" + value[i][j][0] + "," + value[i][j][1] + "," + value[i][j][2] + "," + 1 + ")";
+                        context_orig.fillRect(j, i, 1, 1);
+                    }
+                }
+                var url = canvas_original.toDataURL();
+                img.src = url;
+                //document.body.appendChild(img);
+                return url;
+            }
+
+            $scope.showAllFunctions = function(){
+                $('#all_functions_div').show();
+                $('#new_value_div').hide();
+            }
+
+            $scope.closeAllFunctionsDiv = function(){
+                $('#all_functions_div').hide();
+            }
+
+            $scope.convertPictureToData = function(img){
+                var canvas_original = document.createElement('canvas');
+                var canvas_processed = document.createElement('canvas');
+
+                canvas_original.width = img.width;
+                canvas_original.height = img.height;
+                var context_orig = canvas_original.getContext('2d');
+                var context_proc = canvas_processed.getContext('2d');
+
+                context_orig.drawImage(img, 0, 0, img.width, img.height);
+                var frame = [];
+                for (var i = 0; i< img.height; i++) {
+                    var row = [];
+
+                    for (var j=0; j< img.width; j++) {
+                        var ch3 = [];
+                        var data = context_orig.getImageData(j, i, 1, 1).data;
+                        ch3.push(data[0]);
+                        ch3.push(data[1]);
+                        ch3.push(data[2]);
+                        row.push(ch3);
+                    }
+                    frame.push(row);
+                }
+
+                return frame;
+            }
+
+            $scope.createNewValue = function(){
+                $scope.createParameter('scalar');
+                $('#new_value_div').show();
+                $('#view_value_div').hide();
+                $('#all_functions_div').hide();
+            };
+
+            $scope.createParameter = function(dataType){
+                if(dataType == 'matrix'){
+                    $scope.newParameter.dataType = 'matrix';
+                    $scope.newParameter.value = [[0,8,9],[3,5,8]];
+                    $scope.newParameter.name = "M" + ($scope.parameterCount + 1);
+                    $scope.newParameter.rows = $scope.newParameter.value[0].length;
+                    $scope.newParameter.columns = $scope.newParameter.value.length;
+                }
+                if(dataType == 'scalar'){
+                    $scope.newParameter.dataType = 'scalar';
+                    $scope.newParameter.name = "s" + ($scope.parameterCount + 1);
+                    $scope.newParameter.value = 0;
+                }
+                if(dataType == 'Image'){
+                    $scope.getPictures();
+                    $scope.newParameter.dataType = 'Image';
+                    $scope.newParameter.name = "Image" + ($scope.parameterCount + 1);
+                    $scope.newParameter.value = 0;
+                }
+            };
+
+            $scope.assignImageSrc = function(url){
+                $scope.imageSrc = url;
+            }
+
+
+
+            //ajaxGetHTMLCode(1);
+            //$scope.all_functions = {{functions_JSON | safe}};
+            $scope.functions = [];
+            $scope.myFunc = function(id) {
+                //$scope.func = functions[id-1];
+                var obj = createObject(id);
+                obj.name = obj.name + ($scope.system.functions.length + 1);
+                $scope.system.functions.splice(0, 0, obj);
+                $scope.system.getNodes();
+                $('#all_functions_div').hide();
+            };
+
+            $scope.saveParameter = function(){
+                var exists = false;
+                for(var i = 0; i<$scope.parameters.length; i++){
+                    if($scope.parameters[i].name.indexOf($scope.newParameter.name) != -1){
+                        exists = true;
+                    }
+                }
+                if (($scope.newParameter.name == "") || exists){
+                    $scope.newParameter.name = "M" + ($scope.parameterCount + 1);
+                }
+                var parameter = new Object();
+                if($scope.newParameter.dataType == 'Image'){
+                    var val =  new Image();
+                    val.src = $scope.imageSrc;
+                    parameter.value = $scope.convertPictureToData(val);
+                    //$scope.convertDataToPicture(parameter.value);
+                }
+                else{
+                    parameter.value = $scope.newParameter.value;
+                }
+                parameter.dataType = $scope.newParameter.dataType;
+                parameter.name = $scope.newParameter.name;
+
+                $scope.parameters.push(parameter);
+                $scope.parameterCount += 1;
+            };
+
+            $scope.range = function(min, max, step){
+                step = step || 1;
+                var input = [];
+                for (var i = min; i <= max; i += step) input.push(i);
+                return input;
+            };
+
+            $scope.viewFunction = function(func){
+                var window = new Object();
+                window.dataType = 'function';
+                window.parameter = func;
+                $scope.windows.splice(0, 0, window);
+            }
+
+            $scope.viewNode = function(func, i){
+                var node = new Object();
+                node.function = func;
+                node.portNumber = i;
+                node.value = func.params[i].value;
+                var window = new Object();
+                window.dataType = 'node';
+                window.parameter = node;
+                $scope.windows.splice(0, 0, window);
+            };
+
+            $scope.deleteScalar = function(sca){
+                $scope.parameters.splice($scope.parameters.indexOf(sca),1);
+                $("#view_scalar_div").hide();
+            };
+
+            $scope.deleteFunction = function(func){
+                $scope.system.functions.splice($scope.system.functions.indexOf(func),1);
+            };
+
+            $scope.adjustVectorLength = function(func, portNumber, length){
+                func.params[portNumber].value = [];
+                for (var i = 0; i< length; i++){
+                    func.params[portNumber].value.push(78);
+                }
+                $scope.updateNode(func, portNumber);
+                $scope.displayer = func.params[portNumber].value;
+            };
+
+            $scope.adjustDim = function(){
+                $scope.newParameter.value = [];
+                for(var j = 0; j< $scope.newParameter.rows; j++){
+                    var row = [];
+                    for (var i = 0; i< $scope.newParameter.columns; i++){
+                        row.push(0);
+                    }
+                    $scope.newParameter.value.push(row);
+                }
+            };
+
+            $scope.deleteMatrix = function(mat){
+                $scope.parameters.splice($scope.parameters.indexOf(mat),1);
+                $("#view_matrix_div").hide();
+            };
+
+            $scope.assignPorts = function(func, i, value){
+                func.setParameter(i, value);
+            };
+
+
+            $scope.toggleOnChange = function(func){
+                if(func.onchange == true){
+                    func.onchange = false;
+                }
+                else{
+                    func.onchange = true;
+                }
+            };
+
+            $scope.executeFunction = function(func){
+                func.execute();
+                func.assignPorts();
+
+            };
+        });
+    </script>
+    <script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"</script>
+    <script type="text/javascript">
+
+    function init(){
+        $("#new_value_div").hide();
+        $("#view_value_div").hide();
+        $("#all_functions_div").hide();
+        $("#scalar_details_div").hide();
+        $("#matrix_details_div").hide();
+        $("#picture_details_div").hide();
+        $("#video_details_div").hide();
+    }
+
+    window.onload = init;
+
+    </script>
+</body>
+</html>

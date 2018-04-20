@@ -1,0 +1,73 @@
+<style>
+
+
+    #APPSWORLD-PANEL-KEYWORDS {
+        max-width: 640px !important;
+    }
+
+    #APPSWORLD-PANEL-KEYWORDS > .panel {
+
+    }
+
+    #APPSWORLD-PANEL-KEYWORDS > .panel > .panel-heading {
+
+    }
+
+    #APPSWORLD-PANEL-KEYWORDS > .panel > .panel-body {
+
+    }
+
+    #APPSWORLD-PANEL-KEYWORDS > .panel > .panel-footer {
+
+    }
+
+    .aw-keyword-item {
+        background-color: rgba(128, 128, 128, 0.25) !important;
+        padding: 4px !important;
+        margin: 1px !important;
+        margin-bottom: 1px !important;
+        float: left !important;
+        border-radius: 8px !important;
+    }
+
+    .aw-keyword-item:hover {
+        background-color: rgba(128, 128, 128, 0.5) !important;
+        padding: 4px !important;
+        margin-left: 2px !important;
+        margin-right: 2px !important;
+    }
+
+    div.aw-keyword-item > a {
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        color: darkblue !important;
+        text-decoration: none;
+    }
+
+    div.aw-profile-picture-name > a:hover {
+        color: rgb(10, 10, 10) !important;
+        font-weight: bold !important;
+    }
+
+</style>
+
+
+<div id="APPSWORLD-PANEL-KEYWORDS">
+  <div class="panel panel-info">
+    <div class="panel-heading">
+        <span class="glyphicon glyphicon-tags"></span>
+        <span style="padding-left: 4px;"> Related Topics</span>
+    </div>
+    <div class="panel-body">
+
+        {% for keyword in keywords %}
+        {% if keyword.0 == "" or keyword.0 == " " %}
+        {% else %}
+        <div class="aw-keyword-item row">
+            <a href="{% url 'tag_result'  keyword.1 %}">{{keyword.0}}</a>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+  </div>
+</div>

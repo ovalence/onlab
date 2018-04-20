@@ -1,0 +1,263 @@
+<style>
+    #LEAVE_FORM_CONTAINER {
+        height: 100%;
+        padding: 0px;
+        margin: 0px;
+        min-width: 640px;
+        max-width: 640px;
+        overflow: hidden;
+    }
+
+    #LEAVE_FORM_CONTAINER table {
+        width: 100%;
+        height: 140px;
+    }
+
+    #LEAVE_FORM_CONTAINER .top_row{
+        border-color: transparent;
+        border-bottom-color: lightgray;
+        padding: 4px;
+        padding-bottom: 16px;
+    }
+
+    #LEAVE_FORM_CONTAINER th{
+        margin: 0px;
+        padding: 8px;
+        width: 80px;
+        white-space: nowrap;
+        padding-left: 8px;
+        font-weight: normal;
+        border-color: lightgray;
+        border-width: 1px;
+        border-style: solid;
+    }
+    #LEAVE_FORM_CONTAINER td{
+        margin: 0px;
+        padding: 2px;
+        border-color: lightgray;
+        border-width: 1px;
+        border-style: solid;
+    }
+
+    #START_DATE {
+        white-space: nowrap;
+    }
+
+    #START_HOUR {
+        white-space: nowrap;
+    }
+
+    #END_HOUR {
+        white-space: nowrap;
+    }
+
+    #END_TIME {
+        width: 60px;
+    }
+
+    #EVENT_CONTAINER {
+        width: 100px;
+    }
+
+    #EVENT_EVENT {
+        width: 100%;
+        height: 100%;
+        border-color: gray;
+        border-width: 0px;
+        border-style: solid;
+    }
+
+    #EVENT_STATUS_CONTAINER {
+
+    }
+
+    #EVENT_STATUS {
+        width: 100%;
+        height: 100%;
+        border-color: gray;
+        border-width: 0px;
+        border-style: solid;
+    }
+
+    #EVENT_DATE_FILED_CONTAINER {
+        width: 120px;
+        white-space: nowrap;
+        background-color: transparent;
+    }
+
+    #EVENT_DATE_FILED {
+        width: 100%;
+        height: 100%;
+        border-color: gray;
+        border-width: 0px;
+        border-style: solid;
+        background-color: transparent;
+    }
+
+    #EVENT_START_DATE {
+        height: 100%;
+        border-color: gray;
+        border-width: 0px;
+        border-style: solid;
+    }
+
+    #EVENT_END_DATE {
+        height: 100%;
+        border-color: gray;
+        border-width: 0px;
+        border-style: solid;
+    }
+
+    #EVENT_START_HOUR {
+        width: 30px;
+        height: 100%;
+        border-color: gray;
+        border-width: 0px;
+        border-style: solid;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+        direction: rtl;
+    }
+
+    #EVENT_START_MINUTE {
+        width: 40px;
+        height: 100%;
+        border-color: gray;
+        border-width: 0px;
+        border-style: solid;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+    }
+
+    #EVENT_END_HOUR {
+        width: 30px;
+        height: 100%;
+        border-color: gray;
+        border-width: 0px;
+        border-style: solid;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+        direction: rtl;
+    }
+
+    #EVENT_END_MINUTE {
+        width: 40px;
+        height: 100%;
+        border-color: gray;
+        border-width: 0px;
+        border-style: solid;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+    }
+
+    #EVENT_WORK_DAYS {
+        width: 30px;
+        height: 100%;
+        border-color: gray;
+        border-width: 0px;
+        border-style: solid;
+        direction: rtl;
+    }
+
+    #DETAILS {
+        height: 200px;
+    }
+
+    #DETAILS td {
+        padding-top: 8px;
+        height: 200px;
+    }
+
+    #DETAILS_TEXTAREA{
+        height: 100%;
+        width: 100%;
+        border-color: gray;
+        border-width: 0px;
+        border-style: solid;
+        padding: 6px;
+    }
+
+    #EVENT_DETAILS{
+        height: 100%;
+        width: 100%;
+        border-color: gray;
+        border-width: 0px;
+        border-style: solid;
+        padding: 16px;
+    }
+
+    #LEAVE_FORM_CONTAINER .panel{
+        width: calc(100% - 4px);
+    }
+
+    #EVENT_APPROVER {
+        width: 100%;
+        border-color: gray;
+        border-width: 0px;
+        border-style: solid;
+    }
+
+    #EVENT_VISIBLE_TO {
+        width: 100%;
+        height: 2em;
+        border-color: gray;
+        border-width: 0px;
+        border-style: solid;
+    }
+
+    #LEAVE_FORM_CONTAINER .comment_picture {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        float: left;
+        margin-right: 8px;
+    }
+
+    #LEAVE_FORM_CONTAINER .comment_box {
+        float: left;
+        width: calc(100% - 120px);
+    }
+
+    #LEAVE_FORM_CONTAINER .comment_textarea {
+        width: 100%;
+    }
+    #LEAVE_FORM_CONTAINER #SUBMIT_BUTTON {
+        float: left;
+    }
+
+    #LEAVE_FORM_CONTAINER .picture_icon {
+        padding: 0px;
+        width: 100%;
+        border-radius: 4px;
+        box-shadow: 1px 2px 2px 2px gray;
+    }
+</style>
+<div id="LEAVE_FORM_CONTAINER" class="container-fluid">
+<div class="panel panel-info">
+    <div class="panel-heading"><span>World History</span>
+    {% if event.status == "NEW" and user == event.username %}
+    <a href="{% url 'edit_event' event.id %}" id="SUBMIT_BUTTON" class="btn btn-xs btn-danger pull-right">Delete</a>
+    {% endif %}
+    <a href="{% url 'edit_event' event.id %}" id="SUBMIT_BUTTON" class="btn btn-xs btn-warning pull-right">Edit</a>
+    </div>
+    <div class="panel-body">
+        <table>
+            <tr><th class="top_row"><img src="{{logged_user.picture}}" class="picture_icon"></th><th id="EVENT_CONTAINER" class="top_row"colspan="3"><h4> {{ logged_user.first_name }} {{ logged_user.last_name }}</h4></th></tr>
+            <tr><th>Subject</th><td id="EVENT_CONTAINER" colspan="2">{{ event.event }}</td><td id="EVENT_STATUS_CONTAINER" colspan="2">{{ event.status }}</td></tr>
+            <tr><th>Start Time</th><td colspan="2" id="START_DATE">{{ event.start_date }}</td><td id="EVENT_DATE_FILED_CONTAINER"><span>Filed: </span>{{ event.date_filed }}</td></tr>
+            <tr><th>End Time</th><td id="END_DATE">{{ event.end_date }}</td><td id="END_HOUR">{{ event.work_days }}<span> days</span></td><td></td></tr>
+            <tr id="DETAILS"><td colspan="6" valign="top"><textarea id="DETAILS_TEXTAREA" readonly="True">{{ event.details }}</textarea></td></tr>
+            <tr><th>Approver</th><td colspan="5">{{ event.approver }}</td></tr>
+            <tr><th>Visible to</th><td colspan="5">{{ event.visible_to }}</td></tr>
+        </table>
+    </div>
+</div>
+</div>

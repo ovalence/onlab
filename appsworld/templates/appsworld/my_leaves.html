@@ -1,0 +1,88 @@
+{% extends 'appsworld/base.html' %}
+{% load staticfiles %}
+
+    {% block title %}[Website Name] | Edit App {% endblock title %}
+    {% block head_favicon %}
+        <link rel="icon" type="image/png"
+              href="{{ STATIC_URL }}images/favicon.ico">
+    {% endblock head_favicon %}
+    {% block head_meta %}
+        {% block head_meta_charset %}
+            <meta http-equiv="Content-Type"
+                  content="text/html; charset=utf-8" />
+        {% endblock head_meta_charset %}
+        {% block head_meta_contentlanguage %}
+            <meta http-equiv="Content-Language" value="en-US" />
+        {% endblock head_meta_contentlanguage %}
+        {% block head_meta_viewport %}
+            <meta name="viewport"
+                  content="width=device-width, initial-scale=1.0">
+        {% endblock head_meta_viewport %}
+    {% endblock head_meta %}
+    {% block head_css %}
+        <script src="{% static 'appsworld/js/jquery-3.1.1.js' %}"></script>
+        <script src="{% static 'appsworld/js/bootstrap.js' %}"></script>
+        <script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"</script>
+        <link href="{% static 'appsworld/css/bootstrap.css' %}" rel="stylesheet" media="screen">
+        <style type="text/css">
+            #CONTENT_WRAPPER {
+                margin-top:0px;
+                padding-top: 60px;
+                -webkit-transition: all .5s ease;
+                -moz-transition: all .5s ease;
+                -o-transition: all .5s ease;
+                transition: all .5s ease;
+                height: 100%;
+                background-color: whitesmoke;
+            }
+
+            main {
+                background-color: whitesmoke;
+                margin-top: 0px;
+                padding-top: 0px;
+                height: 101%;
+            }
+
+            #MAIN_COL1 {
+                margin: 0px;
+                padding: 0px;
+                margin-right: 0px;
+                padding-right: 0px;
+            }
+
+
+            #MAIN_COL2 {
+                margin: 0px;
+                padding: 0px;
+            }
+
+        </style>
+    {% endblock head_css %}
+
+{% block content %}
+    <header>
+    {% block header %}
+        {% include 'appsworld/navigation_bar_top.html' %}
+    {% endblock header %}
+    </header>
+
+    <div id="CONTENT_WRAPPER">
+        <main id="page-content-wrapper" role="main">
+            <div class="container-fluid">
+                <div class="row">
+                    <div id="MAIN_COL1" class="col-sm-12 col-md-12 col-lg-2">
+                    {% include 'appsworld/sidebar.html' %}
+                    </div>
+                    <div id="MAIN_COL2" class="col-sm-12 col-md-12 col-lg-10">
+                    {% include 'appsworld/list_user_leaves.html' %}
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+{% endblock %}
+
+    {# Set of blocks that can be used to display JavaScript files #}
+    {% block footer_javascript %}
+
+    {% endblock footer_javascript %}

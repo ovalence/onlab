@@ -1,0 +1,190 @@
+{% extends 'appsworld/base.html' %}
+{% load staticfiles %}
+
+    {% block title %}[Website Name] | Edit App {% endblock title %}
+    {% block head_favicon %}
+        <link rel="icon" type="image/png"
+              href="{{ STATIC_URL }}images/favicon.ico">
+    {% endblock head_favicon %}
+    {% block head_meta %}
+        {% block head_meta_charset %}
+            <meta http-equiv="Content-Type"
+                  content="text/html; charset=utf-8" />
+        {% endblock head_meta_charset %}
+        {% block head_meta_contentlanguage %}
+            <meta http-equiv="Content-Language" value="en-US" />
+        {% endblock head_meta_contentlanguage %}
+        {% block head_meta_viewport %}
+            <meta name="viewport"
+                  content="width=device-width, initial-scale=1.0">
+        {% endblock head_meta_viewport %}
+    {% endblock head_meta %}
+    {% block head_css %}
+        {% block head_css_site %}
+            <link href="{% static 'appsworld/css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
+        {% endblock head_css_site %}
+        {% block head_css_page %}
+        <style type="text/css">
+            #CONTENT_WRAPPER {
+                padding-top: 50px;
+                background-color: lightgray;
+            }
+
+            main {
+                padding-top: 8px;
+                height: 101%;
+            }
+
+            #MAIN_RIGHTMOST_SECTION {
+                margin-right: 0px;
+                padding-right: 0px;
+            }
+
+            #MAIN_CONTENT_SECTION {
+                margin: 0px !important;
+                padding: 0px !important;
+            }
+
+            #MAIN_LEFTMOST_SECTION {
+
+            }
+
+            @media (min-width: 0px) and (max-width: 767px) {
+                #COL1 {
+                    display: none !important;
+                }
+                #COL2 {
+
+                }
+                #COL3 {
+                    display: none !important;
+                }
+                #COL4 {
+                    display: none !important;
+                }
+            }
+
+            @media (min-width: 768px) and (max-width: 991px) {
+                #COL1 {
+                    display: none !important;
+                }
+                #COL2 {
+
+                }
+                #COL3 {
+                    display: none !important;
+                }
+                #COL4 {
+                    display: none !important;
+                }
+            }
+
+            @media (min-width: 992px) and (max-width: 1199px) {
+                #COL1 {
+
+                }
+                #COL2 {
+
+                }
+                #COL3 {
+
+                }
+                #COL4 {
+
+                }
+            }
+
+            @media (min-width: 1200px){
+                #COL1 {
+
+                }
+                #COL2 {
+
+                }
+                #COL3 {
+
+                }
+                #COL4 {
+
+                }
+            }
+
+
+
+        </style>
+
+        {% endblock head_css_page %}
+
+        {% block head_css_section %}
+        {% endblock head_css_section %}
+
+    {% endblock head_css %}
+
+{% block content %}
+
+    <header>
+    {% block header %}
+        {% include 'appsworld/navigation_bar_top.html' %}
+    {% endblock header %}
+    </header>
+    <div id="CONTENT_WRAPPER">
+        <main id="page-content-wrapper" role="main">
+            <div class="container-fluid">
+                <div class="row">
+                    <div id="COL1" class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+                    </div>
+                    <div id="COL2" class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                            <div class="row">
+                                {% include 'appsworld/profile_info.html' %}
+                            </div>
+                            <div class="row">
+                                <a href="{% url 'user_profile' profile_owner_info.username %}"><span>Events</span></a>
+                                <a href="{% url 'view_user_functions' user %}"><i class="material-icons">&#xe24a;</i><span>Functions</span></a>
+                                <a href="{% url 'view_user_files' profile_owner_info.username %}"><i class="material-icons">&#xe24a;</i><span>Values</span></a>
+                                <a href="{% url 'view_user_following' profile_owner_info.username %}"><i class="material-icons">&#xe24a;</i><span>Following</span></a>
+                                    {% if user.is_authenticated %}
+                                    <div class="row">
+                                        {% include 'appsworld/list_following.html' %}
+                                    </div>
+                                    <div class="row">
+                                        {% include 'appsworld/list_followers.html' %}
+                                    </div>
+                                    {% endif %}
+                            </div>
+                    </div>
+                    <div id="COL3" class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <ul class="pagination pull-right">
+                                {% if next_page is not 1 %}
+                                  <li><a href="{% url 'user_profile_pages' profile_owner_info.username.username previous_page 10 %}"><span class="glyphicon glyphicon-backward"></span> Backward</a></li>
+                                {% endif %}
+                                  <li><a href="{% url 'user_profile_pages' profile_owner_info.username.username next_page 10 %}"><span class="glyphicon glyphicon-forward"></span> Forward</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="COL4" class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                        <div class="container-fluid">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+{% endblock %}
+
+    {# Set of blocks that can be used to display JavaScript files #}
+    {% block footer_javascript %}
+        {% block footer_javascript_site %}
+            <script src="{% static 'appsworld/js/jquery-3.1.1.js' %}"></script>
+            <script src="{% static 'appsworld/js/bootstrap.js' %}"></script>
+        {% endblock footer_javascript_site %}
+        {% block footer_javascript_page %}
+            <script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"</script>
+        {% endblock footer_javascript_page %}
+        {% block footer_javascript_section %}
+        {% endblock footer_javascript_section %}
+
+    {% endblock footer_javascript %}

@@ -1,0 +1,19 @@
+<style>
+
+</style>
+<div id="FILE_UPLOAD_FORM_CONTAINER" class="container-fluid">
+    <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="row">
+    {{ form.file }}
+        Folder Name: {{ form.folder }} {{ form.visibility }} {{ form.description }}
+    <button id="CREATE_APP_FORM_SUBMIT_BUTTON" type="submit">Save</button>
+    </div>
+    </form>
+</div>
+
+
+
+
+
+ 

@@ -1,0 +1,90 @@
+<style>
+#apps_container {
+    width: 100%;
+}
+
+#apps_container table {
+    width: 100%;
+}
+
+#apps_container td {
+    padding: 8px;
+}
+
+#apps_container a {
+    text-decoration: none;
+}
+
+#apps_container td:hover {
+    background-color: #daa46d;
+}
+
+#apps_container .description {
+    font-style: italic;
+}
+
+#apps_container a:hover {
+    background-color: green;
+}
+
+#apps_container .icon_container {
+    float: left;
+    width: 40px;
+    height: 40px;
+}
+
+#apps_container .app_name {
+    font-weight: bold;
+}
+
+#apps_container .app_name_and_description {
+    float: left;
+    width: 150px;
+    min-height: 40px;
+}
+
+</style>
+
+
+<div id="apps_container">
+    <table>
+        <tr class="app_row">
+            <td>
+            <a href="{% url 'view_onlab' %}">
+                <div class="icon_container">
+                    <img class="img-responsive" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Function_machine2.svg/220px-Function_machine2.svg.png">
+                </div>
+                <div class="app_name_and_description">
+                    <div class="container-fluid">
+                        <div class="row app_name">
+                            OnLab
+                        </div>
+                        <div class="row description">
+                            Create your own functional block!
+                        </div>
+                    </div>
+                </div>
+            </a>
+            </td>
+        </tr>
+        <tr class="app_row">
+            <td>
+            <a href="{% url 'view_calendar_year' user '2018' %}">
+                <div class="icon_container">
+                    <img class="img-responsive" src="http://icons.iconarchive.com/icons/aha-soft/large-calendar/256/Calendar-icon.png">
+                </div>
+                <div class="app_name_and_description">
+                    <div class="container-fluid">
+                        <div class="row app_name">
+                            Calendar
+                        </div>
+                        <div class="row description">
+                            Calendar
+                        </div>
+                    </div>
+                </div>
+            </a>
+            </td>
+        </tr>
+    </table>
+</div>

@@ -1,0 +1,129 @@
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<style type="text/css">
+
+	#CREATE_BUTTON {
+		margin-left: 16px;
+		background-color: lightblue;
+	}
+
+	#INTERNAL_VARIABLE_DISPLAY {
+        float: left;
+	}
+
+	#crossword_settings {
+
+	}
+
+	#CROSSWORD_TABLE {
+
+	}
+
+	#CROSSWORD_CONTAINER {
+        float: left;
+	}
+
+	#CROSSWORD_CONTAINER tr {
+	  margin : 0px;
+	  padding : 0px;
+	}
+
+	#GA_CONTAINER {
+	    float: left;
+	}
+
+	.cell {
+	  position: relative;
+	  border-color: gray;
+	  border-width: 1px;
+	  border-style: solid;
+		width: 5vw;
+	    height: 5vw;
+	  margin : 0px;
+	  padding : 0px;
+	  width: 40px;
+	  height: 40px;
+	}
+
+	.cell_text {
+	  width: 100%;
+	  height: 100%;
+	  position: absolute;
+	  left : 0px;
+	  top : 0px;
+	  margin : 0px;
+	  padding : 0px;
+	  border-color: gray;
+	  border-width: 0px;
+	  border-style: solid;
+	  text-align: center;
+	  text-shadow: 0px 0px #000000;
+	  font-size: 16px;
+	  color: black;
+	}
+
+	.cell_number {
+	  position : absolute;
+	  margin : 0px;
+	  padding : 0px;
+	  left : 0px;
+	  top : 0px;
+	  font-size: 8px;
+	  color: gray;
+	  font-family: Arial;
+	  color: black;
+	  text-shadow: 0px 0px #000000;
+	}
+</style>
+<div class="container-fluid">
+	<div class='row'>
+		<div class="col-sm-12 col-md-6">
+		    <div class="row">
+				<div id="crossword_settings" class='panel panel-primary'>
+					<div class="panel-heading">
+						Crossword Settings
+					</div>
+					<div class="panel-body">
+						<table id="CROSSWORD_TABLE">
+							<tr><td>Chromosome:</td><td><input id="INPUT_CHROM_NUM" value="0"></td><td>&nbsp</td><td></td></tr>
+							<tr><td>Rows:</td><td><input id="INPUT_ROWS" value="5"></td><td></td><td></td></tr>
+							<tr><td>Columns:</td><td><input id="INPUT_COLS" value="6"></td><td></td><td><button onclick="automate(this);">Run</button></td></tr>
+						</table>
+					</div>
+				</div>
+		    </div>
+
+		</div>
+		<div class="col-sm-12 col-md-6">
+		    <div class="row">
+				<table id="CROSSWORD_CONTAINER">
+					<tr><td id='0' class='cell'><div class='cell_number'>1</div>A</td><td id='1' class='cell'><div class='cell_number'>2</div>B</td></tr>
+					<tr><td id='2' class='cell'><div class='cell_number'>3</div>C</td><td id='3' class='cell'><div class='cell_number'>4</div>D</td></tr>
+				</table>
+				<div id="INTERNAL_VARIABLE_DISPLAY">
+        		internal variable display
+        		</div>
+				<div id="GA_CONTAINER">
+		        </div>
+		    </div>
+	  	</div>
+
+	</div>
+	<div class='panel panel-primary table_container'>
+		<div class="panel-heading">
+			Genetic Algorithm Settings
+		</div>
+		<div class="panel-body">
+			<table id="GA_TABLE" class='table table-hover'>
+				<tr><td>Population:</td><td><input id="INPUT_POPULATION" value="4"></td></tr>
+				<tr><td>Mutation Rate:</td><td><input id="INPUT_POPULATION" value="4"></td></tr>
+				<tr><td>Crossover Rate:</td><td><input id="INPUT_POPULATION" value="4"></td></tr>
+				<tr><td>Max Generation:</td><td><input id="INPUT_POPULATION" value="4"></td></tr>
+			</table>
+		</div>
+	</div>
+</div>
+
+<script type='text/javascript' src='http://funcbook.pythonanywhere.com/media/first_user/Crossword_GA/CrosswordGA.js'></script>
+<script type='text/javascript' src='CrosswordGA.js'></script>
+<script type='text/javascript' src='http://funcbook.pythonanywhere.com/media/first_user/Crossword_GA/Orthography.js'></script>
+<script type='text/javascript' src='Orthography.js'></script>

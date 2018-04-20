@@ -1,0 +1,184 @@
+<style>
+
+body {
+    background: lightgray;
+}
+
+#sidebar-wrapper {
+    z-index: 1000;
+    position: fixed;
+    left: 200px;
+    height: 100%;
+    margin-left: -200px;
+    overflow-y: auto;
+    background: #f8f8f8;
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    -o-transition: all .5s ease;
+    transition: all .5s ease;
+}
+
+@media (min-width: 992px) {
+    #sidebar-wrapper {
+        width: 200px !important;
+    }
+}
+
+@media (max-width: 992px) {
+    #sidebar-wrapper {
+        width: 45px !important;
+    }
+    #sidebar-wrapper #sidebar #sidemenu li ul {
+        position: fixed !important;
+        left: 45px !important;
+        margin-top: -45px !important;
+        z-index: 1000 !important;
+        width: 200px !important;
+        height: 0 !important;
+    }
+}
+
+#page-content-wrapper {
+    padding-top:16px;
+}
+
+#sidebar-wrapper {
+    border-right: 1px solid #e7e7e7;
+}
+
+#sidebar-wrapper .sidebar-nav {
+    position: absolute;
+    top: 0;
+    width: 200px;
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+#sidebar-wrapper .sidebar-nav li {
+    text-indent: 0;
+    line-height: 45px;
+}
+
+#sidebar-wrapper .sidebar-nav li a {
+    display: block;
+    text-decoration: none;
+    color: #428bca;
+}
+
+#sidebar-wrapper .sidebar-nav li a .sidebar-icon {
+    width: 45px;
+    height: 45px;
+    font-size: 14px;
+    padding: 0 2px;
+    display: inline-block;
+    text-indent: 7px;
+    margin-right: 10px;
+    color: #fff;
+    float: left;
+}
+
+#sidebar-wrapper .sidebar-nav li a .caret {
+  position: absolute;
+  right: 23px;
+  top: auto;
+  margin-top: 20px;
+}
+
+#sidebar-wrapper .sidebar-nav li ul.panel-collapse {
+    list-style: none;
+    -moz-padding-start: 0;
+    -webkit-padding-start: 0;
+    -khtml-padding-start: 0;
+    -o-padding-start: 0;
+    padding-start: 0;
+    padding: 0;
+}
+
+#sidebar-wrapper .sidebar-nav li ul.panel-collapse li i {
+    margin-right: 4px;
+}
+
+#sidebar-wrapper .sidebar-nav li ul.panel-collapse li {
+    text-indent: 15px;
+}
+
+#sidebar-wrapper .sidebar-nav li ul.panel-collapse li a {
+    background: #92bce0 !important;
+}
+
+#sidebar-wrapper #sidebar .sidebar-nav li a span {
+    padding: 0px;
+    margin: 0px;
+}
+
+.sidebar-nav li a {
+    background: rgba(11,93,133,1) !important;
+    color: #fff !important;
+}
+
+.sidebar-nav li a:hover {
+    background: #92bce0 !important;
+    color: #fff !important;
+    border-bottom-color: yellow;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+}
+
+</style>
+
+<div id="sidebar-wrapper">
+    <aside id="sidebar">
+        <ul id="sidemenu" class="sidebar-nav">
+            {% if user.is_superuser %}
+            <li>
+                <a href="{% url 'admin_dashboard'%}">
+                    <span class="sidebar-icon"><span class="glyphicon glyphicon-cog"></span></span>
+                    <span class="sidebar-title">Admin</span>
+                </a>
+            </li>
+            {% endif %}
+            {% if request.user.is_authenticated %}
+            <li>
+                <a href="{% url 'user_profile' user %}">
+                    <span class="sidebar-icon"><span class="glyphicon glyphicon-pushpin"></span></span>
+                    <span class="sidebar-title">My Blog</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'create_a_post' user %}">
+                    <span class="sidebar-icon"><span class="glyphicon glyphicon-plus"></span></span>
+                    <span class="sidebar-title">New Post</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'view_user_files' user %}">
+                    <span class="sidebar-icon"><span class="glyphicon glyphicon-folder-open"></span></span>
+                    <span class="sidebar-title">Files</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'events' %}">
+                    <span class="sidebar-icon"><span class="glyphicon glyphicon-envelope"></span></span>
+                    <span class="sidebar-title">Events</span>
+                </a>
+            </li>
+            {% endif %}
+            <li>
+                <a class="accordion-toggle collapsed toggle-switch" data-toggle="collapse"  href="#calendar-submenu">
+                    <span class="sidebar-icon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    <span class="sidebar-title">Calendar</span><b class="caret"></b>
+                </a>
+                <ul id="calendar-submenu" class="panel-collapse collapse panel-switch" role="menu">
+                    <li><a href="{% url 'calendar_month' user year_today month_today %}">Month<i class="fa fa-caret-right"></i></a></li>
+                    <li><a href="{% url 'events' %}">Events<i class="fa fa-caret-right"></i></a></li>
+                    <li><a href="{% url 'holidays' %}">Holidays<i class="fa fa-caret-right"></i></a></li>
+                </ul>
+            </li>
+            </li>
+        </ul>
+    </aside>            
+</div>
+
+

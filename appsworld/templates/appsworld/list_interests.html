@@ -1,0 +1,64 @@
+<style>
+
+    #APPSWORLD-PANEL-KEYWORDS {
+        background-color: rgba(128, 128, 128, 0) !important;
+        padding: 0px !important;
+        margin: 0px !important;
+        margin-bottom: 4px !important;
+        border-radius: 0px !important;
+        box-shadow: none !important;
+        max-height: 90vh !important;
+        overflow: auto !important;
+        width: 100%;
+    }
+
+    #APPSWORLD-PANEL-KEYWORDS > .panel {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    #APPSWORLD-PANEL-KEYWORDS > .panel > .panel-heading {
+        margin: 0px;
+        padding: 4px;
+    }
+
+    #APPSWORLD-PANEL-KEYWORDS > .panel > .panel-body {
+        margin: 0px;
+        padding: 4px;
+    }
+
+    #APPSWORLD-PANEL-KEYWORDS > .panel > .panel-footer {
+
+    }
+
+    .aw-keyword-item {
+        background-color: rgba(128, 128, 128, 0.25) !important;
+        padding: 4px !important;
+        margin: 1px !important;
+        margin-bottom: 1px !important;
+        float: left !important;
+        border-radius: 0px !important;
+    }
+
+    .aw-keyword-item:hover {
+        background-color: rgba(128, 128, 128, 0.5) !important;
+    }
+
+    div.aw-keyword-item > a {
+        color: black !important;
+    }
+</style>
+
+
+<div id="APPSWORLD-PANEL-KEYWORDS" class="container">
+    <div>
+        {% for keyword in keywords %}
+        {% if keyword.0 == "" or keyword.0 == " " %}
+        {% else %}
+        <div class="aw-keyword-item row">
+            <a href="{% url 'tag_result'  keyword.1 %}">{{keyword.0}}</a>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>

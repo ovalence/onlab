@@ -1,0 +1,133 @@
+#canvas1 {
+  background-color: yellow; 
+  width: 100%;
+  height: 70vh;
+}
+
+#KINEMATICS_CONTAINER {
+}
+
+
+#KINEMATICS_CONTAINER .panel {
+	margin:1px;
+	padding: 0px;
+    box-shadow: 0px 0px 2px 1px #888888;
+}
+
+#KINEMATICS_CONTAINER .panel-danger .panel-heading {
+	background-color: red;
+	color: white;
+	text-align: center;
+}
+
+#KINEMATICS_CONTAINER .panel-success .panel-heading {
+	background-color: green;
+	color: white;
+	text-align: center;
+}
+
+#KINEMATICS_CONTAINER .panel-info .panel-heading {
+	background-color: blue;
+	color: white;
+	text-align: center;
+}
+
+#KINEMATICS_CONTAINER .panel-body {
+	margin: 0px;
+	padding: 2px;
+}
+
+#KINEMATICS_CONTAINER .panel-footer {
+	margin: 0px;
+	padding: 2px;
+}
+
+#KINEMATICS_CONTAINER table {
+	margin: 0px;
+	padding: 0px;
+}
+
+#KINEMATICS_CONTAINER td {
+	padding: 0px;
+}
+
+#KINEMATICS_CONTAINER tr {
+	padding: 0px;
+}
+
+#KINEMATICS_CONTAINER th {
+	padding: 0px;
+}
+
+#KINEMATICS_CONTAINER .form-inline {
+	margin-bottom: 0px;
+}
+
+#KINEMATICS_CONTAINER input[type="text"].form-control {
+	max-width: 80px;
+	padding: 4px;
+}
+
+#KINEMATICS_CONTAINER select.form-control {
+	max-width: 60px;
+	padding: 4px;
+}
+
+@media (min-width:350px) and (max-width:767px) { 
+	#KINEMATICS_CONTAINER .form-inline .form-control {
+	        display: inline-block !important;
+	        width: auto !important;
+	        margin: 0 !important;
+	    }
+
+	#KINEMATICS_CONTAINER .form-inline .form-group {
+	        display: inline-block !important;
+	        width: auto !important;
+	        margin-bottom: 0 !important;
+	        vertical-align: middle !important;
+	 }
+}
+
+@media (min-width:800px) {
+	#KINEMATICS_CONTAINER .col-md-6 {
+		padding-left: 32px !important;
+		padding-right: 24px !important;
+	}
+}
+
+#CANVAS_CONTAINER {
+	position: relative;
+}
+
+#toplimit {
+	position: absolute;
+	top: 0px;
+	left: 50%;
+	background-color: transparent;
+	width: 60px;
+}
+
+#bottomlimit {
+	position: absolute;
+	bottom: 0px;
+	left: 50%;
+	background-color: transparent;
+	width: 60px;
+}
+
+#leftlimit {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	background-color: transparent;
+	width: 60px;
+}
+
+#rightlimit {
+	position: absolute;
+	top: 50%;
+	right: 0px;
+	background-color: transparent;
+	width: 60px;
+}
+

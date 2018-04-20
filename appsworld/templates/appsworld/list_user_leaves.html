@@ -1,0 +1,52 @@
+<style>
+#USER_EVENTS_CONTAINER {
+    width: 100%;
+}
+
+#USER_EVENTS_CONTAINER .panel .panel-heading {
+    padding: 4px;
+    padding-left: 8px;
+}
+
+#USER_EVENTS_CONTAINER .panel .panel-body {
+    padding: 4px;
+}
+
+#USER_EVENTS_CONTAINER .panel .panel-body .list-group .list-group-item{
+    overflow-x: hidden;
+    padding: 2px;
+    margin: 0px;
+    border-width: 0px;
+}
+
+#USER_EVENTS_CONTAINER .panel .panel-body .list-group .list-group-item img {
+    width: 36px;
+    height: 36px;
+    padding: 0px;
+    margin: 0px;
+}
+
+#USER_EVENTS_CONTAINER .panel .panel-body .list-group .list-group-item > a {
+    margin-left: 0px;
+    paddding-left: 4px;
+    overflow-x: hidden;
+    white-space: nowrap;
+}
+
+</style>
+
+<div id="USER_EVENTS_CONTAINER">
+  <div class="panel panel-default">
+    <div class="panel-heading">My Events</div>
+    <div class="panel-body"><a class="btn-xs btn-success pull-right" href="{% url 'file_a_leave' %}">File a Leave</a>
+        <ul class="list-group">
+            {% for user_event in user_events %}
+            <li class="list-group-item">
+                <img class="img-responsive img-thumbnail" src="{{ follower.picture }}">
+                <a href="{% url 'event_permalink' user_event.id %}">{{ user_event.event }} {{ user_event.start_date }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+  </div>
+</div>

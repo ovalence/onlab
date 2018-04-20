@@ -1,0 +1,300 @@
+{% load staticfiles %}
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<script src="{% static 'appsworld/js/angular.min.js' %}"></script>
+<style>
+    #POSTS_CONTAINER {
+        width: 100%;
+    }
+
+    #POSTS_CONTAINER .post_container {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 16px;
+        border-top-width: 1px;
+        border-top-style: solid;
+        border-top-color: lightgray;
+        background-color: white;
+    }
+
+    #POSTS_CONTAINER a {
+        text-decoration: none;
+    }
+
+    #POSTS_CONTAINER ul {
+        margin: 0px;
+        padding: 0px;
+        list-style-type: none;
+    }
+
+    #POSTS_CONTAINER ul li{
+        margin: 0px;
+        padding: 0px;
+    }
+
+    #POSTS_CONTAINER .aw-keywords li {
+        float: left;
+        padding-right: 8px;
+    }
+
+    #POSTS_CONTAINER .aw-keywords li a {
+        font-size: 12px;
+    }
+
+    #POSTS_CONTAINER .td_visibility{
+        font-size: 12px;
+        text-align: right;
+    }
+
+    #POSTS_CONTAINER .td_profile_icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    #POSTS_CONTAINER .picture_icon  {
+        width: 100%;
+        height: auto;
+    }
+
+    #POSTS_CONTAINER table {
+        width: 100%;
+        margin-top: 8px;
+        margin-bottom: 8px;
+        background-color: white;
+    }
+
+    #POSTS_CONTAINER .tr_first_row {
+
+    }
+
+    #POSTS_CONTAINER .td_user_name {
+        width: 65%;
+        font-size: 12px;
+        padding-left: 8px;
+    }
+
+    #POSTS_CONTAINER .td_post_title {
+        padding-left: 8px;
+        color: teal;
+    }
+
+    #POSTS_CONTAINER .post_title a {
+        color: teal;
+    }
+
+    #POSTS_CONTAINER td {
+        padding: 0px;
+        vertical-align: top;
+    }
+
+    #POSTS_CONTAINER .description_td {
+        height: 100px;
+        overflow-y: hidden;
+        padding-top: 18px;
+        padding-bottom: 18px;
+
+    }
+
+    #POSTS_CONTAINER .description_td .thumbnail_container {
+        padding-bottom: 18px;
+    }
+
+    #POSTS_CONTAINER tr {
+        padding: 0px;
+    }
+
+    #POSTS_CONTAINER .post_name {
+        font: 10px;
+    }
+
+    #POSTS_CONTAINER iframe {
+        width: 100%;
+        height: auto;
+    }
+
+    #POSTS_CONTAINER video {
+        width: 100%;
+        height: auto;
+    }
+
+.thumbnail_container {
+    max-height: 80px;
+    overflow: hidden;
+}
+
+.post_title {
+    font-size: 16px;
+    font-style: bold;
+    color: teal;
+}
+
+.post_date {
+    font-size:10px;
+    color: teal;
+}
+
+.icon_container {
+    width: 40px;
+    height: 40px;
+    border-color: lightblue;
+    border-style: solid;
+    border-width: 1px;
+    margin: 0px;
+    margin-right: 8px;
+    position: relative;
+}
+
+.icon_container img{
+    position  : absolute;
+  top       : 50%;
+  left      : 50%;
+  width     : 150%;
+  transform : translate(-50%,-50%);
+}
+
+.glyphicon-tags {
+    font-size: 8px;
+    color: teal;
+}
+</style>
+
+<style type="text/css">
+
+</style>
+
+<div id="POSTS_CONTAINER" ng-app="activitiesFeedApp" ng-controller="activitiesFeedCtrl">
+<div ng-repeat="activity in activitiesJson" class='container-fluid post_container'>
+<table>
+<tr class="tr_first_row">
+    <td rowspan="3" class='td_profile_icon'>
+        <div class="icon_container">{% verbatim %}
+            <a ng-href="#"><img class="img-responsive" ng-src="{{activity.user_info.picture}}"></a>
+        {% endverbatim %}
+        </div>
+    </td>{% verbatim %}
+    <td colspan="3"><a class="post_user" ng-href="/{{activity.user_info.user_account.username}}/"><span ng-bind="activity.user_info.user_account.first_name + ' ' + activity.user_info.user_account.last_name"></span></a></td>{% endverbatim %}
+    <td class='td_visibility'>
+        <ul class="aw-visibility">
+            <li class="dropdown">
+                <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+                    <span ng-if="activity.media.visibility == 'PU'" class="glyphicon glyphicon-globe"></span>
+                    <span ng-if="activity.media.visibility == 'PR'" class="glyphicon glyphicon-eye-close"></span>
+                    <span ng-if="activity.media.visibility == 'FR'" class="glyphicon glyphicon-user"></span>
+                </a>
+                <ul class="aw-visibility-dropdown-menu dropdown-menu dropdown-menu-right">
+                    <li ng-if="activity.user_info.user.username = 'user'"><a href="#">Delete</a></li>
+                </ul>
+            </li>
+        </ul>
+    </td>
+</tr>
+<tr>
+    <td colspan="3" rowspan="2"><span class="post_date" ng-bind="activity.fields.date"></span></td>
+    <td></td>
+</tr>
+<tr><td></td>
+</tr>
+<tr><td colspan="5" class="description_td">
+    <div class="container-fluid">
+        <div ng-if="activity.activity == 'upload' && activity.activity == ''"" class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="row">
+                    <span ng-bind="activity.media.description"></span>
+                </div>
+            </div>
+        </div>
+        <div ng-if="activity.fields.media.file_type == 'text' || activity.fields.media.file_type == 'javascript'" class="row">
+            <div class="col-xs-4 col-sm-4 col-md-4">
+                <div class="thumbnail_container">
+                    <a href="#">
+                    <img class="img-responsive post_thumbnail" src="{{activity.media.thumbnail}}">
+                    </a>
+                </div>
+            </div>
+            <div class="col-xs-8 col-sm-8 col-md-8">
+                <div class="row post_title post_name">
+                    <a href="#" class="post_name">
+                        <span ng-bind="activity.fields.media.filename"></span>
+                    </a>
+                </div>
+                <div class="row">
+                    <span ng-bind="activity.fields.media.description"></span>
+                </div>
+            </div>
+        </div>
+        <div ng-if="activity.media.file_type == 'jpeg' || activity.media.file_type == 'png'" class="row">
+            <span ng-bind="activity.media.description"></span>
+        </div>
+        <div class="row">{% verbatim %}
+            <a ng-href="/media/{{activity.media.id}}/">
+            <img class="img-responsive post_thumbnail" ng-src="{{activity.media.file_path}}">
+            </a>{% endverbatim %}
+        </div>
+        <div ng-if="activity.media.folder == 'video'" class="row post_title post_name">
+            <a href="#" class="post_name">
+                <span ng-bind="activity.media.title"></span>
+            </a>
+        </div>
+        <div class="row">
+            <span ng-bind="activity.media.description"></span>
+        </div>
+        <div class="row">
+            <video  ng-if="activity.media.file_type == 'x-ms-wmv'" controls>{% verbatim %}
+              <source src="{{activity.media.file_url}}" type="video/wmv">
+              Your browser does not support the video tag.{% endverbatim %}
+            </video>
+            <video ng-if="activity.media.file_type == 'mp4'" controls>{% verbatim %}
+              <source src="{{activity.media.file_url}}" type="video/mp4">
+              Your browser does not support the video tag.{% endverbatim %}
+            </video>
+        </div>
+    </div>
+</td>
+</tr>
+<tr>
+    <td class="comments_container">
+		<table class="COMMENTS_TABLE">
+			<tbody ng-repeat="comment in activity.media.comments">
+				<tr>
+					<td rowspan="2" class='column1' >{% verbatim %}
+						<div class='icon_container'>
+						<img class="img-responsive picture_icon_sm" ng-src="{{comment.user_info.picture}}" />
+						</div>{% endverbatim %}
+					</td>
+					<td class='column2'>{% verbatim %}
+						<a ng-href='/{{comment.user_info.user_account.username}}/' ng-bind="comment.user_info.first_name + ' ' + comment.user_info.last_name"></a>{% endverbatim %}
+					</td>
+					<td class='column3'></td>
+				</tr>
+				<tr><td id="comment_container" colspan='2' ng-bind="comment.comment"></td></tr>
+			</tbody>
+
+		</table>
+	</td>
+
+</tr>
+</table>
+</div>
+</div>
+
+<script>
+    var app = angular.module('activitiesFeedApp', []);
+
+    app.controller('activitiesFeedCtrl', function($scope) {
+        $scope.activitiesJson = {{ activities_json | safe}};
+    });
+    function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>

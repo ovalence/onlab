@@ -1,0 +1,14 @@
+<div id="FILE_UPLOAD_FORM_CONTAINER" class="container-fluid">
+    <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="row">
+    Event_id: {{ event_form.event_id }}
+    Event: {{ event_form.event }}
+    Person: {{ event_form.speaker }}
+    Attendees: {{ event_form.attendees }}
+    Start Time: {{ event_form.start_date }} {{ event_form.start_hour }} {{ event_form.start_minute }}
+    End Time: {{ event_form.end_date }} {{ event_form.end_hour }} {{ event_form.end_minute }}
+    <button id="CREATE_APP_FORM_SUBMIT_BUTTON" type="submit">Save</button>
+    </div>
+    </form>
+</div>

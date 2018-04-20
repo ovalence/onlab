@@ -1,0 +1,133 @@
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<style>
+#GRAYSCALE_CONTAINER canvas {
+	background-color: gray;
+	border-color: black;
+	border-width: 1px;
+	border-style: solid;
+}
+</style>
+<div id="grayscale_CONTAINER" class="container-fluid">
+	<br>
+	<div class="row">
+		<div class="col-sm-12 col-md-6">
+			<div class="row">
+				<div class="col-sm-12">
+					<canvas id="ORIGINAL_IMAGE_CANVAS"></canvas>
+				</div>
+<div class="container-fluid">
+  <div class="form-horizontal">
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="slider-red">Red:</label>
+      <div class="col-sm-10">
+        <input type="range" class="form-control" id="slider-red">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="slider-red">Green:</label>
+      <div class="col-sm-10">
+        <input type="range" class="form-control" id="slider-green">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="slider-red">Blue:</label>
+      <div class="col-sm-10">
+        <input type="range" class="form-control" id="slider-blue">
+      </div>
+    </div>
+  </div>
+</div>
+
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+				  <form>
+				    <div class="input-group">
+				      <input id="SRC_INPUT" type="text" class="form-control" placeholder="Enter image url." value="http://funcbook.pythonanywhere.com/media/first_user/RGB_Grayscale/City-Park-Ballooning-Credit-Ryan-Burke.jpg">
+				      <div class="input-group-btn">
+				        <button class="btn btn-info" type="button" onclick="buttonApplyToImg()">Put to img</button>
+				        <button class="btn btn-success" type="button" onclick="buttonApplyToCanvas()">Put to canvas</button>
+				      </div>
+				    </div>
+				  </form>
+				</div>
+			</div>
+
+		</div>
+		<div class="col-sm-12 col-md-6">
+			<div class="row">
+				<div class="col-sm-12">
+					<canvas id="PROCESSED_IMAGE_CANVAS"></canvas>
+				</div>
+				<label></label>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+				        <button class="btn btn-primary" type="button" onclick="buttonApplyGrayscale()">Apply grayscale</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<hr>
+	<div class="row">
+		<div class="col-sm-12">
+					<img id="ORIGINAL_IMAGE_FILE" src="#" alt="Picture will be placed here.">
+		</div>
+	</div>
+</div>
+
+<script src="jquery-3.1.1.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script type="text/javascript">
+
+var urlInput = document.getElementById("SRC_INPUT");
+
+
+function addEventListeners() {
+
+}
+
+function buttonApplyToImg() {
+	placePictureToImg("ORIGINAL_IMAGE_FILE", urlInput.value);
+}
+
+function buttonApplyToCanvas() {
+	placePictureToCanvas("ORIGINAL_IMAGE_CANVAS", "ORIGINAL_IMAGE_FILE");
+}
+
+function buttonApplyGrayscale() {
+	canvasToCanvasGrayscale("ORIGINAL_IMAGE_CANVAS", "PROCESSED_IMAGE_CANVAS");
+}
+
+function canvasToCanvasGrayscale(canvas_original_id, canvas_processed_id) {
+	var canvas_original = document.getElementById(canvas_original_id);
+	var canvas_processed = document.getElementById(canvas_processed_id);
+	context_orig = canvas_original.getContext('2d');
+	context_proc = canvas_processed.getContext('2d');
+
+	for (i = 0; i< canvas_original.height; i++) {
+		for (j=0; j< canvas_original.width; j++) {
+			data = context_orig.getImageData(j, i, 1, 1).data;
+			value = grayscale(data[0],data[1], data[2]);
+			context_proc.fillStyle = "rgba("+value+","+value+","+value+","+1+")";
+			context_proc.fillRect( j, i, 1, 1 );
+			context_proc.fillRect(j, i, 1, 1);
+		}
+	}
+}
+
+function placePictureToImg(img_element_id, img_url) {
+	var imgContainer = document.getElementById(img_element_id).src=img_url;
+}
+
+function placePictureToCanvas(canvas_element_id, img_element_id) {
+	var canvas = document.getElementById(canvas_element_id);
+	var img = document.getElementById(img_element_id);
+	context = canvas.getContext('2d');
+	context.drawImage(img, 0, 0, canvas.width, canvas.height);
+}
+
+function grayscale(red, green, blue) {
+	return Math.floor(0.30*red + 0.59*green + 0.11*blue);
+}
+</script>

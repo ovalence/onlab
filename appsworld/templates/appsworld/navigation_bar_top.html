@@ -1,0 +1,75 @@
+<style>
+#top_navbar {
+    border-radius: 0px;
+}
+
+#top_navbar .img_icon {
+    width: 32px;
+    height: 32px;
+    margin-left: -6px;
+    margin-top: -6px;
+    margin-right: 8px;
+    margin-bottom: -6px;
+    padding: 0px;
+}
+
+#top_navbar #user_first_name {
+    float: left;
+}
+
+#top_navbar #pic_name_combo {
+   display: inline-flex;
+}
+</style>
+
+
+<nav id="top_navbar" class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="{% url 'index' %}">{{websiteName}}</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      {% if request.user.is_authenticated %}
+      <ul class="nav navbar-nav">
+        <li>
+            <form class="navbar-form navbar-left" role="search" action="{% url 'search_result' %}" method="GET" accept-charset="utf-8">
+            <div class="input-group">
+            <input type="text" id="SEARCH_INPUT" name="term" class="input form-control" placeholder="Search. Not yet working.">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+            </span>
+            </div>
+            </form>
+        </li>
+        <li><a id = "pic_name_combo" href="{% url 'user_profile' user %}"><img src="{{ logged_user_info.picture }}" class="img-responsive img_icon"><span id="user_first_name">{{user.first_name}}</span></a></li>
+        {% if request.user.is_superuser %}
+        <li><a href="{% url 'view_onlab' %}">OnLab</a></li>
+        {% endif %}
+        <li><a href="{% url 'view_calendar_year' user '2018' %}">Calendar</a></li>
+      </ul>
+      {% endif %}
+      {% if request.user.is_authenticated %}
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Settings</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+          </ul>
+        </li>
+      </ul>
+      {% else %}
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="{% url 'signup' %}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+        <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      </ul>
+      {% endif %}
+
+    </div>
+  </div>
+</nav>

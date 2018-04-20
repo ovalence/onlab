@@ -1,0 +1,114 @@
+
+<div id="POST_SUPPLEMENTS">
+	<div class="tab">
+		<button class="tablinks" onclick="creatPost(event, 'RELATED')"><i class="fa fa-upload" aria-hidden="true">&nbsp</i>Related</button>
+		<button class="tablinks" onclick="creatPost(event, 'COMMENTS')"><i class="fa fa-file-o" aria-hidden="true">&nbsp</i>Comments</button>
+	</div>
+
+	<div id="RELATED" class="tabcontent">
+		{% include 'appsworld/list_related_apps.html' %}
+	</div>
+
+	<div id="COMMENTS" class='tabcontent'>
+		{% include 'appsworld/comments.html' %}
+	</div>
+
+</div>
+
+
+<style type="text/css">
+
+	#POST_SUPPLEMENTS{
+		border: 1px solid transparent;
+		padding: 1px;
+		margin-bottom: 16px;
+		width: 100%;
+	}
+
+	#POST_SUPPLEMENTS:hover {
+
+	}
+
+	#POST_SUPPLEMENTS a {
+		text-decoration: none;
+	}
+
+	#POST_SUPPLEMENTS .panel {
+		border: 1px solid blue;
+		margin: 0px;
+		border-width: 0px;
+	}
+
+	#POST_SUPPLEMENTS div.tab {
+	    overflow: hidden;
+	    border: 1px solid #ccc;
+	    background-color: white;
+	    padding: 1px;
+	}
+
+	/* Style the buttons inside the tab */
+	#POST_SUPPLEMENTS div.tab button {
+	    background-color: inherit;
+	    float: left;
+	    border: none;
+	    outline: none;
+	    cursor: pointer;
+	    padding: 14px 16px;
+	    transition: 0.3s;
+	    height: 32px;
+	    padding: 4px;
+	}
+
+	#POST_SUPPLEMENTS div.tab .fa-upload {
+		color: blue;
+	}
+
+	#POST_SUPPLEMENTS div.tab .fa-file-o {
+		color: lightblue;
+	}
+
+	#POST_SUPPLEMENTS div.tab .fa-thumb-tack {
+		color: green;
+	}
+
+	/* Change background color of buttons on hover */
+	#POST_SUPPLEMENTS div.tab button:hover {
+	    background-color: #ddd;
+	}
+
+	/* Create an active/current tablink class */
+	#POST_SUPPLEMENTS div.tab button.active {
+	    background-color: #ccc;
+	}
+
+	/* Style the tab content */
+	#POST_SUPPLEMENTS .tabcontent {
+	    padding: 0px;
+	    border: 1px solid #ccc;
+	    border-top: none;
+	}
+
+</style>
+
+<script type="text/javascript">
+	function creatPost(evt, cityName) {
+    // Declare all variables
+    var i, tabcontent, tablinks;
+
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+
+    // Show the current tab, and add an "active" class to the button that opened the tab
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+</script>

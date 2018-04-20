@@ -1,0 +1,92 @@
+<style type="text/css">
+
+#ROW2_WRAPPER {
+    margin-top: 50px;
+}
+
+#ROW2_WRAPPER .navbar {
+    background-color: teal;
+    color: white;
+    border-radius: 0px;
+    border-color: transparent;
+    border-width: 0px;
+    border-style: solid;
+    padding: 0px;
+    margin: 0px;
+
+    position: relative;
+    min-height: 40px;
+    margin-bottom: 0px;
+    border: 1px solid transparent;
+}
+
+#ROW2_WRAPPER .navbar-header button{
+    height: 40px;
+    margin: 0px;
+    margin-right: 14px;
+}
+
+#ROW2_WRAPPER .navbar-collapse {
+    position: relative;
+    min-height: 40px;
+    margin-bottom: 0px;
+    border: 1px solid transparent;
+}
+
+
+#ROW2_NAVBAR_COLLAPSE ul li a {
+    color: white;
+    border-color: transparent;
+    border-width: 1px;
+    border-style: solid;
+    border-right-color: gray;
+    border-right-width: 1px;
+    border-right-style: solid;
+    height: 40px;
+    padding-bottom: 4px;
+}
+
+#ROW2_NAVBAR_COLLAPSE ul li a:hover {
+    background-color: teal;
+    color: yellow;
+}
+
+</style>
+<div id="ROW2_WRAPPER">
+    <nav role="navigation" class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#ROW2_NAVBAR_COLLAPSE">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div id="ROW2_NAVBAR_COLLAPSE" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-left">
+                        {% if user.is_authenticated %}
+                        <li>
+                            <a href="{% url 'user_profile' user %}">
+                                <span class="sidebar-icon"><span class="glyphicon glyphicon-pushpin"></span></span>
+                                <span class="sidebar-title"> My Blog</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'index' %}">
+                                <span class="sidebar-icon"><span class="glyphicon glyphicon-plus"></span></span>
+                                <span class="sidebar-title"> New Post</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'view_user_files' user %}">
+                                <span class="sidebar-icon"><span class="glyphicon glyphicon-folder-open"></span></span>
+                                <span class="sidebar-title"> Files</span>
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+    </nav>
+</div>

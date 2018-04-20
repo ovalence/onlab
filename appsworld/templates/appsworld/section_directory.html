@@ -1,0 +1,71 @@
+
+		<table class='table'>
+			<form method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+			<tr><td colspan='2'>{{ upload_form.folder }}</td><td></td></tr>
+			<tr><td>{{ upload_form.file }}</td><td><button id="CREATE_APP_FORM_SUBMIT_BUTTON" class="btn btn-sm btn-primary pull-right" type="submit"><span class="glyphicon glyphicon-upload"></span>Upload</button></td></tr>
+			</form>
+			<tr>
+				<td id='DIRECTORY_CONTAINER' colspan="2">
+					<div id='DIRECTORY_WINDOW'>
+						<div id="accordion1">
+						  	{%for dir in dir_tree %}
+						    <div class="panel panel-default">
+						      	<div class="panel-heading">
+						          	<a data-toggle="collapse" data-parent="#accordion1" href="#collapse1_{{dir.0}}"><span class="glyphicon glyphicon-folder-close"></span>&nbsp {{ dir.0 }}</a>
+
+						      	</div>
+					    	</div>
+					      	<div id="collapse1_{{dir.0}}" class="panel-collapse collapse">
+						            <ul class="list-group">
+							            {% for file in dir %}
+							            	{% if forloop.counter > 1 %}
+							            	{% if file.0.file_type == "jpg" or file.0.file_type == "png" or file.0.file_type == "wmv" or file.0.file_type == ".exe" or file.0.file_type == ".dll" or file.0.file_type == ".zip"%}
+								            <li class="list-group-item">
+								                <a href="{{h}}{{request.META.HTTP_HOST|add:'/'}}{{file.0.file_path}}"><img class="img-responsive img_icon" src="{{file.0.file_url}}"> &nbsp{{file.0.filename}}</a>
+								                <a href="{{file.0.file_url}}" class="btn btn-xs btn-primary pull-right"><span class="glyphicon glyphicon-file"></span></a>
+								            </li>
+							            	{% else %}
+								            <li class="list-group-item">
+								            	<a href="{{file.0.file_url}}"><span class="glyphicon glyphicon-file"></span>&nbsp{{file.0.filename}}</a>
+								            	<a href="{% url 'edit_file' file.0.id %}" class="btn btn-xs btn-primary pull-right"><span class="glyphicon glyphicon-edit"></span></a>
+								            </li>
+								            {% endif %}
+								            {% endif %}
+							            {% endfor %}
+							        </ul>
+					    	</div>
+					    	{% endfor %}
+					  	</div>
+					</div>
+				</td>
+			</tr>
+			<tr><td></td><td><a href="{% url 'view_user_files' user %}" class="btn btn-sm btn-primary pull-right"><span class="glyphicon glyphicon-folder-open"></span>&nbsp Go to Directory</button></td></tr>
+		</table>
+
+<style type="text/css">
+	#DIRECTORY_WINDOW a {
+		text-decoration: none;
+	}
+	#DIRECTORY_WINDOW .img_icon {
+		width: 40px;
+		height: 40px;
+		float: left;
+	}
+	#DIRECTORY_WINDOW .list-group-item {
+		overflow: hidden;
+		min-height: 10px;
+		padding-left: 36px;
+		text-align: middle;
+	}
+
+</style>
+
+<script type="text/javascript">
+	function validateFileUploadForm() {
+		file_upload_folder = document.getElementById("FILE_UPLOAD_FOLDER")
+		if (file_upload_folder.values.indexOf(' ') >= 0) {
+			alert
+		}
+	}
+</script>

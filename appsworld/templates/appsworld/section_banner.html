@@ -1,0 +1,187 @@
+<style>
+#fb-profile-block {
+  margin: 0;
+  width: 100%;
+}
+
+img{
+    width: 100%;
+    height: auto;
+}
+
+.fb-profile-block-thumb{
+  display: block;
+  height: 256px;
+  overflow: hidden;
+  position: relative;
+  text-decoration: none;
+}
+
+.profile-img {
+  position: absolute;
+  bottom: 32px;
+}
+
+.profile-img {
+  padding:0px;
+  height: 160px;
+  width: 160px;
+  background-color: rgba(255, 255, 255, 0.5);
+  position: absolute;
+  left: 32px;
+  bottom: 32px;
+}
+
+@media (min-width: 0px) and (max-width: 767px) {
+    .profile-img {
+    	box-shadow: none;
+    	padding:0px;
+    	height: 160px;
+    	width: 160px;
+    	background-color: rgba(255, 255, 255, 0.5);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+    }
+}
+
+.profile-img img {
+  border-radius: 4px;
+  border-width: 0px;
+  height: 160px;
+  padding: 0px;
+  width:160px;
+}
+
+.profile-name {
+  position: absolute;
+  bottom: 44px;
+  left: calc(32px + 160px + 32px);
+}
+
+@media (min-width: 0px) and (max-width: 767px) {
+  .profile-name {
+    position: absolute;
+    bottom: 44px;
+    left: 50%;
+    transform: translate(-50%, 0%);
+  }
+}
+
+.profile-name h2 {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 30px;
+  max-width: 275px;
+  white-space: nowrap;
+}
+
+@media (min-width: 0px) and (max-width: 767px) {
+.profile-name h2 {
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 30px;
+  max-width: 275px;
+  white-space: nowrap;
+}
+}
+
+.block-menu {
+  height: 44px;
+  overflow: hidden;
+  border-width: 0px;
+  position: absolute;
+  bottom: 0px;
+}
+
+@media (min-width: 0px) and (max-width: 767px) {
+  .block-menu {
+    height: 44px;
+    border-width: 0px;
+    position: absolute;
+  }
+}
+
+#profile_menu{
+	margin:0;
+	padding:0;
+	border-width: 0px;
+	background-color: rgba(255, 255, 255, 0.5);
+  position: absolute;
+  float: right;
+  bottom: 0px;
+  right: 0px;
+	}
+
+#profile_menu:hover{
+	margin:0;
+	padding:0;
+	border-width: 0px;
+	background-color: rgba(255, 255, 255, 0.75);
+	}
+
+@media (min-width: 0px) and (max-width: 767px) {
+  #profile_menu{
+      position: absolute;
+      float: left;
+      left: 50%;
+      transform: translate(-50%, 0%);
+      min-width: 240px;
+    }
+}
+
+#profile_menu li{
+	display:inline-block;
+	border-width: 0px;
+	background-color: rgba(255, 255, 255, 0);
+  float: right;
+  width: 80px;
+    text-align: center;
+	}
+#profile_menu li a {
+  border-right: 1px solid #e9eaed;
+  font-size: 14px;
+  font-weight: bold;
+  height: 42px;
+  line-height: 3.0;
+  position: relative;
+  vertical-align: middle;
+  text-align: center;
+  white-space: nowrap;
+  color:black;
+  text-transform: capitalize;
+  border-width: 0px;
+}
+#profile_menu li:first-child a{
+	  border-left: 0px solid #e9eaed;
+	}
+</style>
+<div class="container-fluid">
+  <div class="row">
+    <div id="fb-profile-block">
+        <div class="fb-profile-block-thumb">
+            <img src="{{profile_info.wallpaper}}" alt="" title="">
+            <a class="profile-img" href="{{profile_info.picture}}"><img src="{{profile_info.picture}}" alt="" title=""></a>
+            <div class="profile-name">
+              <h2>{{ profile_info.first_name}} {{ profile_info.last_name}}</h2>
+            </div>
+           <div class="block-menu">
+           </div>
+            <ul id="profile_menu">
+               <li><a href="{% url 'user_profile' profile_info.user_account.username %}"><span>Timeline</span></a></li>
+               <li><a href="{% url 'view_user_files' profile_info.user_account.username %}"><span>Media</span></a></li>
+               <li><a href="#"><span>Friends</span></a></li>
+            </ul>
+        </div>
+    </div>
+  </div>
+  <div class="row">
+      {% include 'appsworld/list_interests.html' %}
+  </div>
+</div>
+<script>
+
+</script>

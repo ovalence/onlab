@@ -1,0 +1,88 @@
+<style>
+#APPSWORLD-FOLLOWING-CONTAINER {
+    max-width: 260px;
+    min-width: 200px;
+    max-height: calc(100% - 50px);
+    background-color: white;
+}
+
+#APPSWORLD-FOLLOWING-CONTAINER a {
+    text-decoration: none;
+}
+
+#APPSWORLD-FOLLOWING-CONTAINER img {
+    width: 36px;
+    height: 36px;
+    padding: 0px;
+    margin: 0px;
+}
+
+#FOLLOWING_LIST {
+
+}
+
+#FOLLOWING_LIST tr {
+    vertical-align: middle;
+    padding: 2px;
+    background-color: #white;
+}
+
+#FOLLOWING_LIST td {
+    vertical-align: middle;
+    padding: 2px;
+    border-color: transparent;
+}
+
+#FOLLOWING_LIST td a:hover {
+    color: white;
+}
+
+#FOLLOWING_LIST tr:hover {
+    vertical-align: middle;
+    padding: 2px;
+    background-color: #7BAA94;
+    color: white;
+}
+
+#FOLLOWING_LIST .aw_first_column {
+    width: 50px;
+    padding-left: 8px;
+}
+
+</style>
+
+<div id="APPSWORLD-FOLLOWING-CONTAINER" class="pull-right">
+        <table id="FOLLOWING_LIST" class="table table-hover">
+            <tr>
+                <td colspan='2' class="aw_first_column">
+                    Following
+                </td>
+            </tr>
+            {% for following in following_list %}
+            <tr>
+                <td class="aw_first_column">
+                    <a href="{% url 'user_profile'  following.username %}"><img class="img-responsive img-thumbnail" src="{{ following.picture }}"></a>
+                </td>
+                <td>
+                    <a href="{% url 'user_profile'  following.username %}">{{ following.first_name }} {{ following.last_name }}</a>
+                </td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td colspan='2' class="aw_first_column">
+                    Followers
+                </td>
+            </tr>
+            {% for follower in followers_list %}
+            <tr>
+                <td class="aw_first_column">
+                    <img class="img-responsive img-thumbnail" src="{{ follower.picture }}">
+                </td>
+                <td>
+                    <a href="{% url 'user_profile'  follower.username %}">{{ follower.first_name }} {{ follower.last_name }}</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+</div>
+

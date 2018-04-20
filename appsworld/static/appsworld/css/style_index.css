@@ -1,0 +1,9 @@
+html, body {
+    background-color: #c7e0d2;
+    color: black;
+    border:1px;
+    vertical-align:top;
+    font-family:"Calibri", Arial, Helvetica, sans-serif;
+    font-size:14px;
+    height: 100%;
+}

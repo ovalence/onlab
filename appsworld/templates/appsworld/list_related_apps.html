@@ -1,0 +1,68 @@
+<style>
+#APPSWORLD_RELATED_APPS_CONTAINER {
+    max-width: 400px;
+    width: 100%;
+    display: block;
+}
+
+#APPSWORLD_RELATED_APPS_CONTAINER .panel .panel-heading {
+    padding: 4px;
+    padding-left: 8px;
+}
+
+#APPSWORLD_RELATED_APPS_CONTAINER .panel .panel-body {
+    padding: 4px;
+}
+
+#APPSWORLD_RELATED_APPS_CONTAINER .panel .panel-body .list-group .list-group-item{
+    overflow-x: hidden;
+    padding: 2px;
+    margin: 0px;
+    border-width: 0px;
+}
+
+#APPSWORLD_RELATED_APPS_CONTAINER .panel .panel-body .list-group .list-group-item img {
+    width: 80px;
+    height: 80px;
+    padding: 0px;
+    margin: 0px;
+    float: left;
+}
+
+#APPSWORLD_RELATED_APPS_CONTAINER .panel .panel-body .list-group .list-group-item  div {
+    float: left;
+    padding-left: 8px;
+}
+
+#APPSWORLD_RELATED_APPS_CONTAINER .panel .panel-body .list-group .list-group-item  a {
+    margin-left: 0px;
+    paddding-left: 4px;
+    overflow-x: hidden;
+    white-space: nowrap;
+}
+
+</style>
+
+
+<div id="APPSWORLD_RELATED_APPS_CONTAINER">
+  <div class="panel panel-info">
+    <div class="panel-heading">
+        <span class="fa fa-file-code-o" aria-hidden="true"></span>
+        <span style="padding-left: 4px;"> Related Posts</span>
+    </div>
+    <div class="panel-body">
+                        <ul class="list-group">
+                            {% for related_app in related_apps %}
+                                    <li class="list-group-item">
+                                        <img class="img-responsive img-thumbnail" src="{{ related_app.thumbnail }}">
+                                        <div>
+                                        <a href="{% url 'view_app' related_app.id %}"><b>{{ related_app.app_name }}</b></a><br>
+                                        <a href="{% url 'user_profile' related_app.username %}">{{ related_app.username }}</a><br>
+                                        </div>
+
+                                    </li>
+                            {% endfor %}
+                        </ul>
+    </div>
+  </div>
+</div>

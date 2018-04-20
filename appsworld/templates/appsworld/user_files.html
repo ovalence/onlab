@@ -1,0 +1,94 @@
+{% extends 'appsworld/base.html' %}
+{% load staticfiles %}
+
+    {% block title %}[Website Name] | Edit App {% endblock title %}
+    {% block head_favicon %}
+        <link rel="icon" type="image/png"
+              href="{{ STATIC_URL }}images/favicon.ico">
+    {% endblock head_favicon %}
+    {% block head_meta %}
+        {% block head_meta_charset %}
+            <meta http-equiv="Content-Type"
+                  content="text/html; charset=utf-8" />
+        {% endblock head_meta_charset %}
+        {% block head_meta_contentlanguage %}
+            <meta http-equiv="Content-Language" value="en-US" />
+        {% endblock head_meta_contentlanguage %}
+        {% block head_meta_viewport %}
+            <meta name="viewport"
+                  content="width=device-width, initial-scale=1.0">
+        {% endblock head_meta_viewport %}
+    {% endblock head_meta %}
+    {% block head_css %}
+        {% block head_css_site %}
+            <link href="{% static 'appsworld/css/bootstrap.css' %}" rel="stylesheet" media="screen">
+        {% endblock head_css_site %}
+        {% block head_css_page %}
+        <style type="text/css">
+            #CONTENT_WRAPPER {
+                padding-top: 50px;
+                -webkit-transition: all .5s ease;
+                -moz-transition: all .5s ease;
+                -o-transition: all .5s ease;
+                transition: all .5s ease;
+            }
+
+            main {
+                background-color: rgba(240,221,224,1);
+                height: 100vh;
+            }
+
+        </style>
+
+        {% endblock head_css_page %}
+
+        {% block head_css_section %}
+        {% endblock head_css_section %}
+
+    {% endblock head_css %}
+
+{% block content %}
+
+    <header>
+    {% block header %}
+        {% include 'appsworld/navigation_bar_top.html' %}
+    {% endblock header %}
+    </header>
+    <div id="CONTENT_WRAPPER">
+        <main id="page-content-wrapper" role="main">
+            <div class="container-fluid">
+                <div class="row">
+                    <div id="MAIN_MIDDLE_SECTION" class="col-sm-12 col-md-12">
+                        <div class="container-fluid">
+                            <br>
+                            <div class="row">
+                                {% include 'appsworld/file_browser.html' %}
+                            </div>
+                            {% if user == profile_info.username %}
+                            <div class="row">
+                                {% include 'appsworld/section_upload_directory.html' %}
+                            </div>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+{% endblock %}
+
+    {# Set of blocks that can be used to display JavaScript files #}
+    {% block footer_javascript %}
+        {% block footer_javascript_site %}
+            <script src="{% static 'appsworld/js/jquery-3.1.1.js' %}"></script>
+            <script src="{% static 'appsworld/js/bootstrap.js' %}"></script>
+        {% endblock footer_javascript_site %}
+        {% block footer_javascript_page %}
+            <script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"</script>
+
+        {% endblock footer_javascript_page %}
+        {% block footer_javascript_section %}
+        {% endblock footer_javascript_section %}
+
+    {% endblock footer_javascript %}

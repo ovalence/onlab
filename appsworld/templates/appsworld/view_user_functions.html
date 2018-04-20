@@ -1,0 +1,212 @@
+{% extends 'appsworld/base.html' %}
+{% load staticfiles %}
+
+    {% block title %}Onald JS{% endblock title %}
+    {% block head_favicon %}
+        <link rel="icon" type="image/png"
+              href="{% static 'appsworld/images/onjs.png' %}">
+    {% endblock head_favicon %}
+    {% block head_meta %}
+        {% block head_meta_charset %}
+            <meta http-equiv="Content-Type"
+                  content="text/html; charset=utf-8" />
+        {% endblock head_meta_charset %}
+        {% block head_meta_contentlanguage %}
+            <meta http-equiv="Content-Language" value="en-US" />
+        {% endblock head_meta_contentlanguage %}
+        {% block head_meta_viewport %}
+            <meta name="viewport"
+                  content="width=device-width, initial-scale=1.0">
+        {% endblock head_meta_viewport %}
+    {% endblock head_meta %}
+    {% block head_css %}
+        <link href="{% static 'appsworld/css/bootstrap.css' %}" rel="stylesheet" media="screen">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <style type="text/css">
+        @font-face {
+            font-family: myFirstFont;
+            src: url({% static 'appsworld/fonts/FRABK.ttf' %});
+        }
+
+            body {
+                position: relative;
+            }
+
+            #CONTENT_WRAPPER {
+                margin-top:50px;
+                padding-top: 0px;
+                background-color: whitesmoke;
+                position: relative;
+            }
+
+
+            #COL1 {
+                height: 90vh;
+                overflow-x: auto;
+                overflow-y: auto;
+                background-color: white;
+                margin-top: 4px;
+            }
+
+            #COL2 {
+                margin-top: 4px;
+                min-height: calc(100vh - 50px);
+                overflow-x: auto;
+                overflow-y: hidden;
+                background-color: white;
+                border-color: gray;
+                position: relative;
+                padding-left: 4px;
+                padding-right: 4px;
+            }
+
+            #COL3 {
+                margin-top: 4px;
+                position: fixed;
+                top: 50px;
+                right: 0px;
+            }
+
+            #POST_NAME {
+                position: absolute;
+                top: 16px;
+                background-color: white;
+                margin-left: 8px;
+                padding-left: 8px;
+                padding-right: 8px;
+                font-size: 12px;
+                font-weight: bold;
+            }
+            #POST_PREVIEW {
+                overflow-x: auto;
+                min-height: 10vh;
+                overflow-y:auto;
+                margin-top: 4px;
+                position: fixed;
+                top: 50px;
+                left: 0px;
+            }
+            #POST_CONTENT {
+                width: 100%;
+                min-height: calc(100vh - 100px);
+                overflow-y: auto;
+                border-color: lightgray;
+                border-width: 1px;
+                border-style: solid;
+                border-radius: 3px;
+                padding-top: 32px;
+                padding-left: 8px;
+                padding-right: 8px;
+            }
+
+            @media (min-width: 0px) and (max-width: 767px) {
+                #COL1 {
+                    width: 100vw;
+                    float: left;
+                }
+                #COL2 {
+                    width: 100vw;
+                    float: left;
+                }
+                #COL3 {
+                    width: 100vw;
+                    margin-top: 0px;
+                    position: relative;
+                }
+                #POST_PREVIEW {
+                    width: 100vw;
+                }
+            }
+
+            @media (min-width: 768px) and (max-width: 991px) {
+                #COL1 {
+                    width: 34vw;
+                    float: left;
+                }
+                #COL2 {
+                    width: 64vw;
+                    float: left;
+                }
+                #COL3 {
+                    width: 100vw;
+                    float: right;
+                }
+                #POST_PREVIEW {
+                    width: 34vw;
+                    float: left;
+                }
+            }
+
+            @media (min-width: 992px) and (max-width: 1199px) {
+                #COL1 {
+                    width: 29vw;
+                    float: left;
+                }
+                #COL2 {
+                    width: 50vw;
+                    float: left;
+                }
+                #COL3 {
+                    width: 19vw;
+                    float: right;
+                }
+                #POST_PREVIEW {
+                    width: 29vw;
+                    float: left;
+                }
+            }
+
+            @media (min-width: 1200px){
+                #col1 {
+                    width: 40vw;
+                    float: left;
+                }
+                #col2 {
+                    width: 50vw;
+                    float: left;
+                    margin-left: 8px !important;
+                }
+            }
+
+        </style>
+
+    {% endblock head_css %}
+
+{% block content %}
+    <header>
+        {% include 'appsworld/navigation_bar_top.html' %}
+    </header>
+    <main id="CONTENT_WRAPPER">
+        <div id='col1'>
+            <table class="table table-hover">
+                {% for function in user_functions %}
+                <tr>
+                    <td><a href="{{function.url}}">{{function.name}}</a></td>
+                    <td>{{function.inputs}}</td>
+                    <td>{{function.outputs}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div id= 'col2'>
+
+        </div>
+
+    </main>
+    {{se}}
+
+{% endblock %}
+
+    {# Set of blocks that can be used to display JavaScript files #}
+    {% block footer_javascript %}
+        {% block footer_javascript_site %}
+            <script src="{% static 'appsworld/js/jquery-3.1.1.js' %}"></script>
+            <script src="{% static 'appsworld/js/bootstrap.js' %}"></script>
+        {% endblock footer_javascript_site %}
+        {% block footer_javascript_page %}
+            <script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"</script>
+        {% endblock footer_javascript_page %}
+        {% block footer_javascript_section %}
+        {% endblock footer_javascript_section %}
+
+    {% endblock footer_javascript %}

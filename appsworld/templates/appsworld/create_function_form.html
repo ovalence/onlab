@@ -1,0 +1,259 @@
+{% load staticfiles %}
+<script src="{% static 'appsworld/js/jquery-3.1.1.js' %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<style>
+    /*Panel tabs*/
+
+.appsworld-field-label {
+    color: rgb(15,51,77);
+    font-weight: normal;
+}
+
+#FUNCTION_PORTS, #FUNCTION_OUTPUTS {
+    width: 100%;
+}
+
+
+#APP_DESCRIPTION {
+    width: 100%;
+    margin-bottom: 20px;
+    border-color: teal;
+    border-width: 2px;
+    border-style: solid;
+    height: 12em;
+}
+
+#APP_THUMBNAIL, #APP_KEYWORDS, #APP_HTML_PATH {
+    width: 100%;
+    margin-bottom: 20px;
+    border-color: teal;
+    border-width: 2px;
+    border-style: solid;
+}
+
+#CREATE_APP_FORM_CONTAINER {
+    min-width: 800px;
+    overflow: auto;
+}
+
+
+#CREATE_APP_FORM_CONTAINER .panel{
+    border-color: lightgreen;
+    border-width: 1px;
+    border-style: solid;
+}
+
+#CREATE_APP_FORM_CONTAINER form {
+    margin: 0px;
+    padding: 0px;
+}
+
+#FUNCTION_CODE {
+    width: 100%;
+}
+
+#FUNCTION_GROUP {
+    width: 100%;
+}
+
+#FUNCTION_NAME {
+    width: 100%;
+}
+
+
+</style>
+<div id="CREATE_APP_FORM_CONTAINER" class="container-fluid" ng-app="myApp" ng-controller="funcFormCtrl">
+    <div class="row"><div ng-bind="displayer"></div>
+    <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="panel panel-success">
+        <div class="panel-heading">
+        <b>Create a Function</b>
+        </div>
+
+        <div class="panel-body">
+            <table class="table">
+                <tr>
+                    <td><label class="appsworld-field-label">Group</label></td>
+                    <td colspan="4"><input type="text" name="group" id="FUNCTION_GROUP" class="form-control input-sm" placeholder="Group" required /></td>
+                </tr>
+                <tr>
+                    <td><label class="appsworld-field-label">Name</label></td>
+                    <td colspan="4"><input type="text" name="name" id="FUNCTION_NAME" class="form-control input-sm" placeholder="Name" required /></td>
+                </tr>
+                <tr>{% verbatim %}
+                    <td rowspan="{{ports.length + 1}}"><label class="appsworld-field-label">Port</label></td>
+                    <td>Name<input type="hidden" id="FUNCTION_PORTS" class="form-control input-sm"></td>
+                    <td>Direction<input type="hidden" id="FUNCTION_DIR" class="form-control input-sm"></td>
+                    <td>Type<input type="hidden" id="FUNCTION_TYPE" class="form-control input-sm"></td>
+                    <td></td>
+                </tr>{% endverbatim %}
+                <tr ng-repeat="p in range(0, ports.length-1)">
+                    <td><input type="text" class="form-control input-sm" ng-model="ports[p].name"></td>
+                    <td><input type="text" class="form-control input-sm" ng-model="ports[p].direction"></td>
+                    <td><input type="text" class="form-control input-sm" ng-model="ports[p].dataType"></td>
+                    <td>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-danger" ng-click="deletePort(p);">Delete</button>
+                            <button type="button" class="btn btn-sm btn-success" ng-click="insertPort(p);">Add</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4"><label class="appsworld-field-label">Code</label></td>
+                    <td>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-primary" ng-click="submitForm();">Submit</button>
+                            <a class="btn btn-sm btn-info" href="{% url 'view_api' %}">Functions API</a>
+                            <a class="btn btn-sm btn-success" href="{% url 'view_onlab' %}">OnLab</a>
+                        </div>
+                </tr>
+                <tr>
+                    <td colspan="5"><textarea name="code" cols="40" rows="10" id="FUNCTION_CODE" placeholder="Code" required></textarea></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    </form>
+    </div>
+</div>
+
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('funcFormCtrl', function($scope) {
+        $scope.ports = [];
+        var port = new Object();
+        port.name = "addend1";
+        port.direction = "input";
+        port.dataType = "scalar";
+        $scope.ports.push(port);
+        var port2 = new Object();
+        port2.name = "addend2";
+        port2.direction = "input";
+        port2.dataType = "scalar";
+        $scope.ports.push(port2);
+        var port3 = new Object();
+        port3.name = "sum";
+        port3.direction = "input";
+        port3.dataType = "scalar";
+        $scope.ports.push(port3);
+
+        $scope.submitForm = function(){
+            $scope.updateListString();
+            var obj = {
+                username : 1,
+                name : $("#FUNCTION_NAME").val(),
+                ports : $("#FUNCTION_PORTS").val(),
+                direction :  $("#FUNCTION_DIR").val(),
+                dataType : $("#FUNCTION_TYPE").val(),
+                code : $("#FUNCTION_PORTS").val(),
+                group : $("#FUNCTION_CODE").val(),
+            }
+            $.ajax({
+                type : "POST",
+                url : "/api/functions",
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+                },
+                data : JSON.stringify(obj),
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                  },
+                success: function(){
+                    alert("Saved! It worked.");
+                  },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                  alert("some error " + String(errorThrown) + String(textStatus) + String(XMLHttpRequest.responseText));
+                  }
+            });
+        }
+        $scope.updateListString = function(){
+            var portsString = "";
+            for(var i = 0; i<$scope.ports.length; i++){
+                portsString += $scope.ports[i].name + " ";
+            }
+            $("#FUNCTION_PORTS").val(portsString);
+            var dirString = "";
+            for(var i = 0; i<$scope.ports.length; i++){
+                dirString += $scope.ports[i].direction + " ";
+            }
+            $("#FUNCTION_DIR").val(dirString);
+            var typeString = "";
+            for(var i = 0; i<$scope.ports.length; i++){
+                typeString += $scope.ports[i].dataType + " ";
+            }
+            $("#FUNCTION_TYPE").val(typeString);
+        }
+
+        $scope.insertPort = function(index){
+            var newPort = new Object();
+            newPort.name = "var" + ($scope.ports.length + 1);
+            newPort.direction = "input";
+            newPort.dataType = "scalar";
+            $scope.ports.splice(index +1, 0, newPort);
+        }
+        $scope.deletePort = function(index){
+            $scope.ports.splice(index, 1);
+        }
+        $scope.range = function(min, max, step){
+            step = step || 1;
+            var input = [];
+            for (var i = min; i <= max; i += step) input.push(i);
+            return input;
+        };
+    });
+</script>
+
+
+
+<script>
+    var className;
+    var portsString;
+    var code;
+    var inputs;
+    var inputsCount;
+    var outputsCount;
+
+    function writeCode(){
+        inputs = $('#FUNCTION_PORTS').val().split(" ");
+        inputsCount = inputs.length;
+        //inputs = parseInt($('#FUNCTION_INPUTS').val());
+
+        var executeStr = "\texecute(){" + "\n" +
+            "\n" +
+            "\t}";
+
+        code = executeStr;
+
+        $('#FUNCTION_CODE').html(code);
+    }
+    $('#FUNCTION_INPUTS').on('input', function(e) {
+        writeCode();
+    });
+
+    $('#FUNCTION_NAME').on('input', function(e) {
+        writeCode();
+    });
+
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>
+
+
+
+
+

@@ -1,0 +1,330 @@
+<style>
+    #LEAVE_FORM_CONTAINER {
+        height: 100%;
+        padding: 0px;
+        margin: 0px;
+        min-width: 640px;
+        max-width: 640px;
+        overflow: hidden;
+    }
+    
+    #LEAVE_FORM_CONTAINER table {
+        width: 100%;
+        height: 140px;
+
+    }
+
+    #LEAVE_FORM_CONTAINER .top_row{
+        border-color: transparent;
+        border-bottom-color: lightgray;
+        padding: 4px;
+        padding-bottom: 16px;
+    }
+
+    #LEAVE_FORM_CONTAINER th{
+        margin: 0px;
+        padding: 8px;
+        width: 80px;
+        white-space: nowrap;
+        padding-left: 8px;
+        font-weight: normal;
+        border-color: lightgray;
+        border-width: 1px;
+        border-style: solid;
+    }
+
+    #LEAVE_FORM_CONTAINER td{
+        margin: 0px;
+        padding: 2px;
+        border-color: lightgray;
+        border-width: 1px;
+        border-style: solid;
+    }
+
+
+
+    #START_DATE {
+        width: 60px;
+    }
+
+    #END_DATE {
+        width: 60px;
+    }
+
+    #START_HOUR {
+        width: 60px;
+    }
+
+    #END_HOUR {
+        white-space: nowrap;
+    }
+
+    #EVENT_CONTAINER {
+        width: 100px;
+    }
+
+    #EVENT_EVENT {
+    	width: 100%;
+    	height: 100%;
+        border-color: gray;
+        border-width: 0px;
+        border-style: solid;
+    }
+
+    #EVENT_STATUS_CONTAINER {
+        width: 100px;
+    }
+
+    #EVENT_STATUS {
+    	width: 100%;
+    	height: 100%;
+        border-color: gray;
+        border-width: 0px;
+        border-style: solid;
+    }
+
+    #EVENT_DATE_FILED_CONTAINER {
+        width: 120px;
+        white-space: nowrap;
+        background-color: transparent;
+    }
+
+    #EVENT_DATE_FILED {
+    	width: 100%;
+    	height: 100%;
+        border-color: gray;
+        border-width: 0px;
+        border-style: solid;
+        background-color: transparent;
+    }
+
+    #EVENT_START_DATE {
+        height: 100%;
+        border-color: gray;
+        border-width: 0px;
+        border-style: solid;
+    }
+
+    #EVENT_END_DATE {
+        height: 100%;
+        border-color: gray;
+        border-width: 0px;
+        border-style: solid;
+    }
+
+    #EVENT_START_HOUR {
+    	width: 30px;
+    	height: 100%;
+        border-color: gray;
+        border-width: 0px;
+        border-style: solid;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+        direction: rtl;
+    }
+
+    #EVENT_START_MINUTE {
+    	width: 40px;
+    	height: 100%;
+        border-color: gray;
+        border-width: 0px;
+        border-style: solid;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+    }
+
+    #EVENT_END_HOUR {
+    	width: 30px;
+    	height: 100%;
+        border-color: gray;
+        border-width: 0px;
+        border-style: solid;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+        direction: rtl;
+    }
+
+    #EVENT_END_MINUTE {
+    	width: 40px;
+    	height: 100%;
+        border-color: gray;
+        border-width: 0px;
+        border-style: solid;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+    }
+
+    #EVENT_WORK_DAYS {
+        width: 40px;
+    	height: 100%;
+        border-color: gray;
+        border-width: 0px;
+        border-style: solid;
+        direction: ltr;
+    }
+
+    #DETAILS {
+        height: 200px;
+    }
+
+    #DETAILS td {
+        padding-top: 8px;
+        height: 200px;
+    }
+
+    #EVENT_DETAILS{
+        height: 100%;
+        width: 100%;
+        border-color: gray;
+        border-width: 0px;
+        border-style: solid;
+    }
+
+    #LEAVE_FORM_CONTAINER .panel{
+        width: calc(100% - 4px);
+    }
+
+    #EVENT_APPROVER {
+        width: 100%;
+        border-color: gray;
+        border-width: 0px;
+        border-style: solid;
+    }
+
+    #EVENT_VISIBLE_TO {
+    	width: 100%;
+    	height: 2em;
+        border-color: gray;
+        border-width: 0px;
+        border-style: solid;
+    }
+
+    #LEAVE_FORM_CONTAINER .comment_picture {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        float: left;
+        margin-right: 8px;
+    }
+
+    #LEAVE_FORM_CONTAINER .comment_box {
+        float: left;
+        width: calc(100% - 120px);
+    }
+
+    #LEAVE_FORM_CONTAINER .comment_textarea {
+        width: 100%;
+    }
+    #LEAVE_FORM_CONTAINER #SUBMIT_BUTTON {
+        float: left;
+    }
+    #LEAVE_FORM_CONTAINER .picture_icon {
+        padding: 0px;
+        width: 100%;
+        border-radius: 4px;
+        box-shadow: 1px 2px 2px 2px gray;
+    }
+
+</style>
+<div id="LEAVE_FORM_CONTAINER" class="container-fluid">
+<form method="post" enctype="multipart/form-data">
+{% csrf_token %}
+<div class="panel panel-info">
+	<div class="panel-heading"><span>World History</span>
+    <input type='submit' id="SUBMIT_BUTTON" class="btn btn-xs btn-danger pull-right" value="Submit" />
+	</div>
+	<div class="panel-body">
+		<table>
+            <tr><th class="top_row"><img src="{{logged_user.picture}}" class="picture_icon"></th><th id="EVENT_CONTAINER" class="top_row"colspan="3"><h4> {{ logged_user.first_name }} {{ logged_user.last_name }}</h4></th></tr>
+		    <tr><th>Subject</th><td id="EVENT_CONTAINER" colspan="3">{{ event_form.event }}</td><td id="EVENT_STATUS_CONTAINER" colspan="2">{{ event_form.status }}</td></tr>
+		    <tr><th>Start Time</th><td id="START_DATE">{{ event_form.start_date }}</td><td id="START_HOUR">{{ event_form.start_hour }}:{{ event_form.start_minute }}</td><td id="EVENT_DATE_FILED_CONTAINER" colspan='2'><span>Filed: </span>{{ event_form.date_filed }}</td></tr>
+		    <tr><th>End Time</th><td id="END_DATE">{{ event_form.end_date }}</td><td id="END_HOUR">{{ event_form.end_hour }}:{{ event_form.end_minute }}</td><td>{{ event_form.work_days }} days</td><td id="BLANK"></td></tr>
+		    <tr id="DETAILS"><td colspan="6" valign="top">{{ event_form.details }}</td></tr>
+		    <tr><th>Approver</th><td colspan="5">{{ event_form.approver }}</td></tr>
+		    <tr><th>Visible to</th><td colspan="5">{{ event_form.visible_to }}</td></tr>
+		</table>
+	</div>
+</div>
+</form>
+</div>
+
+<script type="text/javascript">
+var inputStartDate = document.getElementById("EVENT_START_DATE");
+var inputStartHour = document.getElementById("EVENT_START_HOUR");
+var inputStartMinute = document.getElementById("EVENT_START_MINUTE");
+var inputEndDate = document.getElementById("EVENT_END_DATE");
+var inputEndHour = document.getElementById("EVENT_END_HOUR");
+var inputEndMinute = document.getElementById("EVENT_END_MINUTE");
+var inputWorkDays = document.getElementById("EVENT_WORK_DAYS");
+inputStartDate.addEventListener('change', getLength);
+inputStartDate.addEventListener('click', getLength);
+inputStartHour.addEventListener('change', getLength);
+inputStartMinute.addEventListener('change', getLength);
+inputEndDate.addEventListener('change', getLength);
+inputEndDate.addEventListener('click', getLength);
+inputEndHour.addEventListener('change', getLength);
+inputEndMinute.addEventListener('change', getLength);
+var blankElement = document.getElementById("BLANK");
+var submitButton = document.getElementById("SUBMIT_BUTTON");
+
+var leaveForm = {
+    loggedUser : "",
+    schedule : "",
+    holidays : "",
+    startDate: 6,
+    endDate : 2,
+    leaveLength : function (){
+        return this.endDate - this.startDate;
+    }
+}
+
+function ajaxGetLeaveDuration() {
+    $.ajax({
+        url: "/appsworld/ajax_get_leave_duration",
+        data: {
+            'logged_user' : "{{ user }}",
+            'start_date' : inputStartDate.value,
+            'start_hour' : inputStartHour.value,
+            'start_minute' : inputStartMinute.value,
+            'end_date' : inputEndDate.value,
+            'end_hour' : inputEndHour.value,
+            'end_minute' : inputEndMinute.value,
+            'end_date' : inputEndDate.value,
+        },
+        dataType: 'json',
+        success: function (data) {
+            inputWorkDays.value = data.number_of_work_days;
+            blankElement.innerHTML = "";
+            var formIsValid = data.is_valid;
+            if (formIsValid == true) {
+                submitButton.disabled = false;
+                submitButton.value = "Submit";
+            }
+            else {
+                submitButton.disabled = true;
+                submitButton.value = "Error";
+            }
+        }
+    });
+}
+
+function getLength(){
+    leaveForm.startDate = Date(inputStartDate.value);
+    leaveForm.endDate = Date(inputEndDate.value);
+    inputWorkDays.value = leaveForm.endDate - leaveForm.startDate;
+    ajaxGetLeaveDuration();
+}
+
+window.onload = function(){
+
+}
+
+</script>

@@ -1,0 +1,43 @@
+{% load staticfiles %}
+<style>
+    #APPSWORLD_EDITOR_TEXTAREA {
+        font-size: 12px;
+        font-style: normal;
+        font-variant: normal;
+        font-weight: 600;
+        line-height: 20px;
+        -moz-tab-size: 4; /* Code for Firefox */
+        -o-tab-size: 4; /* Code for Opera 10.6-12.1 */
+        tab-size: 4;
+        padding-top: 4px;
+        border-color:#ccc;
+        width: 100vw;
+        height: 60vh;
+        background-color: rgb({{logged_user_info.text_editor_red}}, {{logged_user_info.text_editor_green}}, {{logged_user_info.text_editor_blue}});
+        color: {{logged_user_info.text_editor_color}};
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <div id="TEXTAREA_CONTAINER">
+            <textarea id="APPSWORLD_EDITOR_TEXTAREA">{{textarea_text}}</textarea>
+        </div>
+        <div class="form-inline">
+            <div class="form-group">
+                <span id="APPSWORLD_FILENAME">{{ file.folder }}/{{ file.filename }}</span>
+                <input type="button" id="APPSWORLD_SAVE_CHANGES_BUTTON" class="btn btn-xs btn-warning" value="Save" onclick="ajaxFileSaveChanges('{{file.file_path}}',{{file.id}}, '{{ text_file_path }}')">
+                <a class="btn btn-xs btn-info" href="{{ file.file_url }}">File URL</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'appsworld/js/jquery-3.1.1.js' %}"></script>
+<script type="text/javascript">
+function scrollToLine(textarea1, lineNumber) {
+  var lineHeight = parseInt($("#APPSWORLD_EDITOR_TEXTAREA").css('line-height'));
+  $("#APPSWORLD_EDITOR_TEXTAREA").scrollTop(lineNumber * lineHeight);      
+}
+
+window.onload = scrollToLine(document.getElementById("APPSWORLD_EDITOR_TEXTAREA"), 2);
+</script>

@@ -1,0 +1,128 @@
+
+		<table class='table'>
+			<form method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+			<tr><td>{{ new_file_form.folder }}</td><td><button type="submit" class="btn btn-sm btn-primary pull-right">Create and Proceed To Write</button></td></tr>
+			<tr><td colspan="2">{{ new_file_form.filename }}</td></tr>
+			</form>
+			<tr>
+				<td colspan="2">
+					<div id='DIRECTORY_WINDOW2'>
+						<div id="accordion">
+						  	{%for dir in dir_tree %}
+						    <div class="panel panel-default">
+						      	<div class="panel-heading">
+						          	<a data-toggle="collapse" data-parent="#accordion" href="#collapse{{dir.0}}"><span class="glyphicon glyphicon-folder-close"></span>&nbsp {{ dir.0 }}</a>
+
+						      	</div>
+					    	</div>
+					      	<div id="collapse{{dir.0}}" class="panel-collapse collapse">
+						            <ul class="list-group">
+							            {% for file in dir %}
+							            	{% if forloop.counter > 1 %}
+							            	{% if file.0.file_type == "jpg" or file.0.file_type == "png"   %}
+								            <li class="list-group-item">
+								                <a href="{{h}}{{request.META.HTTP_HOST|add:'/'}}{{file.0.file_path}}"><img class="img-responsive img_icon" src="{{ x|add:'http://'}}{{request.META.HTTP_HOST|add:'/'}}{{file.0.file_path}}"> &nbsp{{file.0.filename}}</a>
+								                <a href="{% url 'edit_file' file.0.id %}" class="btn btn-xs btn-primary pull-right"><span class="glyphicon glyphicon-edit"></span></a>
+								            </li>
+							            	{% else %}
+								            <li class="list-group-item">
+								            	<a href="{{h}}{{request.META.HTTP_HOST|add:'/'}}{{file.0.file_path}}"><span class="glyphicon glyphicon-file"></span>&nbsp{{file.0.filename}}</a>
+								            	<a href="{% url 'edit_file' file.0.id %}" class="btn btn-xs btn-primary pull-right"><span class="glyphicon glyphicon-edit"></span></a>
+								            </li>
+								            {% endif %}
+								            {% endif %}
+							            {% endfor %}
+							        </ul>
+					    	</div>
+					    	{% endfor %}
+					  	</div>
+					</div>
+				</td>
+			</tr>
+			<tr><td></td><td><a href="{% url 'view_user_files' user %}" class="btn btn-sm btn-primary pull-right"><span class="glyphicon glyphicon-folder-open"></span>&nbsp Go to Directory</a></td></tr>
+		</table>
+
+<style type="text/css">
+	#DIRECTORY_WINDOW2 {
+		height: 200px;
+		overflow: auto;
+	}
+
+	#DIRECTORY_WINDOW2 .panel-heading {
+		background-color: white;
+	}
+
+	#DIRECTORY_WINDOW2 .panel-collapse {
+		border-radius: 0px;
+	}
+
+	#DIRECTORY_WINDOW2 .img_icon {
+		width: 40px;
+		height: 40px;
+		float: left;
+	}
+
+	#DIRECTORY_WINDOW2 .list-group-item {
+		overflow: hidden;
+		min-height: 10px;
+		padding-left: 32px;
+		text-align: middle;
+	}
+
+	#NEW_FILE_FOLDER {
+		float: left;
+		border-color: transparent;
+		border-width: 0px;
+		border-style: solid;
+		border-bottom-color: lightgray;
+		border-bottom-width: 1px;
+		border-radius: 0px;
+		background-color: transparent;
+		box-shadow: none;
+	}
+
+	#NEW_FILE_FILENAME {
+		border-color: transparent;
+		border-width: 0px;
+		border-style: solid;
+		border-bottom-color: lightgray;
+		border-bottom-width: 1px;
+		border-radius: 0px;
+		background-color: transparent;
+		box-shadow: none;
+	}
+
+	#DIRECTORY_WINDOW2 .glyphicon-folder-close {
+		color: rgb(173, 169, 110);
+	}
+
+	#DIRECTORY_WINDOW2 .glyphicon-file {
+		color: rgb(200, 200, 200);
+	}
+
+	#DIRECTORY_WINDOW2 a {
+		text-decoration: none;
+	}
+	#DIRECTORY_WINDOW2 .img_icon {
+		width: 40px;
+		height: 40px;
+		float: left;
+	}
+	#DIRECTORY_WINDOW2 .list-group-item {
+		overflow: hidden;
+		min-height: 10px;
+		padding-left: 36px;
+		text-align: middle;
+	}
+
+</style>
+
+<script type="text/javascript">
+	function validateFileUploadForm() {
+		file_upload_folder = document.getElementById("FILE_UPLOAD_FOLDER")
+		if (file_upload_folder.values.indexOf(' ') >= 0) {
+			alert
+		}
+	}
+</script>

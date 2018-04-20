@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+{% load staticfiles %}
+    {# Make modifiable head elements #}
+    <head>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <title>{% block title %}Social Network{% endblock title %}</title>
+          <meta property="og:url"           content="http://onald.pythonanywhere.com/" />
+          <meta property="og:type"          content="website" />
+          <meta property="og:title"         content="Onald" />
+          <meta property="og:description"   content="Your description" />
+          <meta property="og:image"         content="http://www.your-domain.com/path/image.jpg" />
+        {% block head_favicon %}
+            <link rel="icon" type="image/png" href="{{ STATIC_URL }}images/favicon.ico">
+        {% endblock head_favicon %}
+        {% block head_meta %}
+            {% block head_meta_charset %}
+                <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+            {% endblock head_meta_charset %}
+            {% block head_meta_contentlanguage %}
+                <meta http-equiv="Content-Language" value="en-US" />
+            {% endblock head_meta_contentlanguage %}
+            {% block head_meta_viewport %}
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            {% endblock head_meta_viewport %}
+        {% endblock head_meta %}
+
+        {% block head_css %}
+
+        {% endblock head_css %}
+    </head>
+<body>
+
+{% block content %}
+{% endblock content %}
+
+    {# Set of blocks that can be used to display JavaScript files #}
+    {% block footer_javascript %}
+    {% endblock footer_javascript %}
+    <script id="dsq-count-scr" src="//funcbook-pythonanywhere-com.disqus.com/count.js" async></script>
+</body>
+
+<style>
+    body {
+        background-color: whitesmoke;
+        color: black;
+        font-family:sans-serif;
+    }
+    .picture_icon_sm {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+    }
+</style>
+</html>

@@ -1,0 +1,288 @@
+{% load staticfiles %}
+<style>
+    #POSTS_CONTAINER {
+        width: 100%;
+    }
+
+    #POSTS_CONTAINER .post_container {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 16px;
+        border-top-width: 1px;
+        border-top-style: solid;
+        border-top-color: lightgray;
+        background-color: white;
+    }
+
+    #POSTS_CONTAINER a {
+        text-decoration: none;
+    }
+
+    #POSTS_CONTAINER ul {
+        margin: 0px;
+        padding: 0px;
+        list-style-type: none;
+    }
+
+    #POSTS_CONTAINER ul li{
+        margin: 0px;
+        padding: 0px;
+    }
+
+    #POSTS_CONTAINER .aw-keywords li {
+        float: left;
+        padding-right: 8px;
+    }
+
+    #POSTS_CONTAINER .aw-keywords li a {
+        font-size: 12px;
+    }
+
+    #POSTS_CONTAINER .td_visibility{
+        font-size: 12px;
+        text-align: right;
+    }
+
+    #POSTS_CONTAINER .td_profile_icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    #POSTS_CONTAINER .picture_icon  {
+        width: 100%;
+        height: auto;
+    }
+
+    #POSTS_CONTAINER table {
+        width: 100%;
+        margin-top: 8px;
+        margin-bottom: 8px;
+        background-color: white;
+    }
+
+    #POSTS_CONTAINER .tr_first_row {
+
+    }
+
+    #POSTS_CONTAINER .td_user_name {
+        width: 65%;
+        font-size: 12px;
+        padding-left: 8px;
+    }
+
+    #POSTS_CONTAINER .td_post_title {
+        padding-left: 8px;
+        color: teal;
+    }
+
+    #POSTS_CONTAINER .post_title a {
+        color: teal;
+    }
+
+    #POSTS_CONTAINER td {
+        padding: 0px;
+        vertical-align: top;
+    }
+
+    #POSTS_CONTAINER .description_td {
+        height: 100px;
+        overflow-y: hidden;
+        padding-top: 18px;
+        padding-bottom: 18px;
+
+    }
+
+    #POSTS_CONTAINER .description_td .thumbnail_container {
+        padding-bottom: 18px;
+    }
+
+    #POSTS_CONTAINER tr {
+        padding: 0px;
+    }
+
+    #POSTS_CONTAINER iframe {
+        width: 100%;
+        height: auto;
+    }
+
+.thumbnail_container {
+    max-height: 80px;
+    overflow: hidden;
+}
+
+.post_title {
+    font-size: 20px;
+    font-style: bold;
+    color: teal;
+}
+
+.post_date {
+    font-size:10px;
+    color: teal;
+}
+
+.icon_container {
+    width: 40px;
+    height: 40px;
+    border-color: lightblue;
+    border-style: solid;
+    border-width: 1px;
+    margin: 0px;
+    margin-right: 8px;
+    position: relative;
+}
+
+.icon_container img{
+    position  : absolute;
+  top       : 50%;
+  left      : 50%;
+  width     : 150%;
+  transform : translate(-50%,-50%);
+}
+
+.glyphicon-tags {
+    font-size: 8px;
+    color: teal;
+}
+
+#POST_CONTAINER video {
+    width: 100%;
+}
+
+</style>
+
+<div id="POSTS_CONTAINER">
+{% for medium in media %}
+<div class='container-fluid post_container'>
+<table>
+<tr class="tr_first_row">
+    <td rowspan="3" class='td_profile_icon'>
+        <div class="icon_container">
+            <a href="{% url 'user_profile' medium.user_info.user_account.username %}"><img class="img-responsive" src="{{medium.user_info.picture}}"></a>
+        </div>
+    </td>
+    <td colspan="3"><a class="post_user" href="{% url 'user_profile' medium.user_info.user_account.username %}">{{medium.user_info.user_account.first_name}} {{medium.user_info.user.last_name}}</a></td>
+    <td class='td_visibility'>
+        <ul class="aw-visibility">
+            <li class="dropdown">
+                <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+                    {% if medium.visibility == "PU" %}
+                    <span class="glyphicon glyphicon-globe"></span>
+                    {% endif %}
+                    {% if medium.visibility == "PR" %}
+                    <span class="glyphicon glyphicon-eye-close"></span>
+                    {% endif %}
+                    {% if medium.visibility == "FR" %}
+                    <span class="glyphicon glyphicon-user"></span>
+                    {% endif %}
+                </a>
+                <ul class="aw-visibility-dropdown-menu dropdown-menu dropdown-menu-right">
+                    {% if user == medium.username.username %}
+                    <li><a href="{% url 'delete_app' medium.id %}">Delete</a></li>
+                    {% endif %}
+                </ul>
+            </li>
+        </ul>
+    </td>
+</tr>
+<tr>
+    <td colspan="3" rowspan="2"><span class="post_date">{{medium.date_uploaded|date:"M d"}}</span></td>
+    <td></td>
+</tr>
+<tr><td></td>
+</tr>
+<tr><td colspan="5" class="description_td">
+    <div class="container-fluid">
+        {% if medium.file_type == "" %}
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="row">
+                    {{ medium.description }}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% if medium.file_type == "text" or medium.file_type == "javascript" or medium.file_type == "css" or medium.file_type == "html" %}
+        <div class="row">
+            <div class="col-xs-4 col-sm-4 col-md-4">
+                <div class="thumbnail_container">
+                    <a href="{% url 'view_media' medium.id %}">
+                    {% if medium.file_type == "html" %}
+                    <img class="img-responsive post_thumbnail" src="{% static 'appsworld/images/html.png' %}">
+                    {% endif %}
+                    {% if medium.file_type == "css" %}
+                    <img class="img-responsive post_thumbnail" src="{% static 'appsworld/images/css.png' %}">
+                    {% endif %}
+                    {% if medium.file_type == "javascript" %}
+                    <img class="img-responsive post_thumbnail" src="{% static 'appsworld/images/javascript.png' %}">
+                    {% endif %}
+                    </a>
+                </div>
+            </div>
+            <div class="col-xs-8 col-sm-8 col-md-8">
+                <div class="row post_title post_name">
+                    <a href="{% url 'view_media' medium.id %}" class="post_name">
+                        {{medium.filename}}
+                    </a>
+                </div>
+                <div class="row">
+                    {{ medium.description }}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% if medium.file_type == "jpeg" or  medium.file_type == "bitmap" or  medium.file_type == "png" %}
+        <div class="row">
+            {{ medium.description }}
+        </div>
+        <div class="row">
+            <a href="{% url 'view_media' medium.id %}">
+            <img class="img-responsive post_thumbnail" src="{{medium.file_path}}">
+            </a>
+        </div>
+        {% endif %}
+        {% if medium.folder == "video" %}
+        <div class="row post_title post_name">
+            <a href="{% url 'view_media' medium.id %}" class="post_name">
+                {{medium.title}}
+            </a>
+        </div>
+        <div class="row">
+            {{ medium.description }}
+        </div>
+        <div class="row">
+            {% if medium.file_type == "x-ms-wmv" %}
+            <video controls>
+              <source src="{{medium.file_url}}" type="video/wmv">
+              Your browser does not support the video tag.
+            </video>
+            {% endif %}
+            {% if medium.file_type == "mp4" %}
+            <video controls>
+              <source src="{{medium.file_url}}" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            {% endif %}
+        </div>
+        {% endif %}
+
+    </div>
+</td>
+</tr>
+<tr>
+    <td colspan="5">
+        <ul class="aw-keywords">
+            <li><span class="glyphicon glyphicon-tags"></span></li>
+            {% for keyword in medium.2 %}
+            {% if keyword.0 == "" %}
+            {% else %}
+            <li><a href="{% url 'tag_result' keyword.1 %}">{{ keyword.0 }}&nbsp</a></li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+    </td>
+</tr>
+</table>
+</div>
+{% endfor %}
+</div>

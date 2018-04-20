@@ -1,0 +1,309 @@
+{% extends 'appsworld/base.html' %}
+{% load staticfiles %}
+
+    {% block title %}funcBook() | Edit App {% endblock title %}
+    {% block head_favicon %}
+        <link rel="icon" type="image/png"
+              href="{{ STATIC_URL }}images/favicon.ico">
+    {% endblock head_favicon %}
+    {% block head_meta %}
+        {% block head_meta_charset %}
+            <meta http-equiv="Content-Type"
+                  content="text/html; charset=utf-8" />
+        {% endblock head_meta_charset %}
+        {% block head_meta_contentlanguage %}
+            <meta http-equiv="Content-Language" value="en-US" />
+        {% endblock head_meta_contentlanguage %}
+        {% block head_meta_viewport %}
+            <meta name="viewport"
+                  content="width=device-width, initial-scale=1.0">
+        {% endblock head_meta_viewport %}
+    {% endblock head_meta %}
+    {% block head_css %}
+        {% block head_css_site %}
+            <link href="{% static 'appsworld/css/bootstrap.css' %}" rel="stylesheet" media="screen">
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        {% endblock head_css_site %}
+        {% block head_css_page %}
+        <style type="text/css">
+            body {
+                background-color: white;
+            }
+
+            #CONTENT_WRAPPER {
+                margin-top: 52px;
+            }
+
+            #CODES_AREA {
+                width: 100%;
+                height: calc(100vh - 50px - 50px);
+            }
+
+            #OUTPUT_DIV {
+                width: 100%;
+                height: 30vh;
+                margin: 0px;
+                padding: 0px;
+                border-style: solid;
+                border-width: 1px;
+                border-color: darkgray;
+                overflow: auto;
+                position: relative;
+                float: left;
+            }
+
+            #APPSWORLD_EDITOR_TEXTAREA {
+                float: left;
+                width: 100%;
+                height: calc(100vh - 30vh - 50px - 50px);
+            }
+
+            #FILE_UPLOAD_ASSOC_HTML {
+                width: 120px;
+            }
+
+            #RELATED_FILES {
+                float: left;
+                background-color: white;
+                table-layout: auto;
+            }
+            #RELATED_FILES td {
+                max-width: 100px;
+                white-space: nowrap;
+                overflow: auto;
+                vertical-align: middle;
+            }
+
+            #RELATED_FILES td .picture_icon {
+                width: 30px;
+                height: 30px;
+            }
+        </style>
+
+        {% endblock head_css_page %}
+
+        {% block head_css_section %}
+        {% endblock head_css_section %}
+
+    {% endblock head_css %}
+
+{% block content %}
+    <header>
+        {% include 'appsworld/navigation_bar_top.html' %}
+    </header>
+    <div id="CONTENT_WRAPPER">
+        <main id="page-content-wrapper" role="main">
+            <div class="container-fluid">
+                <div class='row'>
+                    <div id="CODES_AREA">
+                        <input id="FILE_ID" type='hidden' value='{{file.id}}' />
+                        <input id="HTML_ID" type='hidden' value='{{file.associated_html}}' />
+                        <div id="OUTPUT_DIV">
+
+                        </div>
+                        <textarea id="APPSWORLD_EDITOR_TEXTAREA">{{textarea_text}}</textarea>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <span id="APPSWORLD_FILENAME">{{ file.folder }}/{{ file.filename }}</span>
+                            <input type="button" id="APPSWORLD_SAVE_CHANGES_BUTTON" class="btn btn-xs btn-warning" value="Save" onclick="ajaxFileSaveChanges('{{file.file_path}}',{{file.id}}, '{{ text_file_path }}')">
+                            <a class="btn btn-xs btn-info" href="{{ file.file_url }}">File URL</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ form.associated_html }}
+                            <button type="submit" class="btn btn-xs btn-info" style="max-width:50px;">View </button>
+                    </form>
+                </div>
+                <div class='row'>
+                    <div id="EDITOR_SETTINGS">
+                          <form>
+                            <label class="radio-inline">
+                              <input type="radio" name="orientation">Horizontal
+                            </label>
+                            <label class="radio-inline">
+                              <input type="radio" name="orientation">Vertical
+                            </label>
+                          </form>
+                        <script>
+                            var isHorizontalInput = document.getElementsByName('orientation')[0];
+                            var isVerticalInput = document.getElementsByName('orientation')[1];
+                            var outputSection = document.getElementById("OUTPUT_DIV");
+                            var textArea = document.getElementById("APPSWORLD_EDITOR_TEXTAREA");
+                            isHorizontalInput.addEventListener('click', changeOrientation);
+                            isVerticalInput.addEventListener('click', changeOrientation);
+                            function changeOrientation(e) {
+                                if (isHorizontalInput.checked == true) {
+                                    outputSection.style.width = '98vw';
+                                    outputSection.style.height = '40vh';
+                                    textArea.style.width = '98vw';
+                                    textArea.style.height = '50vh';
+                                }
+                                else {
+                                    outputSection.style.width = '49vw';
+                                    outputSection.style.height = 'calc(' + '100%' + ' ' +  '- 100px' + ')';
+                                    textArea.style.width = '49vw';
+                                    textArea.style.height = 'calc(' + '100%' + ' ' +  '- 100px' + ')';
+                                }
+                            }
+                        </script>
+                    </div>
+
+                </div>
+                <div class="row">
+                <table id='RELATED_FILES' class='table table-hover'>
+                    <tr>
+                    <td>ID</td>
+                    <td>Edit File</td>
+                    <td>View File</td>
+                    </tr>
+                    {% for related_file in related_files %}
+                    <tr>
+                    <td><a href="{{related_file.get_absolute_url}}">{{related_file.id}}</a></td>
+                    <td><a href="{{related_file.get_absolute_url}}">{{related_file.filename}}</a></td>
+                    {% if related_file.file_type == "jpg" or related_file.file_type == "png"  %}
+                    <td><a href="{{related_file.file_url}}"><img src='{{related_file.file_url}}' class="picture_icon">{{related_file.file_url}}</a></td>
+                    {% else %}
+                    <td><a href="{{related_file.file_url}}"><span class="glyphicon glyphicon-file"></span>{{related_file.file_url}}</a></td>
+                    {% endif %}
+                    </tr>
+                    {% endfor %}
+                    <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <tr>
+                    <td>Create File:<input type="hidden" name="folder" value="{{related_files.0.folder}}" id="NEW_FILE_FOLDER" value="Default" class="form-control" required /></td>
+                    <td>{{new_file_form.filename}}</td>
+                    <td><button type='submit' class='btn btn-primary'>Create New File</button></td>
+                    </tr>
+                    </form>
+                    <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <tr>
+                    <td>Upload File:<input type="hidden" name="folder" value="{{related_files.0.folder}}" id="FILE_UPLOAD_FOLDER" value="Default" class="form-control" required /></td>
+                    <td>{{upload_form.file}}</td>
+                    <td><button type='submit' class='btn btn-primary'>Upload File</button></td>
+                    </tr>
+                    </form>
+                </table>
+                </div>
+            </div>
+        </main>
+    </div>
+{% endblock %}
+
+    {# Set of blocks that can be used to display JavaScript files #}
+    {% block footer_javascript %}
+            <script src="{% static 'appsworld/js/jquery-3.1.1.js' %}"></script>
+            <script src="{% static 'appsworld/js/bootstrap.js' %}"></script>
+            <script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"</script>
+            <script type="text/javascript">
+                window.CSRF_TOKEN = "{{ csrf_token }}"
+
+                var editor_textarea;
+                var save_changes_button;
+                var output_div;
+                var file_path_display;
+                var html_id = document.getElementById("HTML_ID").value;
+                var file_id = document.getElementById("FILE_ID").value;
+
+                function ajaxFileSaveChanges(filename, file_id, file_path) {
+                        $.ajax({
+                            type: "POST",
+                            url: "/appsworld/ajax_file_save_changes",
+                            data: {
+                            'filename' : filename,
+                            'file_id' : file_id,
+                            'file_path': file_path,
+                            'string_data': editor_textarea.value,
+                            },
+                            dataType: 'json',
+                            beforeSend: function(xhr) {
+                                xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'))
+                            },
+                            success: function (data) {
+                                save_changes_button.value = "Saved";
+                                save_changes_button.style.backgroundColor = "Green";
+                            }
+                        });
+                }
+
+                function getElements() {
+                    output_div = document.getElementById("OUTPUT_DIV");
+                    editor_textarea = document.getElementById("APPSWORLD_EDITOR_TEXTAREA");
+                    save_changes_button = document.getElementById("APPSWORLD_SAVE_CHANGES_BUTTON");
+                    file_path_display = document.getElementById("APPSWORLD_FILENAME")
+                }
+
+                function addEventListeners(){
+                    editor_textarea.addEventListener('keyup', htmlTextAreaKeydown, true);
+                }
+
+                function htmlTextAreaKeydown(e) {
+                    viewOutput();
+                    save_changes_button.value = "Save"
+                    save_changes_button.style.backgroundColor = "Green";
+                }
+
+                function viewOutput() {
+                    if (html_id == file_id) {
+                        output_div.innerHTML= editor_textarea.value
+                    }
+                    else {
+                        output_div.innerHTML = {{html_code|safe}} + " <style> " + editor_textarea.value + " </style> ";
+                        //output_div.innerHTML = "working";
+                    }
+                }
+
+
+                function getCookie(name) {
+                    var cookieValue = null;
+                    if (document.cookie && document.cookie !== '') {
+                        var cookies = document.cookie.split(';');
+                        for (var i = 0; i < cookies.length; i++) {
+                            var cookie = jQuery.trim(cookies[i]);
+                            // Does this cookie string begin with the name we want?
+                            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                            }
+                        }
+                    }
+                    return cookieValue;
+                }
+
+                $(document).delegate('#APPSWORLD_EDITOR_TEXTAREA', 'keydown', function(e) {
+                  var keyCode = e.keyCode || e.which;
+
+                  if (keyCode == 9) {
+                    e.preventDefault();
+                    var start = $(this).get(0).selectionStart;
+                    var end = $(this).get(0).selectionEnd;
+
+                    // set textarea value to: text before caret + tab + text after caret
+                    $(this).val($(this).val().substring(0, start)
+                                + "\t"
+                                + $(this).val().substring(end));
+
+                    // put caret at right position again
+                    $(this).get(0).selectionStart =
+                    $(this).get(0).selectionEnd = start + 1;
+                  }
+                });
+
+                window.onload = function(){
+                    getElements();
+                    addEventListeners();
+                }
+
+            </script>
+            <script>
+                var fileUploadAssocHtml = document.getElementById("FILE_UPLOAD_ASSOC_HTML");
+                fileUploadAssocHtml.className += "input-sm";
+                fileUploadAssocHtml.className += "form-control";
+            </script>
+    {% endblock footer_javascript %}

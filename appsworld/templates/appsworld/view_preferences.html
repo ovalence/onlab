@@ -1,0 +1,238 @@
+{% extends 'appsworld/base.html' %}
+{% load staticfiles %}
+
+    {% block title %}onjs{% endblock title %}
+    {% block head_favicon %}
+        <link rel="icon" type="image/png"
+              href="{% static 'appsworld/images/onjs.png' %}">
+    {% endblock head_favicon %}
+    {% block head_meta %}
+        {% block head_meta_charset %}
+            <meta http-equiv="Content-Type"
+                  content="text/html; charset=utf-8" />
+        {% endblock head_meta_charset %}
+        {% block head_meta_contentlanguage %}
+            <meta http-equiv="Content-Language" value="en-US" />
+        {% endblock head_meta_contentlanguage %}
+        {% block head_meta_viewport %}
+            <meta name="viewport"
+                  content="width=device-width, initial-scale=1.0">
+        {% endblock head_meta_viewport %}
+    {% endblock head_meta %}
+    {% block head_css %}
+        <link href="{% static 'appsworld/css/bootstrap.css' %}" rel="stylesheet" media="screen">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <style type="text/css">
+        @font-face {
+            font-family: myFirstFont;
+            src: url({% static 'appsworld/fonts/FRABK.ttf' %});
+        }
+
+            main#CONTENT_WRAPPER {
+                margin-top:0px;
+                padding-top: 50px;
+                background-color: whitesmoke;
+            }
+
+
+            #COL1 {
+                height: 90vh;
+                margin-top: 8px;
+                overflow-x: auto;
+                overflow-y: auto;
+                background-color: white;
+            }
+
+            #COL2 {
+                margin-top: 8px;
+                min-height: calc(100vh - 50px);
+                overflow-x: auto;
+                overflow-y: hidden;
+                background-color: white;
+                border-color: gray;
+                position: relative;
+                padding-left: 4px;
+                padding-right: 4px;
+            }
+
+            #COL3 {
+                margin-top: 8px;
+            }
+
+            #POST_NAME {
+                position: absolute;
+                top: 16px;
+                background-color: white;
+                margin-left: 8px;
+                padding-left: 8px;
+                padding-right: 8px;
+                font-size: 12px;
+                font-weight: bold;
+            }
+            #POST_CONTENT {
+                width: 100%;
+                min-height: calc(100vh - 100px);
+                overflow-y: hidden;
+                border-color: lightgray;
+                border-width: 1px;
+                border-style: solid;
+                border-radius: 3px;
+                margin-top: 24px;
+                padding-top: 16px;
+                padding-left: 8px;
+                padding-right: 8px;
+
+                transition-property: background-color;
+                transition-duration: 2s;
+                transition-timing-function: linear;
+                transition-delay: 1s;
+            }
+
+            @media (min-width: 0px) and (max-width: 767px) {
+                #COL1 {
+                    width: 100vw;
+                    float: left;
+                }
+                #COL2 {
+                    width: 100vw;
+                    float: left;
+                }
+                #COL3 {
+                    width: 100vw;
+                    float: right;
+                }
+            }
+
+            @media (min-width: 768px) and (max-width: 991px) {
+                #COL1 {
+                    width: 34vw;
+                    float: left;
+                }
+                #COL2 {
+                    width: 64vw;
+                    float: left;
+                }
+                #COL3 {
+                    width: 100vw;
+                    float: right;
+                }
+            }
+
+            @media (min-width: 992px) and (max-width: 1199px) {
+                #COL1 {
+                    width: 29vw;
+                    float: left;
+                }
+                #COL2 {
+                    width: 50vw;
+                    float: left;
+                }
+                #COL3 {
+                    width: 19vw;
+                    float: right;
+                }
+            }
+
+            @media (min-width: 1200px){
+                #COL1 {
+                    width: 28vw;
+                    float: left;
+                }
+                #COL2 {
+                    width: 44vw;
+                    float: left;
+                    margin-left: 8px !important;
+                }
+                #COL3 {
+                    padding-left: 8px;
+                    width: 26vw;
+                    float: right;
+                }
+            }
+
+        </style>
+
+    {% endblock head_css %}
+
+{% block content %}
+    <header>
+        {% include 'appsworld/navigation_bar_top.html' %}
+    </header>
+    <main id="CONTENT_WRAPPER" role="main">
+        <div id="COL1">
+
+        </div>
+        <div id="COL2">
+            <div id="TEXT_EDITOR_SETTINGS">
+                <style>
+                	#RGB_CONTROLLERS {
+                		table-layout: fixed;
+                	}
+                    #OUTPUT_COLOR {
+                        width: 100px;
+                        height: 100px;
+                        background-color: rgb({{logged_user_info.text_editor_red}}, {{logged_user_info.text_editor_green}}, {{logged_user_info.text_editor_blue}});
+        				color: {{logged_user_info.text_editor_color}};
+                    }
+                </style>
+                <form method="POST">
+                {% csrf_token %}
+                <div id="RGB_WRAPPER">
+                	<table id="RGB_CONTROLLERS" class='table table-hover'>
+	                <tr><td>R</td><td>{{ form_text_editor_pref.text_editor_red }}</td><td id='R_VALUE'>{{logged_user_info.text_editor_red}}</td><td rowspan="4" id='OUTPUT_COLOR'>Text</td></tr>
+	                <tr><td>G</td><td>{{ form_text_editor_pref.text_editor_green }}</td><td id='G_VALUE'>{{logged_user_info.text_editor_green}}</td></tr>
+	                <tr><td>B</td><td>{{ form_text_editor_pref.text_editor_blue }}</td><td id='B_VALUE'>{{logged_user_info.text_editor_blue}}</td></tr>
+	                <tr><td>Text Color</td><td>{{ form_text_editor_pref.text_editor_color }}</td></tr>
+	      			</table>
+                	<button type='submit'>Update</button>
+                </div>
+
+                </form>
+                <script>
+                    var r_controller = document.getElementById('FORM_PREFERENCES_RED');
+                    var g_controller = document.getElementById('FORM_PREFERENCES_GREEN');
+                    var b_controller = document.getElementById('FORM_PREFERENCES_BLUE');
+                    var text_color_field = document.getElementById('FORM_PREFERENCES_COLOR');
+                    var r_display = document.getElementById('R_VALUE');
+                    var g_display = document.getElementById('G_VALUE');
+                    var b_display = document.getElementById('B_VALUE');
+                    r_controller.addEventListener('input', adjustRGB);
+                    g_controller.addEventListener('input', adjustRGB);
+                    b_controller.addEventListener('input', adjustRGB);
+                    text_color_field.addEventListener('input', adjustRGB);
+                    var editor_textarea = document.getElementById('OUTPUT_COLOR');
+
+                    function adjustRGB(){
+                        var r = r_controller.value;
+                        var g = g_controller.value;
+                        var b = b_controller.value;
+                        editor_textarea.style.backgroundColor = 'rgb(' + r + ',' + g + ', ' +  b + ')';  
+                        editor_textarea.style.color = text_color_field.value;
+                        r_display.innerHTML = r;
+                        g_display.innerHTML = g;
+                        b_display.innerHTML = b;
+                    }
+                </script>
+            </div>
+        </div>
+        <div id="COL3">
+
+        </div>
+    </main>
+
+
+{% endblock %}
+
+    {# Set of blocks that can be used to display JavaScript files #}
+    {% block footer_javascript %}
+        {% block footer_javascript_site %}
+            <script src="{% static 'appsworld/js/jquery-3.1.1.js' %}"></script>
+            <script src="{% static 'appsworld/js/bootstrap.js' %}"></script>
+        {% endblock footer_javascript_site %}
+        {% block footer_javascript_page %}
+            <script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"</script>
+        {% endblock footer_javascript_page %}
+        {% block footer_javascript_section %}
+        {% endblock footer_javascript_section %}
+
+    {% endblock footer_javascript %}

@@ -1,0 +1,307 @@
+{% extends 'appsworld/base.html' %}
+{% load staticfiles %}
+
+    {% block title %}OnLab{% endblock title %}
+    {% block head_favicon %}
+        <link rel="icon" type="image/png"
+              href="{% static 'appsworld/images/onjs.png' %}">
+    {% endblock head_favicon %}
+    {% block head_meta %}
+        {% block head_meta_charset %}
+            <meta http-equiv="Content-Type"
+                  content="text/html; charset=utf-8" />
+        {% endblock head_meta_charset %}
+        {% block head_meta_contentlanguage %}
+            <meta http-equiv="Content-Language" value="en-US" />
+        {% endblock head_meta_contentlanguage %}
+        {% block head_meta_viewport %}
+            <meta name="viewport"
+                  content="width=device-width, initial-scale=1.0">
+        {% endblock head_meta_viewport %}
+    {% endblock head_meta %}
+    {% block head_css %}
+        <link href="{% static 'appsworld/css/bootstrap.css' %}" rel="stylesheet" media="screen">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <style type="text/css">
+        @font-face {
+            font-family: myFirstFont;
+            src: url({% static 'appsworld/fonts/FRABK.ttf' %});
+        }
+
+            body {
+                position: relative;
+            }
+
+
+            #CONTENT_WRAPPER {
+                margin:0px;
+                margin-top: 50px;
+                padding: 0px;
+                padding-top: 0px;
+                background-color: whitesmoke;
+                position: relative;
+            }
+
+
+            #COL2 {
+                min-height: 100px;
+                overflow-x: auto;
+                overflow-y: hidden;
+                position: fixed;
+                padding: 8px;
+            }
+
+            #COL3 {
+                min-height: calc(100vh - 50px);
+                overflow-x: auto;
+                overflow-y: hidden;
+                background-color: white;
+                border-color: gray;
+                position: relative;
+                padding: 8px;
+            }
+
+            #COL6 {
+                position: fixed;
+                right: 0px;
+                padding: 8px;
+            }
+
+            #POST_NAME {
+                position: absolute;
+                top: 16px;
+                background-color: white;
+                margin-left: 8px;
+                padding-left: 0px;
+                padding-right: 8px;
+                font-size: 20px;
+                font-weight: bold;
+                color: teal;
+            }
+
+            #POST_PREVIEW {
+                overflow-x: auto;
+                width: 100%;
+                min-height: 10vh;
+                overflow-y:auto;
+                margin-top: 0px;
+                top: 50px;
+                left: 0px;
+            }
+            #POST_CONTENT {
+                width: 100%;
+                background-color: white;
+                max-height: 70vh;
+                overflow-y: auto;
+                border-color: lightgray;
+                border-width: 1px;
+                border-style: solid;
+                border-radius: 3px;
+                padding-top: 48px;
+                padding-left: 0px;
+                padding-right: 8px;
+            }
+
+            @media (min-width: 0px) and (max-width: 767px) {
+                #COL2 {
+                    width: 100vw;
+                    float: left;
+                    display: none !important;
+                }
+                #COL3 {
+                    width: 100vw;
+                    float: left;
+                    padding-right: 16px;
+                }
+                #COL6 {
+                    width: 100vw;
+                    position: relative;
+                    display: none !important;
+                }
+            }
+
+            @media (min-width: 768px) and (max-width: 991px) {
+                #COL2 {
+                    width: 25vw;
+                    float: left;
+                    overflow: hidden;
+                    display: none !important;
+                }
+                #COL3 {
+                    width: 66vw;
+                    float: left;
+                    margin-left: 0vw !important;
+                    overflow: hidden;
+                }
+                #COL6 {
+                    width: 30vw;
+                    float: right;
+                    overflow: hidden;
+                }
+            }
+
+            @media (min-width: 992px) and (max-width: 1199px) {
+                #COL2 {
+                    width: 24vw;
+                    float: left;
+                    overflow: hidden;
+                }
+                #COL3 {
+                    width: 50vw;
+                    float: left;
+                    margin-left: 25vw !important;
+                    overflow: hidden;
+                }
+                #COL6 {
+                    width: 20vw;
+                    float: right;
+                    overflow: hidden;
+                }
+            }
+
+            @media (min-width: 1200px){
+                #COL2 {
+                    width: 24vw;
+                    float: left;
+                }
+                #COL3 {
+                    width: 50vw;
+                    float: left;
+                    margin-left: 24vw !important;
+                }
+                #COL6 {
+                    width: 20vw;
+                    float: right;
+                }
+            }
+
+        </style>
+
+    {% endblock head_css %}
+
+{% block content %}
+    <header>
+        {% include 'appsworld/navigation_bar_top.html' %}
+    </header>
+    <main id="CONTENT_WRAPPER">
+        <div id="COL1">
+
+        </div>
+        <div id="COL2">
+            <div class="container-fluid">
+                <div class="row">
+                    {% include 'appsworld/section_apps.html' %}
+                </div>
+            </div>
+        </div>
+        <div id="COL3">
+            {% if request.user.is_authenticated %}
+            <div>
+                {% include 'appsworld/section_new_post.html' %}
+            </div>
+            {% endif %}
+            <div>
+                {% include 'appsworld/apps_feed.html' %}
+            </div>
+        </div>
+        <div id="COL4">
+
+        </div>
+        <div id="COL5">
+
+        </div>
+    </main>
+    <aside id="COL6">
+        {% include 'appsworld/list_other_users.html' %}
+    </aside>
+    <script type="text/javascript">
+
+        var postPreviewContainer = document.getElementById("POST_CONTENT");
+        var postName = document.getElementById("POST_NAME");
+        var postNames = document.getElementsByClassName("post_name");
+        var html_codes = []
+        var html_code;
+        var comment_section1;
+        var activitiesJson = {{activities_json | safe}};
+
+        function indexInClass(node) {
+            for (var i = 0; i < postNames.length; i++) {
+                if (postNames[i] == node) {
+                    return i;
+                }
+            }
+            //return -1;
+        }
+
+        function mouseOverPostName(e){
+            ind = parseInt(e.target.id.replace("app_", ""))
+            if (html_codes[ind] == undefined) {
+                //ajaxGetHTMLCode(e.target.id.replace("app_", ""), indexInClass(e.target));
+            }
+            else {
+                //postPreviewContainer.innerHTML = html_codes[ind];
+            }
+        }
+
+        function addEventListeners() {
+            for (var i=0; i<Object.keys(postNames).length; i++) {
+                postNames[i].addEventListener('mouseover', mouseOverPostName);
+            }
+        }
+
+        function ajaxGetHTMLCode(postId, element_index){
+            $.ajax({
+                url: "/appsworld/ajax_get_html_code",
+                data: {
+                    'postId' : postId,
+                },
+                dataType: 'json',
+                beforeSend: function(xhr) {
+
+                },
+                success: function (data) {
+                    postObject = JSON.parse(data.post_object)[0];
+                    postPreviewContainer.innerHTML = postObject.fields.html_code;
+                    html_codes[element_index] = postObject.fields.html_code;
+                    postName.innerHTML = postObject.fields.app_name;
+                    $('#POST_NAME').attr("href", data.post_absolute_url);
+                    comments = JSON.parse(data.comments);
+                    comment_section1 = new comment_section("COMMENTS_CONTAINER", comments);
+                }
+            });
+        }
+
+        window.onload = function main() {
+            addEventListeners();
+        }
+        /*
+        function resizeEvents(){
+            if(window.innerWidth > 1200){
+                $("#accessories_container").remove();
+            }
+            else{
+                $("#accessories_tab").append("#accessories_container");
+            }
+        }
+
+
+        document.getElementsByTagName("BODY")[0].onresize = function() {resizeEvents()};
+        */
+    </script>
+
+
+{% endblock %}
+
+    {# Set of blocks that can be used to display JavaScript files #}
+    {% block footer_javascript %}
+        {% block footer_javascript_site %}
+            <script src="{% static 'appsworld/js/jquery-3.1.1.js' %}"></script>
+            <script src="{% static 'appsworld/js/bootstrap.js' %}"></script>
+        {% endblock footer_javascript_site %}
+        {% block footer_javascript_page %}
+            <script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"</script>
+        {% endblock footer_javascript_page %}
+        {% block footer_javascript_section %}
+        {% endblock footer_javascript_section %}
+
+    {% endblock footer_javascript %}

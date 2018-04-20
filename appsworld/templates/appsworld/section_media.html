@@ -1,0 +1,242 @@
+<style>
+    /*-- Global Selectors --*/
+
+/*-- Bootstrap Override Style --*/
+
+/*-- Content Style --*/
+
+ul {
+    list-style-type: none;
+}
+
+#APPSWORLD_VIEW_POST_CONTAINER {
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    background-color: transparent;
+    border-color: transparent;
+}
+
+#APPSWORLD_VIEW_POST_CONTAINER > .panel {
+    margin: 0px;
+    padding: 0px;
+    border-color: transparent;
+    border-radius: 0px;
+}
+
+#APPSWORLD_VIEW_POST_CONTAINER > .panel > .panel-heading {
+    margin:0px;
+    padding: 8px;
+    border-bottom-color: darkgray;
+    border-bottom-width: 0px;
+    border-bottom-style: solid;
+    border-radius: 0px;
+}
+
+#APPSWORLD_VIEW_POST_CONTAINER > .aw-post-appname {
+    font-weight: bold;
+    color: #5f5c5c;
+    padding: 8px;
+}
+
+#APPSWORLD_VIEW_POST_CONTAINER > .panel > hr {
+    margin:0px;
+    padding: 4px;
+    padding-bottom: 0px;
+}
+
+#APPSWORLD_VIEW_POST_CONTAINER > .panel > ul span {
+    font-size: 12px;
+}
+
+#APPSWORLD_VIEW_POST_CONTAINER > .panel > ul li {
+    font-size: 12px;
+}
+
+#APPSWORLD_VIEW_POST_CONTAINER > .panel > .glyphicon {
+    font-size: 12px;
+    color: teal;
+}
+
+#APPSWORLD_VIEW_POST_CONTAINER > .panel > .panel-body {
+    margin:0px;
+    padding: 8px;
+    border-color: transparent;
+    min-height: 200px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    width: 100%;
+}
+
+#APPSWORLD_VIEW_POST_CONTAINER > .panel > .panel-footer {
+    border-color: lightgray;
+    border-width: 0px;
+    border-style: solid;
+    color: white;
+    margin: 0px;
+    padding: 8px;
+    background-color: white;
+    margin-top: 16px;
+    border-radius: 0px;
+    min-height: 10px;
+    overflow-y: hidden;
+}
+
+#POST_CONTENT textarea{
+    width: 100%;
+    border-color: transparent;
+    background-color: white;
+    resize: none;
+}
+
+#POST_CONTENT textarea{
+    width: 100%;
+    height: auto;
+}
+
+
+.aw-post-date {
+    padding-top: 4px;
+    padding-bottom: 6px;
+    padding-left: 5px;
+    font: normal 10px/normal Arial, Helvetica, sans-serif;
+    color: teal;
+}
+
+.aw-visibility {
+    list-style-type: none;
+}
+
+.aw-visibility-dropdown-menu {
+    position:absolute ;
+    background-color: white ;
+    right: 0px ;
+    top: 10px ;
+}
+
+.aw-glyphicon {
+    color: teal ;
+}
+
+
+.aw-keywords {
+    margin: 0px ;
+    padding: 0px ;
+    padding-top: 4px ;
+    padding-left: 8px ;
+    color: #5f5c5c;
+    list-style-type: none ;
+}
+
+.aw-keywords > li {
+    float: left;
+}
+
+.post_thumbnail {
+    width: 100%;
+    height: 100%;
+    max-height: 100px;
+}
+
+#APPSWORLD_VIEW_POST_CONTAINER a {
+    text-decoration: none ;
+}
+
+#APPSWORLD_VIEW_POST_CONTAINER video {
+    width: 100%;
+}
+
+</style>
+
+
+<div id="APPSWORLD_VIEW_POST_CONTAINER" class="container-fluid">
+    <div class="row">
+<div class="panel">
+            {% if has_warning != "yes" %}
+            <div class="panel-heading">
+                <a href="#" class="aw-post-appname">{{file.title}} &nbsp<span class="aw-post-date">{{file.date_uploaded}}</span></a>
+                <a class="pull-right" href="{% url 'view_app_full' file.id %}">Full</a>
+            </div>
+            {% else %}
+            <div class="panel-heading has_warning">
+            </div>
+            {% endif %}
+            <div id="POST_CONTENT" class="panel-body">
+                {% if file.description != "" %}
+                <textarea disabled="true">{{file.description}}</textarea>
+                {% endif %}
+                {% if file.file_type == "html" or file.file_type == "javascript" or file.file_type == "css" %}
+                 {% autoescape off %} {{ text_string }} {% endautoescape %}
+                }
+                {% endif %}
+                {% if file.file_type == "jpeg" or file.file_type == "png" or file.file_type == "bitmap" %}
+                 <img class="img-responsive" src="{{file.file_url}}" />
+                {% endif %}
+                {% if file.folder == "video" %}
+                <div class="row post_title post_name">
+                    <a href="{% url 'view_app' file.id %}" class="post_name">
+                        {{file.title}}
+                    </a>
+                </div>
+                <div class="row">
+                    {{ file.description }}
+                </div>
+                <div class="row">
+                    {% if file.file_type == "x-ms-wmv" %}
+                    <video controls>
+                      <source src="{{file.file_url}}" type="video/wmv">
+                      Your browser does not support the video tag.
+                    </video>
+                    {% endif %}
+                    {% if file.file_type == "mp4" %}
+                    <video controls>
+                      <source src="{{file.file_url}}" type="video/mp4">
+                      Your browser does not support the video tag.
+                    </video>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+            <div class="panel-footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="aw-user-name-appname">
+                                {% if request.user.is_authenticated %}
+                                <div class="action pull-right">
+                                    <ul class="aw-visibility">
+                                        <li class="dropdown pull-right">
+                                                <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+                                                    {% if file.visibility == "PU" %}
+                                                    <span class="glyphicon glyphicon-globe"></span>
+                                                    {% endif %}
+                                                    {% if file.visibility == "PR" %}
+                                                    <span class="glyphicon glyphicon-eye-close"></span>
+                                                    {% endif %}
+                                                    {% if file.visibility == "FR" %}
+                                                    <span class="glyphicon glyphicon-eye-user"></span>
+                                                    {% endif %}
+                                                </a>
+                                                <ul class="aw-visibility-dropdown-menu dropdown-menu">
+                                                    {% if request.user == file.username.username %}
+                                                    <li><a href="{% url 'delete_app' file.id %}">Delete</a></li>
+                                                    <li><a href="{% url 'view_edit_blog_entry' file.id %}">Edit</a></li>
+                                                    {% endif %}
+                                                </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                                {% else %}
+                                <a class="pull-right" href="{% url 'view_app_full' file.id %}">Full</a>
+                                {% endif %}
+                                <hr>
+                        </div>
+                    </div>
+                </div>
+                <ul class="aw-keywords">
+                    <li><a>Author &nbsp</a></li>
+                    <li><a href="{% url 'user_profile' file.user_info.user_account.username %}">{{file.username.first_name}} {{file.username.last_name}}</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
